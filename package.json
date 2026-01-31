@@ -12,6 +12,7 @@
   "license": "BSD-3-Clause",
   "description": "Library and CLI tools for instrumenting Elm code and gathering line and edge coverage.",
   "devDependencies": {
+    "@types/node": "^25.1.0",
     "elm-esm": "^1.1.4"
   },
   "type": "module"

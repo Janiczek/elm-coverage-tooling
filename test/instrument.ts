@@ -1,20 +1,33 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { instrument } from '../src/instrument.ts';
+import { instrument, type InstrumentOutput } from '../src/instrument.ts';
 
-test('instrument', async (t) => {
-    await t.test('simple constant', async () => {
-        const output = await instrument('module A exposing (a)\n\na : Int\na = 123');
-        assert.deepStrictEqual(output,
-            {
-                coverageMetadata: {
-                    '154242004': {
-                        declarationName: 'a',
-                        moduleName: 'A',
-                        range: [[4, 5], [4, 8]]
-                    }
-                },
-                instrumentedElmSourceCode: `module A exposing (a)
+type TestCase = {
+    name: string;
+    input: string;
+    output: InstrumentOutput;
+};
+
+const testCases: TestCase[] = [
+    {
+        name: 'simple constant',
+        input: `
+module A exposing (a)
+
+a : Int
+a =
+    123
+`,
+        output: {
+            coverageMetadata: {
+                '154242004': {
+                    declarationName: 'a',
+                    moduleName: 'A',
+                    range: [[5, 5], [5, 8]]
+                }
+            },
+            instrumentedElmSourceCode: `
+module A exposing (a)
 
 
 a : Int
@@ -25,23 +38,27 @@ a =
     in
     123
 `
+        }
+    },
+    {
+        name: 'compound module name',
+        input: `
+module A.B.C exposing (a)
 
-            }
-        );
-    });
-
-    await t.test('compound module name', async () => {
-        const output = await instrument('module A.B.C exposing (a)\n\na : Int\na = 123');
-        assert.deepStrictEqual(output,
-            {
-                coverageMetadata: {
-                    '1762450980': {
-                        declarationName: 'a',
-                        moduleName: 'A.B.C',
-                        range: [[4, 5], [4, 8]]
-                    }
-                },
-                instrumentedElmSourceCode: `module A.B.C exposing (a)
+a : Int
+a =
+    123
+`,
+        output: {
+            coverageMetadata: {
+                '1762450980': {
+                    declarationName: 'a',
+                    moduleName: 'A.B.C',
+                    range: [[5, 5], [5, 8]]
+                }
+            },
+            instrumentedElmSourceCode: `
+module A.B.C exposing (a)
 
 
 a : Int
@@ -52,11 +69,45 @@ a =
     in
     123
 `
-            });
-    });
+        }
+    },
+    {
+        name: 'parse error',
+        input: `
+module A exposing (a)
 
-    await t.test('error', async () => {
-        const output = await instrument('module A exposing (a)\n\na : { invalid');
-        assert.deepStrictEqual(output, { error: "Can't parse the Elm code." });
-    });
+a : Int
+a =
+    { invalid
+`,
+        output: {
+            error: "Can't parse the Elm code."
+        }
+    }
+];
+
+function trimSuccess(output: InstrumentOutput): InstrumentOutput {
+    if ('error' in output) {
+        return output;
+    }
+    return {
+        ...output,
+        instrumentedElmSourceCode: output.instrumentedElmSourceCode.trim()
+    };
+}
+
+function testCase(tc: TestCase) {
+    return async () => {
+        const output = await instrument(tc.input.trim());
+        assert.deepStrictEqual(
+            trimSuccess(output),
+            trimSuccess(tc.output)
+        );
+    };
+}
+
+test('instrument', async (t) => {
+    for (const tc of testCases) {
+        await t.test(tc.name, testCase(tc));
+    }
 });
