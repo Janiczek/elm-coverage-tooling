@@ -1,2 +1,4 @@
 instrument/elm-stuff/
 instrument/index.html
+node_modules/
+dist/

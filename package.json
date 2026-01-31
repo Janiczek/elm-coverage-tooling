@@ -3,9 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:elm:instrument": "cd instrument && elm-test",
+    "test:instrument": "node --test --experimental-strip-types test/instrument.ts",
+    "test": "npm run test:elm:instrument && npm run test:instrument",
+    "build-elm-instrument": "mkdir -p dist && cd instrument && elm-esm make src/Main.elm --output=../dist/elm-instrument.js"
   },
   "author": "Martin Janiczek (@janiczek)",
   "license": "BSD-3-Clause",
-  "description": "Library and CLI tools for instrumenting Elm code and gathering line and edge coverage."
+  "description": "Library and CLI tools for instrumenting Elm code and gathering line and edge coverage.",
+  "devDependencies": {
+    "elm-esm": "^1.1.4"
+  },
+  "type": "module"
 }
