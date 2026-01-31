@@ -1,4 +1,4 @@
-instrument/elm-stuff/
-instrument/index.html
+src-elm/*/elm-stuff/
+src-elm/*/index.html
 node_modules/
 dist/

@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { spawn } from 'child_process';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { patch } from '../patch.js';

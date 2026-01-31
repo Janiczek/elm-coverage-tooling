@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test:elm:instrument": "cd instrument && elm-test",
+    "test:elm:instrument": "cd src-elm/instrument && elm-test",
     "test:elm": "npm run test:elm:instrument",
     "test:js:instrument": "node --test --experimental-strip-types test/instrument.ts",
     "test:js": "npm run test:js:instrument",
     "test": "npm run test:elm && npm run test:js",
-    "build:elm:instrument": "mkdir -p dist && cd instrument && elm-esm make src/Main.elm --output=../dist/elm-instrument.js && cp ../src/elm-instrument.d.ts ../dist/elm-instrument.d.ts",
+    "build:elm:instrument": "mkdir -p dist && cd src-elm/instrument && elm-esm make src/Main.elm --output=../../dist/elm-instrument.js && cp ../../src/elm-instrument.d.ts ../../dist/elm-instrument.d.ts",
     "build:elm": "npm run build:elm:instrument",
-    "build:js": "tsc && chmod +x dist/cli/elm-compiler-wrapper.js",
+    "build:js": "tsc",
     "build": "npm run build:elm && npm run build:js"
   },
   "author": "Martin Janiczek (@janiczek)",
