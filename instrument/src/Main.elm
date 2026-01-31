@@ -1,4 +1,4 @@
-port module Main exposing (Flags, Input, Model, Msg, main)
+port module Main exposing (Flags, Input, Model, Msg, Output, main, work)
 
 import Dict exposing (Dict)
 import Elm.Parser
@@ -17,6 +17,7 @@ import FNV1a
 import Instrument
 import InstrumentState exposing (InstrumentState)
 import Json.Encode
+import PointId exposing (PointId)
 import PointMetadata exposing (PointMetadata)
 import Random exposing (Generator)
 
@@ -31,7 +32,7 @@ type alias Output =
 
 type alias SuccessOutput =
     { instrumentedElmSourceCode : String
-    , coverageMetadata : Dict Int PointMetadata
+    , coverageMetadata : Dict PointId PointMetadata
     }
 
 
