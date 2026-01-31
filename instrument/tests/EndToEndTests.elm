@@ -49,6 +49,39 @@ a =
                             ]
                     }
            }
+        ,  { name = "compound module name"
+           , input = """
+module A.B.C exposing (a)
+
+a : Int
+a =
+    123
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module A.B.C exposing (a)
+
+
+a : Int
+a =
+    let
+        _ =
+            Test.Coverage.track 1762450980
+    in
+    123
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 1762450980
+                              , { moduleName = "A.B.C"
+                                , declarationName = "a"
+                                , range = { start = { row = 5, column = 5 }, end = { row = 5, column = 8 } }
+                                }
+                              )
+                            ]
+                    }
+           }
          , { name = "function with unit parameter"
            , input = """
 module A exposing (a)
@@ -318,6 +351,69 @@ a =
                               )
                             ]
                     }
+           }
+         , { name = "multiple declarations"
+           , input = """
+module A exposing (a, b)
+
+a : Int
+a =
+    42
+
+b : String
+b =
+    "hello"
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module A exposing (a, b)
+
+
+b : String
+b =
+    let
+        _ =
+            Test.Coverage.track 1751612961
+    in
+    "hello"
+
+
+a : Int
+a =
+    let
+        _ =
+            Test.Coverage.track 154242004
+    in
+    42
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 154242004
+                              , { moduleName = "A"
+                                , declarationName = "a"
+                                , range = { start = { row = 5, column = 5 }, end = { row = 5, column = 7 } }
+                                }
+                              )
+                            , ( 1751612961
+                              , { moduleName = "A"
+                                , declarationName = "b"
+                                , range = { start = { row = 9, column = 5 }, end = { row = 9, column = 12 } }
+                                }
+                              )
+                            ]
+                    }
+           }
+         , { name = "parse error"
+           , input = """
+module A exposing (a)
+
+a : Int
+a =
+    { invalid
+"""
+           , output =
+                Err "Can't parse the Elm code."
            }
          ]
             |> List.map testCase
