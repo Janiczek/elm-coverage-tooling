@@ -1,12 +1,9 @@
 import { Elm } from "../dist/elm-instrument.js";
+import type { CoverageMetadata } from './types.js';
 
 export type InstrumentOutput = {
     instrumentedElmSourceCode: string;
-    coverageMetadata: Record<number, {
-        moduleName: string;
-        declarationName: string;
-        range: [[number, number], [number, number]];
-    }>;
+    coverageMetadata: CoverageMetadata;
 } | { error: string };
 
 export function instrument(elmSourceCode: string): Promise<InstrumentOutput> {
@@ -18,7 +15,21 @@ export function instrument(elmSourceCode: string): Promise<InstrumentOutput> {
         });
 
         app.ports.sendOutput.subscribe((output: any) => {
-            resolve(output);
+            // This all mostly boils down to converting an object to a Map.
+
+            if (output.error) {
+                resolve({ error: output.error });
+            } else if (output.instrumentedElmSourceCode && output.coverageMetadata) {
+                const rawMetadata: Record<string, any> = output.coverageMetadata;
+                const coverageMetadata: CoverageMetadata = new Map(Object.entries(rawMetadata)
+                    .map(([key, value]) => [Number(key), value]));
+                resolve({
+                    instrumentedElmSourceCode: output.instrumentedElmSourceCode,
+                    coverageMetadata
+                });
+            } else {
+                resolve({ error: "Invalid output structure from Elm instrumenter." });
+            }
         });
 
         // TODO: use Lamdera as the compiler and app.die() after this is done?

@@ -4,16 +4,26 @@
   "main": "index.js",
   "scripts": {
     "test:elm:instrument": "cd instrument && elm-test",
-    "test:instrument": "node --test --experimental-strip-types test/instrument.ts",
-    "test": "npm run test:elm:instrument && npm run test:instrument",
-    "build-elm-instrument": "mkdir -p dist && cd instrument && elm-esm make src/Main.elm --output=../dist/elm-instrument.js"
+    "test:elm": "npm run test:elm:instrument",
+    "test:js:instrument": "node --test --experimental-strip-types test/instrument.ts",
+    "test:js": "npm run test:js:instrument",
+    "test": "npm run test:elm && npm run test:js",
+    "build:elm:instrument": "mkdir -p dist && cd instrument && elm-esm make src/Main.elm --output=../dist/elm-instrument.js && cp ../src/elm-instrument.d.ts ../dist/elm-instrument.d.ts",
+    "build:elm": "npm run build:elm:instrument",
+    "build:js": "tsc && chmod +x dist/cli/elm-compiler-wrapper.js",
+    "build": "npm run build:elm && npm run build:js"
   },
   "author": "Martin Janiczek (@janiczek)",
   "license": "BSD-3-Clause",
   "description": "Library and CLI tools for instrumenting Elm code and gathering line and edge coverage.",
   "devDependencies": {
     "@types/node": "^25.1.0",
-    "elm-esm": "^1.1.4"
+    "@types/yargs": "^17.0.35",
+    "elm-esm": "^1.1.4",
+    "typescript": "^5.9.3"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "yargs": "^18.0.0"
+  }
 }

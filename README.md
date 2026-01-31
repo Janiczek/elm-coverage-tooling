@@ -25,6 +25,12 @@ Wrapper around `elm make` that:
 This allows the developer to eg. run instrumented code in the browser and send
 line coverage data to an error monitoring service like Sentry.
 
+### `elm-coverage-report`
+
+Allows to analyze and report the line coverage data (eg. gathered from
+`elm-coverage-make`) in the wanted format.
+
+
 ## JS Library
 
 ### `instrument(elmSourceCode: string) => Promise<InstrumentOutput>`

@@ -19,13 +19,13 @@ a =
     123
 `,
         output: {
-            coverageMetadata: {
-                '154242004': {
+            coverageMetadata: new Map([
+                [154242004, {
                     declarationName: 'a',
                     moduleName: 'A',
                     range: [[5, 5], [5, 8]]
-                }
-            },
+                }]
+            ]),
             instrumentedElmSourceCode: `
 module A exposing (a)
 
@@ -50,13 +50,13 @@ a =
     123
 `,
         output: {
-            coverageMetadata: {
-                '1762450980': {
+            coverageMetadata: new Map([
+                [1762450980, {
                     declarationName: 'a',
                     moduleName: 'A.B.C',
                     range: [[5, 5], [5, 8]]
-                }
-            },
+                }]
+            ]),
             instrumentedElmSourceCode: `
 module A.B.C exposing (a)
 
