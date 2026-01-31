@@ -1,11 +1,24 @@
-port module Main exposing (Flags, Input, Model, Msg, PointMetadata, main)
+port module Main exposing (Flags, Input, Model, Msg, main)
 
 import Dict exposing (Dict)
 import Elm.Parser
-import Elm.Syntax.File
+import Elm.Syntax.Declaration exposing (Declaration)
+import Elm.Syntax.Expression
+import Elm.Syntax.File exposing (File)
+import Elm.Syntax.Module
+import Elm.Syntax.Node exposing (Node(..))
+import Elm.Syntax.Pattern
 import Elm.Syntax.Range exposing (Range)
+import Elm.Syntax.Signature
+import Elm.Syntax.Type
+import Elm.Syntax.TypeAlias
 import ElmSyntaxPrint
+import FNV1a
+import Instrument
+import InstrumentState exposing (InstrumentState)
 import Json.Encode
+import PointMetadata exposing (PointMetadata)
+import Random exposing (Generator)
 
 
 type alias Input =
@@ -19,13 +32,6 @@ type alias Output =
 type alias SuccessOutput =
     { instrumentedElmSourceCode : String
     , coverageMetadata : Dict Int PointMetadata
-    }
-
-
-type alias PointMetadata =
-    { moduleName : String
-    , declarationName : String
-    , range : Range
     }
 
 
@@ -77,31 +83,10 @@ encodeOutput output =
                 , ( "coverageMetadata"
                   , Json.Encode.dict
                         String.fromInt
-                        encodePointMetadata
+                        PointMetadata.encode
                         success.coverageMetadata
                   )
                 ]
-
-
-encodePointMetadata : PointMetadata -> Json.Encode.Value
-encodePointMetadata metadata =
-    Json.Encode.object
-        [ ( "moduleName", Json.Encode.string metadata.moduleName )
-        , ( "declarationName", Json.Encode.string metadata.declarationName )
-        , ( "range", encodeRange metadata.range )
-        ]
-
-
-encodeRange : Range -> Json.Encode.Value
-encodeRange range =
-    Json.Encode.list (Json.Encode.list Json.Encode.int)
-        [ [ range.start.row
-          , range.start.column
-          ]
-        , [ range.end.row
-          , range.end.column
-          ]
-        ]
 
 
 work : Input -> Output
@@ -114,7 +99,7 @@ work { elmSourceCode } =
         Ok file ->
             let
                 ( instrumentedElmAST, coverageMetadata ) =
-                    instrument file
+                    Instrument.instrument file
             in
             Ok
                 { instrumentedElmSourceCode = format instrumentedElmAST
@@ -122,13 +107,8 @@ work { elmSourceCode } =
                 }
 
 
-format : Elm.Syntax.File.File -> String
+format : File -> String
 format file =
     file
         |> ElmSyntaxPrint.module_
         |> ElmSyntaxPrint.toString
-
-
-instrument : Elm.Syntax.File.File -> ( Elm.Syntax.File.File, Dict Int PointMetadata )
-instrument file =
-    Debug.todo "instrument"
