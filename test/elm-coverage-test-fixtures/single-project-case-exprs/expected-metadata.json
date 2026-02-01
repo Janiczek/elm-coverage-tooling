@@ -1,5 +1,47 @@
 {
-  "21473413": {
+  "31833927": {
+    "moduleName": "CaseExprs",
+    "declarationName": "nestedCase",
+    "range": [
+      [
+        39,
+        10
+      ],
+      [
+        39,
+        21
+      ]
+    ]
+  },
+  "45664826": {
+    "moduleName": "CaseExprs",
+    "declarationName": "nestedCase",
+    "range": [
+      [
+        45,
+        21
+      ],
+      [
+        45,
+        41
+      ]
+    ]
+  },
+  "140423761": {
+    "moduleName": "CaseExprs",
+    "declarationName": "nestedCase",
+    "range": [
+      [
+        45,
+        21
+      ],
+      [
+        45,
+        34
+      ]
+    ]
+  },
+  "217307923": {
     "moduleName": "CaseExprs",
     "declarationName": "partiallyCoveredCase",
     "range": [
@@ -13,105 +55,21 @@
       ]
     ]
   },
-  "31833927": {
-    "moduleName": "CaseExprs",
-    "declarationName": "fourBranches",
-    "range": [
-      [
-        32,
-        13
-      ],
-      [
-        32,
-        18
-      ]
-    ]
-  },
-  "45664826": {
-    "moduleName": "CaseExprs",
-    "declarationName": "nestedCase",
-    "range": [
-      [
-        43,
-        21
-      ],
-      [
-        43,
-        58
-      ]
-    ]
-  },
-  "140423761": {
-    "moduleName": "CaseExprs",
-    "declarationName": "nestedCase",
-    "range": [
-      [
-        43,
-        53
-      ],
-      [
-        43,
-        58
-      ]
-    ]
-  },
-  "184923724": {
-    "moduleName": "CaseExprs",
-    "declarationName": "partiallyCoveredCase",
-    "range": [
-      [
-        60,
-        13
-      ],
-      [
-        60,
-        20
-      ]
-    ]
-  },
-  "217307923": {
-    "moduleName": "CaseExprs",
-    "declarationName": "partiallyCoveredCase",
-    "range": [
-      [
-        52,
-        10
-      ],
-      [
-        52,
-        11
-      ]
-    ]
-  },
   "261017194": {
     "moduleName": "CaseExprs",
     "declarationName": "nestedCase",
     "range": [
       [
-        39,
-        10
+        43,
+        38
       ],
       [
-        39,
-        21
+        43,
+        52
       ]
     ]
   },
   "285136691": {
-    "moduleName": "CaseExprs",
-    "declarationName": "threeBranches",
-    "range": [
-      [
-        15,
-        10
-      ],
-      [
-        15,
-        16
-      ]
-    ]
-  },
-  "293209453": {
     "moduleName": "CaseExprs",
     "declarationName": "threeBranches",
     "range": [
@@ -125,91 +83,7 @@
       ]
     ]
   },
-  "339233744": {
-    "moduleName": "CaseExprs",
-    "declarationName": "fourBranches",
-    "range": [
-      [
-        26,
-        10
-      ],
-      [
-        26,
-        11
-      ]
-    ]
-  },
-  "387185436": {
-    "moduleName": "CaseExprs",
-    "declarationName": "partiallyCoveredCase",
-    "range": [
-      [
-        56,
-        13
-      ],
-      [
-        56,
-        18
-      ]
-    ]
-  },
-  "390890205": {
-    "moduleName": "CaseExprs",
-    "declarationName": "threeBranches",
-    "range": [
-      [
-        17,
-        43
-      ],
-      [
-        17,
-        48
-      ]
-    ]
-  },
-  "461394542": {
-    "moduleName": "CaseExprs",
-    "declarationName": "fourBranches",
-    "range": [
-      [
-        26,
-        5
-      ],
-      [
-        34,
-        20
-      ]
-    ]
-  },
-  "508839993": {
-    "moduleName": "CaseExprs",
-    "declarationName": "nestedCase",
-    "range": [
-      [
-        43,
-        21
-      ],
-      [
-        43,
-        34
-      ]
-    ]
-  },
-  "556273188": {
-    "moduleName": "CaseExprs",
-    "declarationName": "threeBranches",
-    "range": [
-      [
-        19,
-        13
-      ],
-      [
-        19,
-        29
-      ]
-    ]
-  },
-  "562876422": {
+  "293209453": {
     "moduleName": "CaseExprs",
     "declarationName": "threeBranches",
     "range": [
@@ -223,7 +97,49 @@
       ]
     ]
   },
-  "580816458": {
+  "339233744": {
+    "moduleName": "CaseExprs",
+    "declarationName": "fourBranches",
+    "range": [
+      [
+        30,
+        13
+      ],
+      [
+        30,
+        18
+      ]
+    ]
+  },
+  "390890205": {
+    "moduleName": "CaseExprs",
+    "declarationName": "threeBranches",
+    "range": [
+      [
+        17,
+        28
+      ],
+      [
+        17,
+        48
+      ]
+    ]
+  },
+  "461394542": {
+    "moduleName": "CaseExprs",
+    "declarationName": "nestedCase",
+    "range": [
+      [
+        43,
+        21
+      ],
+      [
+        43,
+        34
+      ]
+    ]
+  },
+  "508839993": {
     "moduleName": "CaseExprs",
     "declarationName": "nestedCase",
     "range": [
@@ -237,17 +153,59 @@
       ]
     ]
   },
-  "615386194": {
+  "556273188": {
     "moduleName": "CaseExprs",
-    "declarationName": "twoBranches",
+    "declarationName": "threeBranches",
     "range": [
       [
-        6,
-        5
+        21,
+        13
       ],
       [
-        10,
-        14
+        21,
+        28
+      ]
+    ]
+  },
+  "562876422": {
+    "moduleName": "CaseExprs",
+    "declarationName": "threeBranches",
+    "range": [
+      [
+        17,
+        43
+      ],
+      [
+        17,
+        48
+      ]
+    ]
+  },
+  "580816458": {
+    "moduleName": "CaseExprs",
+    "declarationName": "nestedCase",
+    "range": [
+      [
+        45,
+        38
+      ],
+      [
+        45,
+        41
+      ]
+    ]
+  },
+  "615386194": {
+    "moduleName": "CaseExprs",
+    "declarationName": "threeBranches",
+    "range": [
+      [
+        15,
+        10
+      ],
+      [
+        15,
+        16
       ]
     ]
   },
@@ -256,12 +214,12 @@
     "declarationName": "nestedCase",
     "range": [
       [
-        41,
-        18
+        43,
+        53
       ],
       [
-        41,
-        24
+        43,
+        58
       ]
     ]
   },
@@ -276,20 +234,6 @@
       [
         8,
         18
-      ]
-    ]
-  },
-  "773159672": {
-    "moduleName": "CaseExprs",
-    "declarationName": "partiallyCoveredCase",
-    "range": [
-      [
-        54,
-        13
-      ],
-      [
-        54,
-        19
       ]
     ]
   },
@@ -309,15 +253,15 @@
   },
   "804279791": {
     "moduleName": "CaseExprs",
-    "declarationName": "nestedCase",
+    "declarationName": "partiallyCoveredCase",
     "range": [
       [
-        47,
+        58,
         13
       ],
       [
-        47,
-        24
+        58,
+        18
       ]
     ]
   },
@@ -327,81 +271,67 @@
     "range": [
       [
         43,
-        38
+        21
       ],
       [
         43,
-        52
-      ]
-    ]
-  },
-  "921909755": {
-    "moduleName": "CaseExprs",
-    "declarationName": "partiallyCoveredCase",
-    "range": [
-      [
-        52,
-        5
-      ],
-      [
-        62,
-        19
+        58
       ]
     ]
   },
   "1040261944": {
     "moduleName": "CaseExprs",
-    "declarationName": "nestedCase",
+    "declarationName": "partiallyCoveredCase",
     "range": [
       [
-        41,
+        56,
         13
       ],
       [
-        45,
-        41
+        56,
+        18
       ]
     ]
   },
   "1058150396": {
     "moduleName": "CaseExprs",
-    "declarationName": "nestedCase",
+    "declarationName": "partiallyCoveredCase",
     "range": [
       [
-        45,
-        21
+        54,
+        13
       ],
       [
-        45,
-        41
+        54,
+        19
       ]
     ]
   },
   "1074704768": {
     "moduleName": "CaseExprs",
-    "declarationName": "fourBranches",
+    "declarationName": "nestedCase",
     "range": [
       [
-        34,
-        13
+        41,
+        18
       ],
       [
-        34,
-        20
+        41,
+        24
       ]
     ]
   },
   "1090456675": {
     "moduleName": "CaseExprs",
-    "declarationName": "threeBranches",
+    "declarationName": "fourBranches",
     "range": [
       [
-        15,
-        5
+        28,
+        13
       ],
       [
-        21,
-        37
+        28,
+        19
       ]
     ]
   },
@@ -435,43 +365,43 @@
   },
   "1387756282": {
     "moduleName": "CaseExprs",
-    "declarationName": "nestedCase",
+    "declarationName": "partiallyCoveredCase",
     "range": [
       [
-        45,
-        38
+        52,
+        10
       ],
       [
-        45,
-        41
+        52,
+        11
       ]
     ]
   },
   "1389476683": {
     "moduleName": "CaseExprs",
-    "declarationName": "threeBranches",
+    "declarationName": "fourBranches",
     "range": [
       [
-        21,
-        13
+        26,
+        10
       ],
       [
-        21,
-        37
+        26,
+        11
       ]
     ]
   },
   "1401696974": {
     "moduleName": "CaseExprs",
-    "declarationName": "nestedCase",
+    "declarationName": "partiallyCoveredCase",
     "range": [
       [
-        39,
-        5
+        60,
+        13
       ],
       [
-        47,
-        24
+        60,
+        20
       ]
     ]
   },
@@ -481,7 +411,7 @@
     "range": [
       [
         17,
-        28
+        13
       ],
       [
         17,
@@ -494,12 +424,12 @@
     "declarationName": "threeBranches",
     "range": [
       [
-        17,
+        19,
         13
       ],
       [
-        17,
-        48
+        19,
+        29
       ]
     ]
   },
@@ -508,26 +438,12 @@
     "declarationName": "fourBranches",
     "range": [
       [
-        30,
+        34,
         13
       ],
       [
-        30,
-        18
-      ]
-    ]
-  },
-  "1554203058": {
-    "moduleName": "CaseExprs",
-    "declarationName": "partiallyCoveredCase",
-    "range": [
-      [
-        58,
-        13
-      ],
-      [
-        58,
-        18
+        34,
+        20
       ]
     ]
   },
@@ -537,11 +453,11 @@
     "range": [
       [
         21,
-        13
+        32
       ],
       [
         21,
-        28
+        37
       ]
     ]
   },
@@ -565,7 +481,7 @@
     "range": [
       [
         21,
-        32
+        13
       ],
       [
         21,
@@ -578,12 +494,12 @@
     "declarationName": "nestedCase",
     "range": [
       [
-        45,
-        21
+        47,
+        13
       ],
       [
-        45,
-        34
+        47,
+        24
       ]
     ]
   },
@@ -592,12 +508,12 @@
     "declarationName": "fourBranches",
     "range": [
       [
-        28,
+        32,
         13
       ],
       [
-        28,
-        19
+        32,
+        18
       ]
     ]
   }

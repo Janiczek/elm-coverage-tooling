@@ -204,11 +204,6 @@ import Test.Coverage
 
 a : Int
 a =
-    let
-        _ =
-            Test.Coverage.track
-                1004572879
-    in
     if
         let
             _ =
@@ -260,12 +255,6 @@ a =
                                 , range = { start = { row = 8, column = 9 }, end = { row = 8, column = 10 } }
                                 }
                               )
-                            , ( 1004572879
-                              , { moduleName = "A"
-                                , declarationName = "a"
-                                , range = { start = { row = 5, column = 5 }, end = { row = 8, column = 10 } }
-                                }
-                              )
                             , ( 1751612961
                               , { moduleName = "A"
                                 , declarationName = "a"
@@ -303,11 +292,6 @@ import Test.Coverage
 
 a : Int
 a =
-    let
-        _ =
-            Test.Coverage.track
-                434548591
-    in
     case let
             _ =
                 Test.Coverage.track 154242004
@@ -346,12 +330,6 @@ a =
                               , { moduleName = "A"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 10 }, end = { row = 5, column = 11 } }
-                                }
-                              )
-                            , ( 434548591
-                              , { moduleName = "A"
-                                , declarationName = "a"
-                                , range = { start = { row = 5, column = 5 }, end = { row = 8, column = 16 } }
                                 }
                               )
                             , ( 1751612961

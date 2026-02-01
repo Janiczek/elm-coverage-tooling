@@ -167,33 +167,83 @@ instrumentExpr exprNode declarationName state =
         exprRange : Range
         exprRange =
             Elm.Syntax.Node.range exprNode
-
-        ( instrumentedInnerExpr, stateAfterRecurse ) =
-            instrumentExprRecurse exprNode declarationName state
-
-        ( pointId, newSeed ) =
-            Random.step PointId.generator stateAfterRecurse.seed
-
-        metadata : PointMetadata
-        metadata =
-            { moduleName = state.moduleName
-            , declarationName = declarationName
-            , range = exprRange
-            }
-
-        newState : InstrumentState
-        newState =
-            { stateAfterRecurse
-                | seed = newSeed
-                , metadata = Dict.insert pointId metadata stateAfterRecurse.metadata
-            }
-
-        wrappedExpr : Node Elm.Syntax.Expression.Expression
-        wrappedExpr =
-            instrumentedInnerExpr
-                |> wrapWithTracking pointId exprRange
     in
-    ( wrappedExpr, newState )
+    case Elm.Syntax.Node.value exprNode of
+        -- For if expressions, don't create metadata for the full expression.
+        -- Only the condition and branches will have metadata.
+        Elm.Syntax.Expression.IfBlock condition thenBranch elseBranch ->
+            let
+                ( instCondition, state1 ) =
+                    instrumentExpr condition declarationName state
+
+                ( instThen, state2 ) =
+                    instrumentExpr thenBranch declarationName state1
+
+                ( instElse, state3 ) =
+                    instrumentExpr elseBranch declarationName state2
+            in
+            ( Node exprRange (Elm.Syntax.Expression.IfBlock instCondition instThen instElse)
+            , state3
+            )
+
+        -- For case expressions, don't create metadata for the full expression.
+        -- Only the subject and branch expressions will have metadata.
+        Elm.Syntax.Expression.CaseExpression caseBlock ->
+            let
+                ( instExpr, state1 ) =
+                    instrumentExpr caseBlock.expression declarationName state
+
+                ( instrumentedCases, state2 ) =
+                    List.foldl
+                        (\( pattern, caseExpr ) ( acc, state_ ) ->
+                            let
+                                ( instCaseExpr, newState_ ) =
+                                    instrumentExpr caseExpr declarationName state_
+                            in
+                            ( ( pattern, instCaseExpr ) :: acc, newState_ )
+                        )
+                        ( [], state1 )
+                        caseBlock.cases
+
+                newCaseBlock : Elm.Syntax.Expression.CaseBlock
+                newCaseBlock =
+                    { expression = instExpr
+                    , cases = List.reverse instrumentedCases
+                    }
+            in
+            ( Node exprRange (Elm.Syntax.Expression.CaseExpression newCaseBlock)
+            , state2
+            )
+
+        -- For all other expressions, create metadata as before
+        _ ->
+            let
+                ( instrumentedInnerExpr, stateAfterRecurse ) =
+                    instrumentExprRecurse exprNode declarationName state
+
+                ( pointId, newSeed ) =
+                    Random.step PointId.generator stateAfterRecurse.seed
+
+                metadata : PointMetadata
+                metadata =
+                    { moduleName = state.moduleName
+                    , declarationName = declarationName
+                    , range = exprRange
+                    }
+
+                newState : InstrumentState
+                newState =
+                    { stateAfterRecurse
+                        | seed = newSeed
+                        , metadata = Dict.insert pointId metadata stateAfterRecurse.metadata
+                    }
+
+                wrappedExpr : Node Elm.Syntax.Expression.Expression
+                wrappedExpr =
+                    instrumentedInnerExpr
+                        |> wrapWithTracking pointId exprRange
+            in
+            ( wrappedExpr, newState )
 
 {-|
 

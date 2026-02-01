@@ -13,99 +13,84 @@ import Test.Coverage
 
 partiallyCoveredCase : Int -> String
 partiallyCoveredCase x =
-    let
-        _ =
-            Test.Coverage.track
-                921909755
-    in
     case let
             _ =
-                Test.Coverage.track 217307923
+                Test.Coverage.track 1387756282
         in
         x of
         0 ->
             let
                 _ =
-                    Test.Coverage.track 773159672
+                    Test.Coverage.track 1058150396
             in
             "zero"
 
         1 ->
             let
                 _ =
-                    Test.Coverage.track 387185436
+                    Test.Coverage.track 1040261944
             in
             "one"
 
         2 ->
             let
                 _ =
-                    Test.Coverage.track 1554203058
+                    Test.Coverage.track 804279791
             in
             "two"
 
         3 ->
             let
                 _ =
-                    Test.Coverage.track 184923724
+                    Test.Coverage.track 1401696974
             in
             "three"
 
         _ ->
             let
                 _ =
-                    Test.Coverage.track 21473413
+                    Test.Coverage.track 217307923
             in
             "many"
 
 
 nestedCase : Maybe (Result String Int) -> String
 nestedCase maybeResult =
-    let
-        _ =
-            Test.Coverage.track
-                1401696974
-    in
     case let
             _ =
-                Test.Coverage.track 261017194
+                Test.Coverage.track 31833927
         in
         maybeResult of
         Just result ->
-            let
-                _ =
-                    Test.Coverage.track
-                        1040261944
-            in
             case let
                     _ =
-                        Test.Coverage.track 655176028
+                        Test.Coverage.track 1074704768
                 in
                 result of
                 Ok value ->
                     let
                         _ =
-                            Test.Coverage.track 45664826
+                            Test.Coverage.track 863056653
                     in
                     (let
                         _ =
-                            Test.Coverage.track 508839993
+                            Test.Coverage.track 461394542
                      in
                      "Got value: "
                     )
                         ++ (let
                                 _ =
-                                    Test.Coverage.track 580816458
+                                    Test.Coverage.track 508839993
                             in
                             (let
                                 _ =
-                                    Test.Coverage.track 863056653
+                                    Test.Coverage.track 261017194
                              in
                              String.fromInt
                             )
                                 (let
                                     _ =
-                                        Test.Coverage.track 140423761
+                                        Test.Coverage.track 655176028
                                  in
                                  value
                                 )
@@ -114,17 +99,17 @@ nestedCase maybeResult =
                 Err msg ->
                     let
                         _ =
-                            Test.Coverage.track 1058150396
+                            Test.Coverage.track 45664826
                     in
                     (let
                         _ =
-                            Test.Coverage.track 1815964016
+                            Test.Coverage.track 140423761
                      in
                      "Got error: "
                     )
                         ++ (let
                                 _ =
-                                    Test.Coverage.track 1387756282
+                                    Test.Coverage.track 580816458
                             in
                             msg
                            )
@@ -132,88 +117,78 @@ nestedCase maybeResult =
         Nothing ->
             let
                 _ =
-                    Test.Coverage.track 804279791
+                    Test.Coverage.track 1815964016
             in
             "No result"
 
 
 fourBranches : Int -> String
 fourBranches x =
-    let
-        _ =
-            Test.Coverage.track
-                461394542
-    in
     case let
             _ =
-                Test.Coverage.track 339233744
+                Test.Coverage.track 1389476683
         in
         x of
         0 ->
             let
                 _ =
-                    Test.Coverage.track 2007663582
+                    Test.Coverage.track 1090456675
             in
             "zero"
 
         1 ->
             let
                 _ =
-                    Test.Coverage.track 1514252073
+                    Test.Coverage.track 339233744
             in
             "one"
 
         2 ->
             let
                 _ =
-                    Test.Coverage.track 31833927
+                    Test.Coverage.track 2007663582
             in
             "two"
 
         _ ->
             let
                 _ =
-                    Test.Coverage.track 1074704768
+                    Test.Coverage.track 1514252073
             in
             "other"
 
 
 threeBranches : Result String Int -> String
 threeBranches result =
-    let
-        _ =
-            Test.Coverage.track
-                1090456675
-    in
     case let
             _ =
-                Test.Coverage.track 285136691
+                Test.Coverage.track 615386194
         in
         result of
         Ok value ->
             let
                 _ =
-                    Test.Coverage.track 1450626265
+                    Test.Coverage.track 1428362492
             in
             (let
                 _ =
-                    Test.Coverage.track 293209453
+                    Test.Coverage.track 285136691
              in
              "Success: "
             )
                 ++ (let
                         _ =
-                            Test.Coverage.track 1428362492
+                            Test.Coverage.track 390890205
                     in
                     (let
                         _ =
-                            Test.Coverage.track 562876422
+                            Test.Coverage.track 293209453
                      in
                      String.fromInt
                     )
                         (let
                             _ =
-                                Test.Coverage.track 390890205
+                                Test.Coverage.track 562876422
                          in
                          value
                         )
@@ -222,24 +197,24 @@ threeBranches result =
         Err "error" ->
             let
                 _ =
-                    Test.Coverage.track 556273188
+                    Test.Coverage.track 1450626265
             in
             "Error occurred"
 
         Err other ->
             let
                 _ =
-                    Test.Coverage.track 1389476683
+                    Test.Coverage.track 1721362682
             in
             (let
                 _ =
-                    Test.Coverage.track 1681273200
+                    Test.Coverage.track 556273188
              in
              "Other error: "
             )
                 ++ (let
                         _ =
-                            Test.Coverage.track 1721362682
+                            Test.Coverage.track 1681273200
                     in
                     other
                    )
@@ -247,11 +222,6 @@ threeBranches result =
 
 twoBranches : Maybe Int -> Int
 twoBranches maybe =
-    let
-        _ =
-            Test.Coverage.track
-                615386194
-    in
     case let
             _ =
                 Test.Coverage.track 1140788623

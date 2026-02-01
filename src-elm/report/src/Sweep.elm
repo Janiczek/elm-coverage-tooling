@@ -107,6 +107,55 @@ annotateLine line lineContent regions =
             in
             (originalLength - trimmedLength) + 1
 
+        -- Find the last non-whitespace character position in a column range (1-indexed)
+        -- startCol and endCol are both inclusive (1-indexed)
+        -- Returns startCol - 1 if the entire range is whitespace
+        findLastNonWhitespaceCol : Int -> Int -> Int
+        findLastNonWhitespaceCol startCol endCol =
+            let
+                -- Convert to 0-indexed for string slicing
+                startIdx : Int
+                startIdx =
+                    startCol - 1
+
+                endIdx : Int
+                endIdx =
+                    endCol
+
+                -- Get the substring for this range (endIdx is exclusive in String.slice)
+                substring : String
+                substring =
+                    String.slice startIdx endIdx lineContent
+
+                -- Find last non-whitespace character in substring by checking actual line content
+                -- We need to check backwards from endCol to startCol
+                findLastNonWhitespace : Int -> Int
+                findLastNonWhitespace currentCol =
+                    if currentCol < startCol then
+                        -- No non-whitespace found, return startCol - 1
+                        startCol - 1
+
+                    else
+                        let
+                            -- Get character at currentCol (1-indexed)
+                            charIdx : Int
+                            charIdx =
+                                currentCol - 1
+
+                            char : String
+                            char =
+                                String.slice charIdx (charIdx + 1) lineContent
+                        in
+                        if char /= " " && char /= "\t" && char /= "\n" && char /= "\r" then
+                            -- Found non-whitespace at currentCol
+                            currentCol
+
+                        else
+                            -- Continue searching backwards
+                            findLastNonWhitespace (currentCol - 1)
+            in
+            findLastNonWhitespace endCol
+
         -- Filter out regions that are entirely within leading whitespace
         -- A region is excluded if both its start and end on this line are before
         -- the first non-whitespace character
@@ -201,6 +250,94 @@ annotateLine line lineContent regions =
                 filteredRegions
                 |> List.sortBy Tuple.first
 
+        -- Process events to trim trailing whitespace from ending regions
+        -- An End event needs trimming if:
+        -- 1. The next event is not immediately adjacent (there's a gap)
+        -- 2. The region ends on the current line
+        adjustedEvents : List ( Int, Event )
+        adjustedEvents =
+            let
+                processEvents : List ( Int, Event ) -> List ( Int, Event )
+                processEvents eventList =
+                    case eventList of
+                        [] ->
+                            []
+
+                        [ ( col, event ) ] ->
+                            -- Last event, check if it's an End that needs trimming
+                            case event of
+                                End region ->
+                                    if region.range.end.row == line then
+                                        -- Region ends on this line, check if we should trim
+                                        let
+                                            startCol : Int
+                                            startCol =
+                                                if region.range.start.row == line then
+                                                    region.range.start.column
+
+                                                else
+                                                    1
+
+                                            endCol : Int
+                                            endCol =
+                                                region.range.end.column
+
+                                            trimmedEndCol : Int
+                                            trimmedEndCol =
+                                                findLastNonWhitespaceCol startCol endCol
+                                        in
+                                        -- Only trim if there's actually trailing whitespace
+                                        if trimmedEndCol < endCol then
+                                            [ ( trimmedEndCol + 1, End region ) ]
+
+                                        else
+                                            [ ( col, event ) ]
+
+                                    else
+                                        [ ( col, event ) ]
+
+                                _ ->
+                                    [ ( col, event ) ]
+
+                        ( col, event ) :: ( nextCol, nextEvent ) :: rest ->
+                            -- Check if current End event needs trimming
+                            case event of
+                                End region ->
+                                    if region.range.end.row == line && nextCol > col + 1 then
+                                        -- Region ends on this line and next event is not adjacent
+                                        -- Trim trailing whitespace
+                                        let
+                                            startCol : Int
+                                            startCol =
+                                                if region.range.start.row == line then
+                                                    region.range.start.column
+
+                                                else
+                                                    1
+
+                                            endCol : Int
+                                            endCol =
+                                                region.range.end.column
+
+                                            trimmedEndCol : Int
+                                            trimmedEndCol =
+                                                findLastNonWhitespaceCol startCol endCol
+                                        in
+                                        -- Only trim if there's actually trailing whitespace
+                                        if trimmedEndCol < endCol then
+                                            ( trimmedEndCol + 1, End region ) :: processEvents (( nextCol, nextEvent ) :: rest)
+
+                                        else
+                                            ( col, event ) :: processEvents (( nextCol, nextEvent ) :: rest)
+
+                                    else
+                                        ( col, event ) :: processEvents (( nextCol, nextEvent ) :: rest)
+
+                                _ ->
+                                    ( col, event ) :: processEvents (( nextCol, nextEvent ) :: rest)
+            in
+            processEvents events
+
         -- Sweep through columns, maintaining active regions
         -- Merge consecutive annotations with the same count as we go
         ( _, annotations ) =
@@ -252,6 +389,6 @@ annotateLine line lineContent regions =
                                 ( newActiveRegions, newAnnotation :: acc )
                 )
                 ( [], [] )
-                events
+                adjustedEvents
     in
     List.reverse annotations

@@ -138,8 +138,9 @@ a = 1""" )
     <style>
         body { font-family: sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
-        td { border: none; padding: 2px; }
-        .line-number { text-align: right; padding-right: 10px; color: #666; user-select: none; }
+        td { border: none; padding: 0; line-height: 1.2; }
+        tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
+        .line-number { text-align: right; color: #666; user-select: none; }
         .covered { 
             background-color: #d4edda; 
             border-radius: 6px; 
@@ -153,7 +154,19 @@ a = 1""" )
         }
         .uncovered:hover { background-color: rgba(248, 215, 218, 0.25); outline: 2px solid #f8d7da; }
         .no-coverage { background-color: transparent; }
-        pre { margin: 0; font-family: monospace; white-space: pre-wrap; position: relative; }
+        td:first-child {
+            font-family: "JetBrains Mono", monospace; 
+            text-align: right;
+            color: #666;
+            user-select: none;
+            font-size: inherit;
+        }
+        pre { 
+            margin: 0; 
+            font-family: "JetBrains Mono", monospace; 
+            white-space: pre-wrap;
+            position: relative; 
+        }
         .tooltip { 
             display: none;
             background-color: #333;
@@ -165,7 +178,6 @@ a = 1""" )
             z-index: 1000;
             pointer-events: none;
             position: absolute;
-            /* Pure CSS positioning: center above the parent span */
             bottom: 100%;
             left: 50%;
             transform: translateX(-50%);
@@ -177,7 +189,7 @@ a = 1""" )
         }
     </style>
 </head>
-<div><h1>A</h1><p><a href="index.html">← Back to index</a></p><table><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">1</td><td><pre style="margin: 0; font-family: monospace"><span><span class="covered">modul<span class="tooltip">1x</span></span><span class="no-coverage">e A</span></span></pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">2</td><td><pre style="margin: 0; font-family: monospace">a = 1</pre></td></tr></table></div>
+<div><h1>A</h1><p><a href="index.html">← Back to index</a></p><table><tr><td>1</td><td><pre><span><span class="covered">modul<span class="tooltip">1x</span></span><span class="no-coverage">e A</span></span></pre></td></tr><tr><td>2</td><td><pre>a = 1</pre></td></tr></table></div>
 </html>"""
                                }
                              ]
@@ -242,8 +254,9 @@ b = 2""" )
     <style>
         body { font-family: sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
-        td { border: none; padding: 2px; }
-        .line-number { text-align: right; padding-right: 10px; color: #666; user-select: none; }
+        td { border: none; padding: 0; line-height: 1.2; }
+        tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
+        .line-number { text-align: right; color: #666; user-select: none; }
         .covered { 
             background-color: #d4edda; 
             border-radius: 6px; 
@@ -257,7 +270,19 @@ b = 2""" )
         }
         .uncovered:hover { background-color: rgba(248, 215, 218, 0.25); outline: 2px solid #f8d7da; }
         .no-coverage { background-color: transparent; }
-        pre { margin: 0; font-family: monospace; white-space: pre-wrap; position: relative; }
+        td:first-child {
+            font-family: "JetBrains Mono", monospace; 
+            text-align: right;
+            color: #666;
+            user-select: none;
+            font-size: inherit;
+        }
+        pre { 
+            margin: 0; 
+            font-family: "JetBrains Mono", monospace; 
+            white-space: pre-wrap;
+            position: relative; 
+        }
         .tooltip { 
             display: none;
             background-color: #333;
@@ -269,7 +294,6 @@ b = 2""" )
             z-index: 1000;
             pointer-events: none;
             position: absolute;
-            /* Pure CSS positioning: center above the parent span */
             bottom: 100%;
             left: 50%;
             transform: translateX(-50%);
@@ -281,7 +305,7 @@ b = 2""" )
         }
     </style>
 </head>
-<div><h1>A</h1><p><a href="index.html">← Back to index</a></p><table><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">1</td><td><pre style="margin: 0; font-family: monospace">module A</pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">2</td><td><pre style="margin: 0; font-family: monospace"><span><span class="covered">a = 1<span class="tooltip">5x</span></span></span></pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">3</td><td><pre style="margin: 0; font-family: monospace"><span><span class="uncovered">b = 2<span class="tooltip">0x</span></span></span></pre></td></tr></table></div>
+<div><h1>A</h1><p><a href="index.html">← Back to index</a></p><table><tr><td>1</td><td><pre>module A</pre></td></tr><tr><td>2</td><td><pre><span><span class="covered">a = 1<span class="tooltip">5x</span></span></span></pre></td></tr><tr><td>3</td><td><pre><span><span class="uncovered">b = 2<span class="tooltip">0x</span></span></span></pre></td></tr></table></div>
 </html>"""
                                }
                              ]
@@ -374,8 +398,9 @@ a =
     <style>
         body { font-family: sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
-        td { border: none; padding: 2px; }
-        .line-number { text-align: right; padding-right: 10px; color: #666; user-select: none; }
+        td { border: none; padding: 0; line-height: 1.2; }
+        tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
+        .line-number { text-align: right; color: #666; user-select: none; }
         .covered { 
             background-color: #d4edda; 
             border-radius: 6px; 
@@ -389,7 +414,19 @@ a =
         }
         .uncovered:hover { background-color: rgba(248, 215, 218, 0.25); outline: 2px solid #f8d7da; }
         .no-coverage { background-color: transparent; }
-        pre { margin: 0; font-family: monospace; white-space: pre-wrap; position: relative; }
+        td:first-child {
+            font-family: "JetBrains Mono", monospace; 
+            text-align: right;
+            color: #666;
+            user-select: none;
+            font-size: inherit;
+        }
+        pre { 
+            margin: 0; 
+            font-family: "JetBrains Mono", monospace; 
+            white-space: pre-wrap;
+            position: relative; 
+        }
         .tooltip { 
             display: none;
             background-color: #333;
@@ -401,7 +438,6 @@ a =
             z-index: 1000;
             pointer-events: none;
             position: absolute;
-            /* Pure CSS positioning: center above the parent span */
             bottom: 100%;
             left: 50%;
             transform: translateX(-50%);
@@ -413,7 +449,7 @@ a =
         }
     </style>
 </head>
-<div><h1>A</h1><p><a href="index.html">← Back to index</a></p><table><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">1</td><td><pre style="margin: 0; font-family: monospace">module A exposing (a)</pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">2</td><td><pre style="margin: 0; font-family: monospace"></pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">3</td><td><pre style="margin: 0; font-family: monospace">a =</pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">4</td><td><pre style="margin: 0; font-family: monospace"><span><span class="no-coverage">    </span><span class="covered">a &amp;&amp; <span class="tooltip">10x</span></span><span class="covered">b &amp;&amp; <span class="tooltip">8x</span></span><span class="covered">c<span class="tooltip">5x</span></span></span></pre></td></tr></table></div>
+<div><h1>A</h1><p><a href="index.html">← Back to index</a></p><table><tr><td>1</td><td><pre>module A exposing (a)</pre></td></tr><tr><td>2</td><td><pre></pre></td></tr><tr><td>3</td><td><pre>a =</pre></td></tr><tr><td>4</td><td><pre><span><span class="no-coverage">    </span><span class="covered">a &amp;&amp; <span class="tooltip">10x</span></span><span class="covered">b &amp;&amp; <span class="tooltip">8x</span></span><span class="covered">c<span class="tooltip">5x</span></span></span></pre></td></tr></table></div>
 </html>"""
                                }
                              ]
