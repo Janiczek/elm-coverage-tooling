@@ -25,7 +25,9 @@ interface CliArgs {
 }
 
 function parseArgs(): CliArgs {
-    const argv = yargs(hideBin(process.argv))
+    const args = hideBin(process.argv);
+    
+    const yargsInstance = yargs(args)
         .option('runner', {
             type: 'string',
             default: 'elm-test',
@@ -42,7 +44,15 @@ function parseArgs(): CliArgs {
             description: 'Path to the coverage output file (or folder for HTML format). Ignored when format is stdout.',
         })
         .strict(false) // Allow unknown options to be forwarded
-        .parseSync();
+        .help();
+    
+    // Show help if no arguments provided
+    if (args.length === 0) {
+        yargsInstance.showHelp();
+        process.exit(0);
+    }
+    
+    const argv = yargsInstance.parseSync();
 
     const runner = argv.runner as string;
     const coverageFormat = argv['coverage-format'] as ReportFormat;

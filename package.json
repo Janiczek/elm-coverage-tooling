@@ -8,6 +8,7 @@
     "test:elm": "npm run test:elm:instrument && npm run test:elm:report",
     "test:js:instrument": "node --no-warnings --test --experimental-strip-types test/instrument.ts",
     "test:js:patch": "node --no-warnings --test --experimental-strip-types test/patch.ts",
+    "test:js:elm-coverage-test": "node --no-warnings --test --experimental-strip-types test/elm-coverage-test.ts",
     "test:js": "node --no-warnings --test --experimental-strip-types test/*.ts",
     "test": "npm run test:elm && npm run test:js",
     "build:elm:instrument": "mkdir -p dist && cd src-elm/instrument && elm-esm make --optimize src/Main.elm --output=../../dist/elm-instrument.js && cp ../../src/elm-instrument.d.ts ../../dist/elm-instrument.d.ts",
