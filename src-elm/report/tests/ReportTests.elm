@@ -32,20 +32,23 @@ suite =
                     Dict.fromList
                         [ ( 1
                           , { moduleName = "A"
+                            , moduleFilePath = "src/A.elm"
                             , declarationName = "a"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
                             }
                           )
                         , ( 2
                           , { moduleName = "A"
+                            , moduleFilePath = "src/A.elm"
                             , declarationName = "b"
                             , range = { start = { row = 2, column = 1 }, end = { row = 2, column = 5 } }
                             }
                           )
                         ]
                 , coverageData = Dict.fromList [ ( 1, 1 ), ( 2, 0 ) ]
-                , sources = Dict.fromList [ ( "A", "module A" ) ]
-                , moduleHashes = Dict.fromList [ ( "A", 0 ) ]
+                , sources = Dict.fromList [ ( "src/A.elm", "module A" ) ]
+                , moduleHashes = Dict.fromList [ ( "src/A.elm", 0 ) ]
+                , moduleNames = Dict.fromList [ ( "src/A.elm", "A" ) ]
                 , format = "plaintext"
                 }
            , checkOutput =
@@ -55,7 +58,7 @@ suite =
                                 Just report ->
                                     report.filepath == "coverage.txt"
                                         && String.contains "Total: 1/2 (50%)" report.contents
-                                        && String.contains "A: 1/2 (50%)" report.contents
+                                        && String.contains "src/A.elm: 1/2 (50%)" report.contents
 
                                 Nothing ->
                                     False
@@ -67,14 +70,16 @@ suite =
                     Dict.fromList
                         [ ( 1
                           , { moduleName = "A"
+                            , moduleFilePath = "src/A.elm"
                             , declarationName = "a"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
                             }
                           )
                         ]
                 , coverageData = Dict.fromList [ ( 1, 5 ) ]
-                , sources = Dict.fromList [ ( "A", "module A" ) ]
-                , moduleHashes = Dict.fromList [ ( "A", 0 ) ]
+                , sources = Dict.fromList [ ( "src/A.elm", "module A" ) ]
+                , moduleHashes = Dict.fromList [ ( "src/A.elm", 0 ) ]
+                , moduleNames = Dict.fromList [ ( "src/A.elm", "A" ) ]
                 , format = "plaintext"
                 }
            , checkOutput =
@@ -82,7 +87,7 @@ suite =
                     case List.head output.reports of
                         Just report ->
                             String.contains "Total: 1/1 (100%)" report.contents
-                                && String.contains "A: 1/1 (100%)" report.contents
+                                && String.contains "src/A.elm: 1/1 (100%)" report.contents
 
                         Nothing ->
                             False
@@ -93,14 +98,16 @@ suite =
                     Dict.fromList
                         [ ( 1
                           , { moduleName = "A"
+                            , moduleFilePath = "src/A.elm"
                             , declarationName = "a"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
                             }
                           )
                         ]
                 , coverageData = Dict.fromList [ ( 1, 0 ) ]
-                , sources = Dict.fromList [ ( "A", "module A" ) ]
-                , moduleHashes = Dict.fromList [ ( "A", 0 ) ]
+                , sources = Dict.fromList [ ( "src/A.elm", "module A" ) ]
+                , moduleHashes = Dict.fromList [ ( "src/A.elm", 0 ) ]
+                , moduleNames = Dict.fromList [ ( "src/A.elm", "A" ) ]
                 , format = "plaintext"
                 }
            , checkOutput =
@@ -108,7 +115,7 @@ suite =
                     case List.head output.reports of
                         Just report ->
                             String.contains "Total: 0/1 (0%)" report.contents
-                                && String.contains "A: 0/1 (0%)" report.contents
+                                && String.contains "src/A.elm: 0/1 (0%)" report.contents
 
                         Nothing ->
                             False
@@ -119,25 +126,27 @@ suite =
                     Dict.fromList
                         [ ( 1
                           , { moduleName = "A"
+                            , moduleFilePath = "src/A.elm"
                             , declarationName = "a"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
                             }
                           )
                         ]
                 , coverageData = Dict.fromList [ ( 1, 1 ) ]
-                , sources = Dict.fromList [ ( "A", """module A
+                , sources = Dict.fromList [ ( "src/A.elm", """module A
 a = 1""" ) ]
-                , moduleHashes = Dict.fromList [ ( "A", 0 ) ]
+                , moduleHashes = Dict.fromList [ ( "src/A.elm", 0 ) ]
+                , moduleNames = Dict.fromList [ ( "src/A.elm", "A" ) ]
                 , format = "html"
                 }
            , checkOutput =
                 \output ->
                     List.length output.reports >= 2
                         && List.any (\r -> r.filepath == "index.html") output.reports
-                        && List.any (\r -> r.filepath == "A.html") output.reports
+                        && List.any (\r -> r.filepath == "src/A.html") output.reports
                         && (case List.filter (\r -> r.filepath == "index.html") output.reports of
                                 [ index ] ->
-                                    String.contains "A" index.contents
+                                    String.contains "src/A.elm" index.contents
                                         && String.contains "<table>" index.contents
 
                                 _ ->
@@ -150,35 +159,39 @@ a = 1""" ) ]
                     Dict.fromList
                         [ ( 1
                           , { moduleName = "A"
+                            , moduleFilePath = "src/A.elm"
                             , declarationName = "a"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
                             }
                           )
                         , ( 2
                           , { moduleName = "B"
+                            , moduleFilePath = "src/B.elm"
                             , declarationName = "b"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
                             }
                           )
                         ]
                 , coverageData = Dict.fromList [ ( 1, 1 ), ( 2, 0 ) ]
-                , sources = Dict.fromList [ ( "A", "module A" ), ( "B", "module B" ) ]
-                , moduleHashes = Dict.fromList [ ( "A", 0 ), ( "B", 0 ) ]
+                , sources = Dict.fromList [ ( "src/A.elm", "module A" ), ( "src/B.elm", "module B" ) ]
+                , moduleHashes = Dict.fromList [ ( "src/A.elm", 0 ), ( "src/B.elm", 0 ) ]
+                , moduleNames = Dict.fromList [ ( "src/A.elm", "A" ), ( "src/B.elm", "B" ) ]
                 , format = "html"
                 }
            , checkOutput =
                 \output ->
                     List.length output.reports >= 3
                         && List.any (\r -> r.filepath == "index.html") output.reports
-                        && List.any (\r -> r.filepath == "A.html") output.reports
-                        && List.any (\r -> r.filepath == "B.html") output.reports
+                        && List.any (\r -> r.filepath == "src/A.html") output.reports
+                        && List.any (\r -> r.filepath == "src/B.html") output.reports
            }
-         , { name = "generateLcov - placeholder"
+         , { name = "generateLcov - empty coverage"
            , input =
                 { coverageMetadata = Dict.empty
                 , coverageData = Dict.empty
                 , sources = Dict.empty
                 , moduleHashes = Dict.empty
+                , moduleNames = Dict.empty
                 , format = "lcov"
                 }
            , checkOutput =
@@ -187,6 +200,48 @@ a = 1""" ) ]
                         && (case List.head output.reports of
                                 Just report ->
                                     report.filepath == "coverage.lcov"
+                                        && report.contents == ""
+
+                                Nothing ->
+                                    False
+                           )
+           }
+         , { name = "generateLcov - with coverage data"
+           , input =
+                { coverageMetadata =
+                    Dict.fromList
+                        [ ( 1
+                          , { moduleName = "A"
+                            , moduleFilePath = "src/A.elm"
+                            , declarationName = "a"
+                            , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                            }
+                          )
+                        , ( 2
+                          , { moduleName = "A"
+                            , moduleFilePath = "src/A.elm"
+                            , declarationName = "b"
+                            , range = { start = { row = 2, column = 1 }, end = { row = 2, column = 5 } }
+                            }
+                          )
+                        ]
+                , coverageData = Dict.fromList [ ( 1, 1 ), ( 2, 0 ) ]
+                , sources = Dict.fromList [ ( "A", "module A\na = 1\nb = 2" ) ]
+                , moduleHashes = Dict.fromList [ ( "src/A.elm", 0 ) ]
+                , moduleNames = Dict.fromList [ ( "src/A.elm", "A" ) ]
+                , format = "lcov"
+                }
+           , checkOutput =
+                \output ->
+                    List.length output.reports == 1
+                        && (case List.head output.reports of
+                                Just report ->
+                                    report.filepath == "coverage.lcov"
+                                        && String.contains "SF:src/A.elm" report.contents
+                                        && String.contains "DA:" report.contents
+                                        && String.contains "LF:" report.contents
+                                        && String.contains "LH:" report.contents
+                                        && String.contains "end_of_record" report.contents
 
                                 Nothing ->
                                     False
@@ -198,6 +253,7 @@ a = 1""" ) ]
                 , coverageData = Dict.empty
                 , sources = Dict.empty
                 , moduleHashes = Dict.empty
+                , moduleNames = Dict.empty
                 , format = "csv"
                 }
            , checkOutput =
@@ -219,26 +275,30 @@ a = 1""" ) ]
                     Dict.fromList
                         [ ( 1
                           , { moduleName = "A"
+                            , moduleFilePath = "src/A.elm"
                             , declarationName = "a"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
                             }
                           )
                         , ( 2
                           , { moduleName = "A"
+                            , moduleFilePath = "src/A.elm"
                             , declarationName = "b"
                             , range = { start = { row = 2, column = 1 }, end = { row = 2, column = 5 } }
                             }
                           )
                         , ( 3
                           , { moduleName = "B"
+                            , moduleFilePath = "src/B.elm"
                             , declarationName = "c"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
                             }
                           )
                         ]
                 , coverageData = Dict.fromList [ ( 1, 1 ), ( 2, 0 ), ( 3, 1 ) ]
-                , sources = Dict.fromList [ ( "A", "module A" ), ( "B", "module B" ) ]
-                , moduleHashes = Dict.fromList [ ( "A", 0 ), ( "B", 0 ) ]
+                , sources = Dict.fromList [ ( "src/A.elm", "module A" ), ( "src/B.elm", "module B" ) ]
+                , moduleHashes = Dict.fromList [ ( "src/A.elm", 0 ), ( "src/B.elm", 0 ) ]
+                , moduleNames = Dict.fromList [ ( "src/A.elm", "A" ), ( "src/B.elm", "B" ) ]
                 , format = "csv"
                 }
            , checkOutput =
@@ -249,8 +309,8 @@ a = 1""" ) ]
                                     report.filepath == "coverage.csv"
                                         && String.contains "Module,Covered,Total,Percentage" report.contents
                                         && String.contains "Total,2,3," report.contents
-                                        && String.contains "A,1,2," report.contents
-                                        && String.contains "B,1,1," report.contents
+                                        && String.contains "src/A.elm,1,2," report.contents
+                                        && String.contains "src/B.elm,1,1," report.contents
 
                                 Nothing ->
                                     False
@@ -262,20 +322,23 @@ a = 1""" ) ]
                     Dict.fromList
                         [ ( 1
                           , { moduleName = "A"
+                            , moduleFilePath = "src/A.elm"
                             , declarationName = "a"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
                             }
                           )
                         , ( 2
                           , { moduleName = "A"
+                            , moduleFilePath = "src/A.elm"
                             , declarationName = "b"
                             , range = { start = { row = 2, column = 1 }, end = { row = 2, column = 5 } }
                             }
                           )
                         ]
                 , coverageData = Dict.fromList [ ( 1, 1 ), ( 2, 0 ) ]
-                , sources = Dict.fromList [ ( "A", "module A" ) ]
-                , moduleHashes = Dict.fromList [ ( "A", 0 ) ]
+                , sources = Dict.fromList [ ( "src/A.elm", "module A" ) ]
+                , moduleHashes = Dict.fromList [ ( "src/A.elm", 0 ) ]
+                , moduleNames = Dict.fromList [ ( "src/A.elm", "A" ) ]
                 , format = "stdout"
                 }
            , checkOutput =
@@ -285,7 +348,7 @@ a = 1""" ) ]
                                 Just report ->
                                     report.filepath == "stdout"
                                         && String.contains "Total: 1/2 (50%)" report.contents
-                                        && String.contains "A: 1/2 (50%)" report.contents
+                                        && String.contains "src/A.elm: 1/2 (50%)" report.contents
 
                                 Nothing ->
                                     False

@@ -13,12 +13,14 @@ export namespace Elm {
         export interface Flags {
             coverageMetadata: Record<number, {
                 moduleName: string;
+                moduleFilePath: string;
                 declarationName: string;
                 range: [[number, number], [number, number]];
             }>;
             coverageData: Record<number, number>;
             sources: Record<string, string>;
             moduleHashes: Record<string, number>;
+            moduleNames: Record<string, string>;
             format: string;
         }
         

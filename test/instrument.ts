@@ -23,6 +23,7 @@ a =
                 [154242004, {
                     declarationName: 'a',
                     moduleName: 'A',
+                    moduleFilePath: 'A.elm',
                     range: [[5, 5], [5, 8]]
                 }]
             ]),
@@ -57,6 +58,7 @@ a =
                 [1762450980, {
                     declarationName: 'a',
                     moduleName: 'A.B.C',
+                    moduleFilePath: 'A/B/C.elm',
                     range: [[5, 5], [5, 8]]
                 }]
             ]),
@@ -104,6 +106,7 @@ a =
                 [154242004, {
                     declarationName: 'a',
                     moduleName: 'A',
+                    moduleFilePath: 'A.elm',
                     range: [[5, 5], [5, 8]]
                 }]
             ]),
@@ -140,6 +143,7 @@ a =
                 [154242004, {
                     declarationName: 'a',
                     moduleName: 'A',
+                    moduleFilePath: 'A.elm',
                     range: [[7, 5], [7, 8]]
                 }]
             ]),

@@ -44,6 +44,7 @@ a =
                         Dict.fromList
                             [ ( 154242004
                               , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 5 }, end = { row = 5, column = 8 } }
                                 }
@@ -80,6 +81,7 @@ a =
                         Dict.fromList
                             [ ( 1762450980
                               , { moduleName = "A.B.C"
+                                , moduleFilePath = "A/B/C.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 5 }, end = { row = 5, column = 8 } }
                                 }
@@ -116,6 +118,7 @@ a () =
                         Dict.fromList
                             [ ( 154242004
                               , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 5 }, end = { row = 5, column = 8 } }
                                 }
@@ -163,18 +166,21 @@ a =
                         Dict.fromList
                             [ ( 107558697
                               , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 5 }, end = { row = 5, column = 10 } }
                                 }
                               )
                             , ( 154242004
                               , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 5 }, end = { row = 5, column = 6 } }
                                 }
                               )
                             , ( 1751612961
                               , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 9 }, end = { row = 5, column = 10 } }
                                 }
@@ -239,30 +245,35 @@ a =
                         Dict.fromList
                             [ ( 107558697
                               , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 8 }, end = { row = 5, column = 21 } }
                                 }
                               )
                             , ( 154242004
                               , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 8 }, end = { row = 5, column = 12 } }
                                 }
                               )
                             , ( 434548591
                               , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 8, column = 9 }, end = { row = 8, column = 10 } }
                                 }
                               )
                             , ( 1751612961
                               , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 16 }, end = { row = 5, column = 21 } }
                                 }
                               )
                             , ( 1885435985
                               , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 6, column = 9 }, end = { row = 6, column = 10 } }
                                 }
@@ -322,24 +333,28 @@ a =
                         Dict.fromList
                             [ ( 107558697
                               , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 7, column = 14 }, end = { row = 7, column = 17 } }
                                 }
                               )
                             , ( 154242004
                               , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 10 }, end = { row = 5, column = 11 } }
                                 }
                               )
                             , ( 1751612961
                               , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 6, column = 14 }, end = { row = 6, column = 17 } }
                                 }
                               )
                             , ( 1885435985
                               , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 8, column = 15 }, end = { row = 8, column = 16 } }
                                 }
@@ -389,12 +404,14 @@ a =
                         Dict.fromList
                             [ ( 154242004
                               , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 5 }, end = { row = 5, column = 7 } }
                                 }
                               )
                             , ( 1751612961
                               , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
                                 , declarationName = "b"
                                 , range = { start = { row = 9, column = 5 }, end = { row = 9, column = 12 } }
                                 }

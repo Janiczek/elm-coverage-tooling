@@ -1,4 +1,4 @@
 Total: 56/59 (94.92%)
-Foo: 9/12 (75%)
-ProgramTests: 17/17 (100%)
-UnitTests: 30/30 (100%)
+src/Foo.elm: 9/12 (75%)
+tests-program/ProgramTests.elm: 17/17 (100%)
+tests-unit/UnitTests.elm: 30/30 (100%)

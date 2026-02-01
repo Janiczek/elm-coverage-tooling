@@ -18,12 +18,14 @@ export async function report(
     data: CoverageData,
     format: ReportFormat,
     sources: Map<string, string>,
-    moduleHashes: Map<string, number>
+    moduleHashes: Map<string, number>,
+    moduleNames: Map<string, string>
 ): Promise<Report> {
     const coverageMetadataRecord: Record<number, CoverageMetadata> = Object.fromEntries(metadata.entries());
     const coverageDataRecord: Record<number, number> = Object.fromEntries(data.entries());
     const sourcesRecord: Record<string, string> = Object.fromEntries(sources.entries());
     const moduleHashesRecord: Record<string, number> = Object.fromEntries(moduleHashes.entries());
+    const moduleNamesRecord: Record<string, string> = Object.fromEntries(moduleNames.entries());
 
     return new Promise((resolve, reject) => {
         const app = Elm.Main.init({
@@ -32,6 +34,7 @@ export async function report(
                 coverageData: coverageDataRecord,
                 sources: sourcesRecord,
                 moduleHashes: moduleHashesRecord,
+                moduleNames: moduleNamesRecord,
                 format: format
             }
         });

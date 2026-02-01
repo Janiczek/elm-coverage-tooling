@@ -82,9 +82,6 @@ addTestCoverageImport imports =
 
 instrumentDecl : Node Declaration -> InstrumentState -> InstrumentState
 instrumentDecl declNode acc =
-    -- TODO: all expressions have a region
-    -- TODO: if-expr branches have their own region
-    -- TODO: case-expr branches have their own region
     let
         declRange : Range
         declRange =
@@ -146,13 +143,8 @@ instrumentFnDecl fn declRange state =
 instrumentDestructuringDecl : Node Pattern -> Node Expression -> Range -> InstrumentState -> InstrumentState
 instrumentDestructuringDecl patternNode exprNode declRange state =
     let
-        declarationName : String
-        declarationName =
-            -- TODO maybe show the LHS instead here?
-            "_destructuring"
-
         ( instrumentedExpr, newState ) =
-            instrumentExpr exprNode declarationName state
+            instrumentExpr exprNode "_destructuring" state
 
         newDecl : Node Declaration
         newDecl =
@@ -224,9 +216,20 @@ instrumentExpr exprNode declarationName state =
                 ( pointId, newSeed ) =
                     Random.step PointId.generator stateAfterRecurse.seed
 
+                -- Convert module name dots to path slashes (e.g., "A.B.C" -> "A/B/C.elm")
+                -- Note: This doesn't include the source directory prefix, which will be added in TypeScript
+                moduleFilePath : String
+                moduleFilePath =
+                    (state.moduleName
+                        |> String.split "."
+                        |> String.join "/"
+                    )
+                        ++ ".elm"
+
                 metadata : PointMetadata
                 metadata =
                     { moduleName = state.moduleName
+                    , moduleFilePath = moduleFilePath
                     , declarationName = declarationName
                     , range = exprRange
                     }

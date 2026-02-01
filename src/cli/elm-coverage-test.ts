@@ -148,7 +148,12 @@ async function findElmFiles(dir: string): Promise<string[]> {
     return files;
 }
 
-async function instrumentFiles(elmFiles: string[]): Promise<{ 
+async function instrumentFiles(
+    elmFiles: string[],
+    projectDir: string,
+    sourceDirs: string[],
+    sourceDirNames: string[]
+): Promise<{ 
     coverageMetadata: CoverageMetadataMap, 
     instrumentedFiles: Map<string, string>,
     moduleMetadata: ModuleMetadata,
@@ -168,8 +173,22 @@ async function instrumentFiles(elmFiles: string[]): Promise<{
             process.exit(1);
         }
         
-        instrumentedFiles.set(filePath, output.instrumentedElmSourceCode);
-        coverageMetadatas.push(output.coverageMetadata);
+        // Calculate relative filepath (includes source directory)
+        const relativeFilePath = calculateRelativeFilePath(filePath, projectDir, sourceDirs, sourceDirNames);
+        
+        // Store instrumented code keyed by relative path for easier use in createTempProject
+        instrumentedFiles.set(relativeFilePath, output.instrumentedElmSourceCode);
+        
+        // Enrich coverage metadata with filepaths
+        const enrichedMetadata: CoverageMetadataMap = new Map();
+        for (const [pointId, meta] of output.coverageMetadata.entries()) {
+            enrichedMetadata.set(pointId, {
+                ...meta,
+                moduleFilePath: relativeFilePath
+            });
+        }
+        
+        coverageMetadatas.push(enrichedMetadata);
         moduleMetadata.set(filePath, output.contentHash);
         // Store original source code for later use in reporting
         originalSources.set(filePath, sourceCode);
@@ -185,7 +204,6 @@ async function createTempProject(
     instrumentedFiles: Map<string, string>,
     otherFiles: string[],
     originalElmJson: string,
-    originalSourceDirs: string[],
     projectDir: string
 ): Promise<void> {
     // Copy elm.json
@@ -203,38 +221,8 @@ async function createTempProject(
     
     const normalizedProjectRoot = resolve(projectDir).replace(/\\/g, '/');
     
-    // Copy instrumented source files
-    // TODO: would this be simpler if we tracked modules to instrument by their path and not the module name?
-    for (const [originalPath, instrumentedCode] of instrumentedFiles.entries()) {
-        // Find which source directory this file belongs to
-        let relativePath: string | null = null;
-        const normalizedOriginalPath = resolve(originalPath).replace(/\\/g, '/');
-        
-        for (const sourceDir of originalSourceDirs) {
-            const normalizedSourceDir = resolve(sourceDir).replace(/\\/g, '/');
-            if (normalizedOriginalPath.startsWith(normalizedSourceDir + '/') || normalizedOriginalPath === normalizedSourceDir) {
-                const fileRelativeToSource = normalizedOriginalPath.slice(normalizedSourceDir.length);
-                for (const sourceDirName of sourceDirs) {
-                    const normalizedSourceDirName = resolve(projectDir, sourceDirName).replace(/\\/g, '/');
-                    if (normalizedSourceDir === normalizedSourceDirName) {
-                        relativePath = sourceDirName + fileRelativeToSource;
-                        break;
-                    }
-                }
-                if (relativePath) break;
-            }
-        }
-        
-        // TODO: check if needed
-        // Fallback: use the file's directory structure relative to project root
-        if (!relativePath) {
-            if (normalizedOriginalPath.startsWith(normalizedProjectRoot + '/')) {
-                relativePath = normalizedOriginalPath.slice(normalizedProjectRoot.length + 1);
-            } else {
-                relativePath = basename(originalPath);
-            }
-        }
-        
+    // Copy instrumented source files (already keyed by relative path)
+    for (const [relativePath, instrumentedCode] of instrumentedFiles.entries()) {
         const targetPath = join(tempDir, relativePath);
         await mkdir(dirname(targetPath), { recursive: true });
         await writeFile(targetPath, instrumentedCode);
@@ -362,22 +350,50 @@ async function writeReport(reportFiles: Report, format: ReportFormat, output?: s
     }
 }
 
-async function readElmJson(projectDir: string): Promise<{ content: string; sourceDirs: string[] }> {
+async function readElmJson(projectDir: string): Promise<{ content: string; sourceDirs: string[]; sourceDirNames: string[] }> {
     const elmJsonPath = join(projectDir, 'elm.json');
     const content = await readFile(elmJsonPath, 'utf-8');
     const elmJson = JSON.parse(content);
     
-    const sourceDirs = elmJson['source-directories'] || ['src'];
-    const absoluteSourceDirs = sourceDirs.map((dir: string) => resolve(projectDir, dir));
+    const sourceDirNames = elmJson['source-directories'] || ['src'];
+    const absoluteSourceDirs = sourceDirNames.map((dir: string) => resolve(projectDir, dir));
     
-    return { content, sourceDirs: absoluteSourceDirs };
+    return { content, sourceDirs: absoluteSourceDirs, sourceDirNames };
 }
 
-function serializeCoverageMetadata(metadata: CoverageMetadataMap): Record<string, { moduleName: string; declarationName: string; range: [[number, number], [number, number]] }> {
-    const result: Record<string, { moduleName: string; declarationName: string; range: [[number, number], [number, number]] }> = {};
+function calculateRelativeFilePath(filePath: string, projectDir: string, sourceDirs: string[], sourceDirNames: string[]): string {
+    const normalizedProjectRoot = resolve(projectDir).replace(/\\/g, '/');
+    const normalizedOriginalPath = resolve(filePath).replace(/\\/g, '/');
+    const normalizedSourceDirs = sourceDirs.map(dir => resolve(dir).replace(/\\/g, '/'));
+    
+    // Try to find which source directory this file belongs to
+    for (let i = 0; i < normalizedSourceDirs.length; i++) {
+        const sourceDir = normalizedSourceDirs[i];
+        const sourceDirName = sourceDirNames[i];
+        
+        if (sourceDir && sourceDirName && (normalizedOriginalPath.startsWith(sourceDir + '/') || normalizedOriginalPath === sourceDir)) {
+            const fileRelativeToSource = normalizedOriginalPath.slice(sourceDir.length);
+            // Build path: sourceDirName + fileRelativeToSource
+            // Remove leading slash from fileRelativeToSource if present, add it if not
+            const relativePath = sourceDirName + (fileRelativeToSource.startsWith('/') ? fileRelativeToSource : '/' + fileRelativeToSource);
+            return relativePath.replace(/\\/g, '/');
+        }
+    }
+    
+    // Fallback: use the file's directory structure relative to project root
+    if (normalizedOriginalPath.startsWith(normalizedProjectRoot + '/')) {
+        return normalizedOriginalPath.slice(normalizedProjectRoot.length + 1).replace(/\\/g, '/');
+    } else {
+        return basename(filePath);
+    }
+}
+
+function serializeCoverageMetadata(metadata: CoverageMetadataMap): Record<string, { moduleName: string; moduleFilePath: string; declarationName: string; range: [[number, number], [number, number]] }> {
+    const result: Record<string, { moduleName: string; moduleFilePath: string; declarationName: string; range: [[number, number], [number, number]] }> = {};
     for (const [pointId, meta] of metadata.entries()) {
         result[pointId.toString()] = {
             moduleName: meta.moduleName,
+            moduleFilePath: meta.moduleFilePath,
             declarationName: meta.declarationName,
             range: meta.range,
         };
@@ -423,7 +439,7 @@ async function main() {
     // Clean up coverage-related files at the very beginning
     await cleanupCoverageFiles(projectDir);
     
-    const { content: elmJsonContent, sourceDirs } = await readElmJson(projectDir);
+    const { content: elmJsonContent, sourceDirs, sourceDirNames } = await readElmJson(projectDir);
     const allElmFiles = await findElmFiles(projectDir);
     
     // Separate source files (to instrument) from other files (to copy as-is, like tests)
@@ -443,13 +459,14 @@ async function main() {
         }
     }
     
-    const { coverageMetadata, instrumentedFiles, moduleMetadata, originalSources } = await instrumentFiles(sourceFiles);
+    const { coverageMetadata, instrumentedFiles, moduleMetadata, originalSources } = await instrumentFiles(sourceFiles, projectDir, sourceDirs, sourceDirNames);
     
-    // Collect original sources by module name (only from source files, not test files)
+    // Collect original sources by filepath (only from source files, not test files)
     // Use the same source code that was used for hash calculation to avoid hash mismatches
     // Extract module name from file content (first line: "module Module.Name exposing (...)")
-    const sourcesByModule = new Map<string, string>();
-    const moduleHashesByName = new Map<string, number>();
+    const sourcesByFilepath = new Map<string, string>();
+    const moduleHashesByFilepath = new Map<string, number>();
+    const moduleNamesByFilepath = new Map<string, string>(); // filepath -> moduleName
     for (const filePath of sourceFiles) {
         const sourceCode = originalSources.get(filePath);
         if (!sourceCode) {
@@ -459,6 +476,9 @@ async function main() {
         if (hash === undefined) {
             continue; // Should not happen, but skip if missing
         }
+        // Calculate relative filepath (includes source directory)
+        const relativeFilePath = calculateRelativeFilePath(filePath, projectDir, sourceDirs, sourceDirNames);
+        
         // Extract module name from the module declaration
         const lines = sourceCode.split('\n');
         for (const line of lines) {
@@ -467,8 +487,9 @@ async function main() {
                 const moduleMatch = trimmed.match(/^module\s+([A-Z][A-Za-z0-9_.]*)\s+exposing/);
                 if (moduleMatch && moduleMatch[1]) {
                     const moduleName = moduleMatch[1];
-                    sourcesByModule.set(moduleName, sourceCode);
-                    moduleHashesByName.set(moduleName, hash);
+                    sourcesByFilepath.set(relativeFilePath, sourceCode);
+                    moduleHashesByFilepath.set(relativeFilePath, hash);
+                    moduleNamesByFilepath.set(relativeFilePath, moduleName);
                     break;
                 }
             }
@@ -487,7 +508,7 @@ async function main() {
     }
     
     try {
-        await createTempProject(tempDir, instrumentedFiles, otherFiles, elmJsonContent, sourceDirs, projectDir);
+        await createTempProject(tempDir, instrumentedFiles, otherFiles, elmJsonContent, projectDir);
         const binDir = getBinDirectory();
         const compilerWrapper = join(binDir, 'elm-compiler-wrapper');
         const coverageData = await runElmTest(tempDir, args.runner, args.forwardedArgs, compilerWrapper);
@@ -500,7 +521,7 @@ async function main() {
             await writeFile(coveragePath, JSON.stringify(serializedData, null, 2));
         }
         
-        const reportContent = await report(coverageMetadata, coverageData, args.coverageFormat, sourcesByModule, moduleHashesByName);
+        const reportContent = await report(coverageMetadata, coverageData, args.coverageFormat, sourcesByFilepath, moduleHashesByFilepath, moduleNamesByFilepath);
         await writeReport(reportContent, args.coverageFormat, args.coverageOutput);
     } finally {
         // Only delete tempDir if --keep-instrumented-project is not set

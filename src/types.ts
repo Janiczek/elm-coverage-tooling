@@ -1,5 +1,6 @@
 export type CoverageMetadata = {
     moduleName: string;
+    moduleFilePath: string;
     declarationName: string;
     range: [[number, number], [number, number]];
 };

@@ -15,7 +15,7 @@ generate input =
         totalStats =
             List.foldl
                 (\moduleStat acc ->
-                    { moduleName = "Total"
+                    { moduleFilePath = "Total"
                     , totalPoints = acc.totalPoints + moduleStat.totalPoints
                     , coveredPoints = acc.coveredPoints + moduleStat.coveredPoints
                     , coveragePercentage =
@@ -25,7 +25,7 @@ generate input =
                             0
                     }
                 )
-                { moduleName = "Total"
+                { moduleFilePath = "Total"
                 , totalPoints = 0
                 , coveredPoints = 0
                 , coveragePercentage = 0
@@ -34,7 +34,7 @@ generate input =
 
         formatModuleStats : ModuleStats -> String
         formatModuleStats stats =
-            stats.moduleName
+            stats.moduleFilePath
                 ++ ": "
                 ++ String.fromInt stats.coveredPoints
                 ++ "/"

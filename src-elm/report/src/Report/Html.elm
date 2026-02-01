@@ -15,7 +15,7 @@ generate input =
         modules =
             Dict.foldl
                 (\pointId metadata acc ->
-                    Dict.update metadata.moduleName
+                    Dict.update metadata.moduleFilePath
                         (\maybeList ->
                             case maybeList of
                                 Nothing ->
@@ -32,7 +32,7 @@ generate input =
         moduleStats : List ModuleStats
         moduleStats =
             Dict.foldl
-                (\moduleName points acc ->
+                (\filepath points acc ->
                     let
                         ( totalPoints, coveredPoints ) =
                             List.foldl
@@ -62,7 +62,7 @@ generate input =
                             else
                                 0
                     in
-                    { moduleName = moduleName
+                    { moduleFilePath = filepath
                     , totalPoints = totalPoints
                     , coveredPoints = coveredPoints
                     , coveragePercentage = coveragePercentage
@@ -83,11 +83,11 @@ generate input =
                 input.sources
                 |>
             Dict.foldl
-                (\moduleName sourceCode acc ->
+                (\filepath sourceCode acc ->
                     let
                         modulePoints : List ( Int, PointMetadata )
                         modulePoints =
-                            Dict.get moduleName modules
+                            Dict.get filepath modules
                                 |> Maybe.withDefault []
 
                         regions : List Region
@@ -106,10 +106,14 @@ generate input =
                                 )
                                 modulePoints
 
+                        sanitizedFilePath : String
+                        sanitizedFilePath =
+                            sanitizeFilePathForHtml filepath
+
                         page : ReportFile
                         page =
-                            { filepath = moduleName ++ ".html"
-                            , contents = generateModulePage moduleName sourceCode regions
+                            { filepath = sanitizedFilePath ++ ".html"
+                            , contents = generateModulePage filepath sourceCode regions
                             }
                     in
                     page :: acc
@@ -119,6 +123,30 @@ generate input =
     { reports = indexPage :: modulePages }
 
 
+sanitizeFilePathForHtml : String -> String
+sanitizeFilePathForHtml filepath =
+    filepath
+        |> String.replace ".elm" ""
+
+
+relativePathToIndex : String -> String
+relativePathToIndex sanitizedFilePath =
+    let
+        directoryLevels : Int
+        directoryLevels =
+            sanitizedFilePath
+                |> String.split "/"
+                |> List.length
+                |> (\count -> count - 1)
+    in
+    if directoryLevels == 0 then
+        "index.html"
+
+    else
+        String.repeat directoryLevels "../"
+            ++ "index.html"
+
+
 generateIndexPage : List ModuleStats -> String
 generateIndexPage stats =
     let
@@ -126,10 +154,15 @@ generateIndexPage stats =
         rows =
             List.map
                 (\stat ->
+                    let
+                        sanitizedFilePath : String
+                        sanitizedFilePath =
+                            sanitizeFilePathForHtml stat.moduleFilePath
+                    in
                     Html.tr []
                         [ Html.td []
-                            [ Html.a [ Attr.href (stat.moduleName ++ ".html") ]
-                                [ Html.text stat.moduleName ]
+                            [ Html.a [ Attr.href (sanitizedFilePath ++ ".html") ]
+                                [ Html.text stat.moduleFilePath ]
                             ]
                         , Html.td []
                             [ Html.text
@@ -185,8 +218,16 @@ generateIndexPage stats =
 
 
 generateModulePage : String -> String -> List Region -> String
-generateModulePage moduleName sourceCode regions =
+generateModulePage moduleFilePath sourceCode regions =
     let
+        sanitizedFilePath : String
+        sanitizedFilePath =
+            sanitizeFilePathForHtml moduleFilePath
+
+        indexLinkPath : String
+        indexLinkPath =
+            relativePathToIndex sanitizedFilePath
+
         lines : List String
         lines =
             String.split "\n" sourceCode
@@ -253,9 +294,9 @@ generateModulePage moduleName sourceCode regions =
         bodyHtml : Html.Html msg
         bodyHtml =
             Html.div []
-                [ Html.h1 [] [ Html.text moduleName ]
+                [ Html.h1 [] [ Html.text moduleFilePath ]
                 , Html.p []
-                    [ Html.a [ Attr.href "index.html" ]
+                    [ Html.a [ Attr.href indexLinkPath ]
                         [ Html.text "← Back to index" ]
                     ]
                 , Html.table [] renderedLines
@@ -270,12 +311,12 @@ generateModulePage moduleName sourceCode regions =
 <head>
     <meta charset="UTF-8">
     <title>"""
-        ++ moduleName
+        ++ moduleFilePath
         ++ """ - Coverage Report</title>
     <style>
         body { font-family: sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
-        td { border: none; padding: 0; line-height: 1.2; }
+        td { border: none; padding: 0; line-height: 1.15; }
         tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
         .line-number { text-align: right; color: #666; user-select: none; }
         .covered { 

@@ -1,6 +1,6 @@
 Module,Covered,Total,Percentage
 Total,41,49,83.67
-Bar,5,10,50
-Foo,3,6,50
-IntegrationTests,16,16,100
-UnitTests,17,17,100
+lib/Bar.elm,5,10,50
+src/Foo.elm,3,6,50
+tests-integration/IntegrationTests.elm,16,16,100
+tests-unit/UnitTests.elm,17,17,100

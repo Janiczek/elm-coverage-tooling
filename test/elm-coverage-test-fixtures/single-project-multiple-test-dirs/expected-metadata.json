@@ -1,6 +1,7 @@
 {
   "6585537": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -15,6 +16,7 @@
   },
   "64100879": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -29,6 +31,7 @@
   },
   "72245905": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "subtract",
     "range": [
       [
@@ -43,6 +46,7 @@
   },
   "84941532": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -57,6 +61,7 @@
   },
   "90767125": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -71,6 +76,7 @@
   },
   "119922972": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -85,6 +91,7 @@
   },
   "123883773": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -99,6 +106,7 @@
   },
   "190348141": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -113,6 +121,7 @@
   },
   "200864303": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -127,6 +136,7 @@
   },
   "240111545": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -141,6 +151,7 @@
   },
   "243870970": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -155,6 +166,7 @@
   },
   "253452108": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "subtract",
     "range": [
       [
@@ -169,6 +181,7 @@
   },
   "255446140": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -183,6 +196,7 @@
   },
   "312029194": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "divide",
     "range": [
       [
@@ -197,6 +211,7 @@
   },
   "472339208": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "multiply",
     "range": [
       [
@@ -211,6 +226,7 @@
   },
   "473898408": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -225,6 +241,7 @@
   },
   "490593012": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -239,6 +256,7 @@
   },
   "500012567": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -253,6 +271,7 @@
   },
   "583025675": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "add",
     "range": [
       [
@@ -267,6 +286,7 @@
   },
   "669479839": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -281,6 +301,7 @@
   },
   "671696672": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -295,6 +316,7 @@
   },
   "728479469": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -309,6 +331,7 @@
   },
   "743576369": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -323,6 +346,7 @@
   },
   "765745190": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -337,6 +361,7 @@
   },
   "816178306": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -351,6 +376,7 @@
   },
   "872865296": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -365,6 +391,7 @@
   },
   "885362291": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -379,6 +406,7 @@
   },
   "943683072": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "subtract",
     "range": [
       [
@@ -393,6 +421,7 @@
   },
   "1001194990": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -407,6 +436,7 @@
   },
   "1014602865": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -421,6 +451,7 @@
   },
   "1199532509": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -435,6 +466,7 @@
   },
   "1209814976": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -449,6 +481,7 @@
   },
   "1216230753": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -463,6 +496,7 @@
   },
   "1229155813": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -477,6 +511,7 @@
   },
   "1267183074": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -491,6 +526,7 @@
   },
   "1310489672": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -505,6 +541,7 @@
   },
   "1326150844": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "divide",
     "range": [
       [
@@ -519,6 +556,7 @@
   },
   "1346846593": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -533,6 +571,7 @@
   },
   "1389335179": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "divide",
     "range": [
       [
@@ -547,6 +586,7 @@
   },
   "1437954710": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -561,6 +601,7 @@
   },
   "1475862815": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -575,6 +616,7 @@
   },
   "1486785218": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -589,6 +631,7 @@
   },
   "1500958693": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -603,6 +646,7 @@
   },
   "1529274156": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "multiply",
     "range": [
       [
@@ -617,6 +661,7 @@
   },
   "1543203695": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "multiply",
     "range": [
       [
@@ -631,6 +676,7 @@
   },
   "1568525173": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "add",
     "range": [
       [
@@ -645,6 +691,7 @@
   },
   "1616267393": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -659,6 +706,7 @@
   },
   "1664332956": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -673,6 +721,7 @@
   },
   "1747012000": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -687,6 +736,7 @@
   },
   "1770131270": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -701,6 +751,7 @@
   },
   "1828801268": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -715,6 +766,7 @@
   },
   "1909674311": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -729,6 +781,7 @@
   },
   "1956108682": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -743,6 +796,7 @@
   },
   "1978494039": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -757,6 +811,7 @@
   },
   "1979884200": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -771,6 +826,7 @@
   },
   "2010455107": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "add",
     "range": [
       [
@@ -785,6 +841,7 @@
   },
   "2056577066": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -799,6 +856,7 @@
   },
   "2095761139": {
     "moduleName": "ProgramTests",
+    "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -813,6 +871,7 @@
   },
   "2122700730": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [

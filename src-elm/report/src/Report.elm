@@ -2,15 +2,38 @@ module Report exposing (Input, ModuleStats, ReportFile, calculateModuleStats)
 
 import Dict exposing (Dict)
 import List
+import PointId exposing (PointId)
 import PointMetadata exposing (PointMetadata)
 import Range exposing (Range)
 
 
+type alias ModuleName =
+    String
+
+
+type alias SourceCode =
+    String
+
+
+type alias ExecutionCount =
+    Int
+
+
+type alias ContentHash =
+    Int
+
+
+type alias Filepath =
+    String
+
+    
+
 type alias Input =
-    { coverageMetadata : Dict Int PointMetadata
-    , coverageData : Dict Int Int
-    , sources : Dict String String
-    , moduleHashes : Dict String Int
+    { coverageMetadata : Dict PointId PointMetadata
+    , coverageData : Dict PointId ExecutionCount
+    , sources : Dict Filepath SourceCode
+    , moduleHashes : Dict Filepath ContentHash
+    , moduleNames : Dict Filepath ModuleName
     , format : String
     }
 
@@ -22,7 +45,7 @@ type alias ReportFile =
 
 
 type alias ModuleStats =
-    { moduleName : String
+    { moduleFilePath : String
     , totalPoints : Int
     , coveredPoints : Int
     , coveragePercentage : Float
@@ -32,11 +55,11 @@ type alias ModuleStats =
 calculateModuleStats : Input -> List ModuleStats
 calculateModuleStats input =
     let
-        pointsByModule : Dict String (List Int)
-        pointsByModule =
+        pointsByFilepath : Dict Filepath (List PointId)
+        pointsByFilepath =
             Dict.foldl
                 (\pointId metadata acc ->
-                    Dict.update metadata.moduleName
+                    Dict.update metadata.moduleFilePath
                         (\maybePoints ->
                             case maybePoints of
                                 Nothing ->
@@ -52,9 +75,9 @@ calculateModuleStats input =
 
         moduleStatsList : List ModuleStats
         moduleStatsList =
-            Dict.toList pointsByModule
+            Dict.toList pointsByFilepath
                 |> List.map
-                    (\( modName, pointIds ) ->
+                    (\( filepath, pointIds ) ->
                         let
                             totalPoints : Int
                             totalPoints =
@@ -78,12 +101,12 @@ calculateModuleStats input =
                                 else
                                     0
                         in
-                        { moduleName = modName
+                        { moduleFilePath = filepath
                         , totalPoints = totalPoints
                         , coveredPoints = coveredPoints
                         , coveragePercentage = coveragePercentage
                         }
                     )
-                |> List.sortBy .moduleName
+                |> List.sortBy .moduleFilePath
     in
     moduleStatsList

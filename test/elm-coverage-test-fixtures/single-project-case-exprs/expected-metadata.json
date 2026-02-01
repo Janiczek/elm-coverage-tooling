@@ -1,6 +1,7 @@
 {
   "31833927": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "nestedCase",
     "range": [
       [
@@ -15,6 +16,7 @@
   },
   "45664826": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "nestedCase",
     "range": [
       [
@@ -29,6 +31,7 @@
   },
   "140423761": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "nestedCase",
     "range": [
       [
@@ -43,6 +46,7 @@
   },
   "217307923": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "partiallyCoveredCase",
     "range": [
       [
@@ -57,6 +61,7 @@
   },
   "261017194": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "nestedCase",
     "range": [
       [
@@ -71,6 +76,7 @@
   },
   "285136691": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "threeBranches",
     "range": [
       [
@@ -85,6 +91,7 @@
   },
   "293209453": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "threeBranches",
     "range": [
       [
@@ -99,6 +106,7 @@
   },
   "339233744": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "fourBranches",
     "range": [
       [
@@ -113,6 +121,7 @@
   },
   "390890205": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "threeBranches",
     "range": [
       [
@@ -127,6 +136,7 @@
   },
   "461394542": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "nestedCase",
     "range": [
       [
@@ -141,6 +151,7 @@
   },
   "508839993": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "nestedCase",
     "range": [
       [
@@ -155,6 +166,7 @@
   },
   "556273188": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "threeBranches",
     "range": [
       [
@@ -169,6 +181,7 @@
   },
   "562876422": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "threeBranches",
     "range": [
       [
@@ -183,6 +196,7 @@
   },
   "580816458": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "nestedCase",
     "range": [
       [
@@ -197,6 +211,7 @@
   },
   "615386194": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "threeBranches",
     "range": [
       [
@@ -211,6 +226,7 @@
   },
   "655176028": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "nestedCase",
     "range": [
       [
@@ -225,6 +241,7 @@
   },
   "766807862": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "twoBranches",
     "range": [
       [
@@ -239,6 +256,7 @@
   },
   "785991995": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "twoBranches",
     "range": [
       [
@@ -253,6 +271,7 @@
   },
   "804279791": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "partiallyCoveredCase",
     "range": [
       [
@@ -267,6 +286,7 @@
   },
   "863056653": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "nestedCase",
     "range": [
       [
@@ -281,6 +301,7 @@
   },
   "1040261944": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "partiallyCoveredCase",
     "range": [
       [
@@ -295,6 +316,7 @@
   },
   "1058150396": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "partiallyCoveredCase",
     "range": [
       [
@@ -309,6 +331,7 @@
   },
   "1074704768": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "nestedCase",
     "range": [
       [
@@ -323,6 +346,7 @@
   },
   "1090456675": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "fourBranches",
     "range": [
       [
@@ -337,6 +361,7 @@
   },
   "1140788623": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "twoBranches",
     "range": [
       [
@@ -351,6 +376,7 @@
   },
   "1247320122": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "twoBranches",
     "range": [
       [
@@ -365,6 +391,7 @@
   },
   "1387756282": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "partiallyCoveredCase",
     "range": [
       [
@@ -379,6 +406,7 @@
   },
   "1389476683": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "fourBranches",
     "range": [
       [
@@ -393,6 +421,7 @@
   },
   "1401696974": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "partiallyCoveredCase",
     "range": [
       [
@@ -407,6 +436,7 @@
   },
   "1428362492": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "threeBranches",
     "range": [
       [
@@ -421,6 +451,7 @@
   },
   "1450626265": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "threeBranches",
     "range": [
       [
@@ -435,6 +466,7 @@
   },
   "1514252073": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "fourBranches",
     "range": [
       [
@@ -449,6 +481,7 @@
   },
   "1681273200": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "threeBranches",
     "range": [
       [
@@ -463,6 +496,7 @@
   },
   "1706182870": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "twoBranches",
     "range": [
       [
@@ -477,6 +511,7 @@
   },
   "1721362682": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "threeBranches",
     "range": [
       [
@@ -491,6 +526,7 @@
   },
   "1815964016": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "nestedCase",
     "range": [
       [
@@ -505,6 +541,7 @@
   },
   "2007663582": {
     "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "fourBranches",
     "range": [
       [

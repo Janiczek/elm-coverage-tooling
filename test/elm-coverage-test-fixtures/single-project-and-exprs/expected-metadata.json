@@ -1,6 +1,7 @@
 {
   "19184164": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "threeAnd",
     "range": [
       [
@@ -15,6 +16,7 @@
   },
   "130830751": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "fourAnd",
     "range": [
       [
@@ -29,6 +31,7 @@
   },
   "166758503": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "fourAnd",
     "range": [
       [
@@ -43,6 +46,7 @@
   },
   "229768502": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "threeAnd",
     "range": [
       [
@@ -57,6 +61,7 @@
   },
   "264149502": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "threeAnd",
     "range": [
       [
@@ -71,6 +76,7 @@
   },
   "276167681": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "nestedAnd",
     "range": [
       [
@@ -85,6 +91,7 @@
   },
   "293159333": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "threeAnd",
     "range": [
       [
@@ -99,6 +106,7 @@
   },
   "363207446": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "nestedAnd",
     "range": [
       [
@@ -113,6 +121,7 @@
   },
   "433560039": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "nestedAnd",
     "range": [
       [
@@ -127,6 +136,7 @@
   },
   "529787006": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "twoAnd",
     "range": [
       [
@@ -141,6 +151,7 @@
   },
   "887363475": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "fourAnd",
     "range": [
       [
@@ -155,6 +166,7 @@
   },
   "1125738572": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "fourAnd",
     "range": [
       [
@@ -169,6 +181,7 @@
   },
   "1126650764": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "fourAnd",
     "range": [
       [
@@ -183,6 +196,7 @@
   },
   "1210511552": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "partiallyCoveredAnd",
     "range": [
       [
@@ -197,6 +211,7 @@
   },
   "1251956874": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "twoAnd",
     "range": [
       [
@@ -211,6 +226,7 @@
   },
   "1329744125": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "fourAnd",
     "range": [
       [
@@ -225,6 +241,7 @@
   },
   "1354194418": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "nestedAnd",
     "range": [
       [
@@ -239,6 +256,7 @@
   },
   "1439603479": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "nestedAnd",
     "range": [
       [
@@ -253,6 +271,7 @@
   },
   "1445186520": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "partiallyCoveredAnd",
     "range": [
       [
@@ -267,6 +286,7 @@
   },
   "1478858240": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "twoAnd",
     "range": [
       [
@@ -281,6 +301,7 @@
   },
   "1480054016": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "partiallyCoveredAnd",
     "range": [
       [
@@ -295,6 +316,7 @@
   },
   "1544038064": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "partiallyCoveredAnd",
     "range": [
       [
@@ -309,6 +331,7 @@
   },
   "1638831174": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "nestedAnd",
     "range": [
       [
@@ -323,6 +346,7 @@
   },
   "1725827995": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "threeAnd",
     "range": [
       [
@@ -337,6 +361,7 @@
   },
   "1808057903": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "nestedAnd",
     "range": [
       [
@@ -351,6 +376,7 @@
   },
   "1835917685": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "nestedAnd",
     "range": [
       [
@@ -365,6 +391,7 @@
   },
   "1871913534": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "fourAnd",
     "range": [
       [
@@ -379,6 +406,7 @@
   },
   "1901138949": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "nestedAnd",
     "range": [
       [
@@ -393,6 +421,7 @@
   },
   "1936701389": {
     "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "partiallyCoveredAnd",
     "range": [
       [

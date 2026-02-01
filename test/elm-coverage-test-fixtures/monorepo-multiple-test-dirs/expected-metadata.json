@@ -1,6 +1,7 @@
 {
   "33765320": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "farewell",
     "range": [
       [
@@ -15,6 +16,7 @@
   },
   "42993546": {
     "moduleName": "IntegrationTests",
+    "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -29,6 +31,7 @@
   },
   "64100879": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -43,6 +46,7 @@
   },
   "84941532": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -57,6 +61,7 @@
   },
   "90767125": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -71,6 +76,7 @@
   },
   "106420825": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "farewell",
     "range": [
       [
@@ -85,6 +91,7 @@
   },
   "200864303": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -99,6 +106,7 @@
   },
   "240111545": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -113,6 +121,7 @@
   },
   "287637700": {
     "moduleName": "IntegrationTests",
+    "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -127,6 +136,7 @@
   },
   "398129630": {
     "moduleName": "IntegrationTests",
+    "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -141,6 +151,7 @@
   },
   "472339208": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "subtract",
     "range": [
       [
@@ -155,6 +166,7 @@
   },
   "473628016": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "farewell",
     "range": [
       [
@@ -169,6 +181,7 @@
   },
   "490593012": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -183,6 +196,7 @@
   },
   "500012567": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -197,6 +211,7 @@
   },
   "583025675": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "add",
     "range": [
       [
@@ -211,6 +226,7 @@
   },
   "651850139": {
     "moduleName": "IntegrationTests",
+    "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -225,6 +241,7 @@
   },
   "731565934": {
     "moduleName": "IntegrationTests",
+    "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -239,6 +256,7 @@
   },
   "743576369": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -253,6 +271,7 @@
   },
   "786744427": {
     "moduleName": "IntegrationTests",
+    "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -267,6 +286,7 @@
   },
   "872865296": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -281,6 +301,7 @@
   },
   "915305882": {
     "moduleName": "IntegrationTests",
+    "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -295,6 +316,7 @@
   },
   "1014602865": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -309,6 +331,7 @@
   },
   "1054626379": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "greet",
     "range": [
       [
@@ -323,6 +346,7 @@
   },
   "1155629139": {
     "moduleName": "IntegrationTests",
+    "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -337,6 +361,7 @@
   },
   "1199532509": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -351,6 +376,7 @@
   },
   "1216230753": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -365,6 +391,7 @@
   },
   "1246225193": {
     "moduleName": "IntegrationTests",
+    "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -379,6 +406,7 @@
   },
   "1252470794": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "greet",
     "range": [
       [
@@ -393,6 +421,7 @@
   },
   "1273732911": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "farewell",
     "range": [
       [
@@ -407,6 +436,7 @@
   },
   "1284326578": {
     "moduleName": "IntegrationTests",
+    "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -421,6 +451,7 @@
   },
   "1295767476": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "greet",
     "range": [
       [
@@ -435,6 +466,7 @@
   },
   "1323402811": {
     "moduleName": "IntegrationTests",
+    "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -449,6 +481,7 @@
   },
   "1331104317": {
     "moduleName": "IntegrationTests",
+    "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -463,6 +496,7 @@
   },
   "1437954710": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -477,6 +511,7 @@
   },
   "1486785218": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -491,6 +526,7 @@
   },
   "1522327402": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "farewell",
     "range": [
       [
@@ -505,6 +541,7 @@
   },
   "1529274156": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "subtract",
     "range": [
       [
@@ -519,6 +556,7 @@
   },
   "1543203695": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "subtract",
     "range": [
       [
@@ -533,6 +571,7 @@
   },
   "1568525173": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "add",
     "range": [
       [
@@ -547,6 +586,7 @@
   },
   "1678291280": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "greet",
     "range": [
       [
@@ -561,6 +601,7 @@
   },
   "1770131270": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -575,6 +616,7 @@
   },
   "1860925883": {
     "moduleName": "IntegrationTests",
+    "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -589,6 +631,7 @@
   },
   "1871036766": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "greet",
     "range": [
       [
@@ -603,6 +646,7 @@
   },
   "1900956245": {
     "moduleName": "IntegrationTests",
+    "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -617,6 +661,7 @@
   },
   "1909674311": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -631,6 +676,7 @@
   },
   "1956108682": {
     "moduleName": "UnitTests",
+    "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -645,6 +691,7 @@
   },
   "1957654050": {
     "moduleName": "IntegrationTests",
+    "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -659,6 +706,7 @@
   },
   "1977586647": {
     "moduleName": "IntegrationTests",
+    "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
@@ -673,6 +721,7 @@
   },
   "2010455107": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "add",
     "range": [
       [

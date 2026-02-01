@@ -1,6 +1,7 @@
 {
   "228959606": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "nestedIfs",
     "range": [
       [
@@ -15,6 +16,7 @@
   },
   "238562744": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "partiallyCoveredIf",
     "range": [
       [
@@ -29,6 +31,7 @@
   },
   "317346315": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "singleIf",
     "range": [
       [
@@ -43,6 +46,7 @@
   },
   "363063370": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "complexIf",
     "range": [
       [
@@ -57,6 +61,7 @@
   },
   "417254371": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "nestedIfs",
     "range": [
       [
@@ -71,6 +76,7 @@
   },
   "478776050": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "complexIf",
     "range": [
       [
@@ -85,6 +91,7 @@
   },
   "533113279": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "nestedIfs",
     "range": [
       [
@@ -99,6 +106,7 @@
   },
   "646224474": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "partiallyCoveredIf",
     "range": [
       [
@@ -113,6 +121,7 @@
   },
   "723831276": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "complexIf",
     "range": [
       [
@@ -127,6 +136,7 @@
   },
   "742339696": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "nestedIfs",
     "range": [
       [
@@ -141,6 +151,7 @@
   },
   "909342744": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "nestedIfs",
     "range": [
       [
@@ -155,6 +166,7 @@
   },
   "923162716": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "complexIf",
     "range": [
       [
@@ -169,6 +181,7 @@
   },
   "937987871": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "nestedIfs",
     "range": [
       [
@@ -183,6 +196,7 @@
   },
   "972215207": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "nestedIfs",
     "range": [
       [
@@ -197,6 +211,7 @@
   },
   "1016519538": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "complexIf",
     "range": [
       [
@@ -211,6 +226,7 @@
   },
   "1098004037": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "complexIf",
     "range": [
       [
@@ -225,6 +241,7 @@
   },
   "1192872092": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "complexIf",
     "range": [
       [
@@ -239,6 +256,7 @@
   },
   "1220395682": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "nestedIfs",
     "range": [
       [
@@ -253,6 +271,7 @@
   },
   "1313964057": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "partiallyCoveredIf",
     "range": [
       [
@@ -267,6 +286,7 @@
   },
   "1348247873": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "partiallyCoveredIf",
     "range": [
       [
@@ -281,6 +301,7 @@
   },
   "1434335125": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "complexIf",
     "range": [
       [
@@ -295,6 +316,7 @@
   },
   "1507517779": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "singleIf",
     "range": [
       [
@@ -309,6 +331,7 @@
   },
   "1605425470": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "singleIf",
     "range": [
       [
@@ -323,6 +346,7 @@
   },
   "1650503881": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "complexIf",
     "range": [
       [
@@ -337,6 +361,7 @@
   },
   "1663934988": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "nestedIfs",
     "range": [
       [
@@ -351,6 +376,7 @@
   },
   "1691405907": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "complexIf",
     "range": [
       [
@@ -365,6 +391,7 @@
   },
   "1792477483": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "singleIf",
     "range": [
       [
@@ -379,6 +406,7 @@
   },
   "1859779131": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "nestedIfs",
     "range": [
       [
@@ -393,6 +421,7 @@
   },
   "1946860432": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "nestedIfs",
     "range": [
       [
@@ -407,6 +436,7 @@
   },
   "1989747802": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "complexIf",
     "range": [
       [
@@ -421,6 +451,7 @@
   },
   "1999981276": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "complexIf",
     "range": [
       [
@@ -435,6 +466,7 @@
   },
   "2013356303": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "nestedIfs",
     "range": [
       [
@@ -449,6 +481,7 @@
   },
   "2073228654": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "complexIf",
     "range": [
       [
@@ -463,6 +496,7 @@
   },
   "2079073711": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "partiallyCoveredIf",
     "range": [
       [
@@ -477,6 +511,7 @@
   },
   "2112286391": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "nestedIfs",
     "range": [
       [
@@ -491,6 +526,7 @@
   },
   "2138834269": {
     "moduleName": "IfExprs",
+    "moduleFilePath": "src/IfExprs.elm",
     "declarationName": "singleIf",
     "range": [
       [

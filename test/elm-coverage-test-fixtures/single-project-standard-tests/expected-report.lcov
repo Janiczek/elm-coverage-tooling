@@ -1,1 +1,7 @@
-TODO: Implement LCOV format
+SF:src/Foo.elm
+DA:5,1
+DA:9,1
+DA:13,0
+LH:2
+LF:3
+end_of_record

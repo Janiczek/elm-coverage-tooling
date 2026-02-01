@@ -1,6 +1,7 @@
 {
   "33765320": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "farewell",
     "range": [
       [
@@ -15,6 +16,7 @@
   },
   "72245905": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "subtract",
     "range": [
       [
@@ -29,6 +31,7 @@
   },
   "106420825": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "farewell",
     "range": [
       [
@@ -43,6 +46,7 @@
   },
   "215408563": {
     "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
     "range": [
       [
@@ -57,6 +61,7 @@
   },
   "245304994": {
     "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
     "range": [
       [
@@ -71,6 +76,7 @@
   },
   "253452108": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "subtract",
     "range": [
       [
@@ -85,6 +91,7 @@
   },
   "389929308": {
     "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
     "range": [
       [
@@ -99,6 +106,7 @@
   },
   "440883689": {
     "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
     "range": [
       [
@@ -113,6 +121,7 @@
   },
   "472339208": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "multiply",
     "range": [
       [
@@ -127,6 +136,7 @@
   },
   "473628016": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "farewell",
     "range": [
       [
@@ -141,6 +151,7 @@
   },
   "474255985": {
     "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
     "range": [
       [
@@ -155,6 +166,7 @@
   },
   "559053829": {
     "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
     "range": [
       [
@@ -169,6 +181,7 @@
   },
   "573104768": {
     "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
     "range": [
       [
@@ -183,6 +196,7 @@
   },
   "583025675": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "add",
     "range": [
       [
@@ -197,6 +211,7 @@
   },
   "672707492": {
     "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
     "range": [
       [
@@ -211,6 +226,7 @@
   },
   "943683072": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "subtract",
     "range": [
       [
@@ -225,6 +241,7 @@
   },
   "1054626379": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "greet",
     "range": [
       [
@@ -239,6 +256,7 @@
   },
   "1225564788": {
     "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
     "range": [
       [
@@ -253,6 +271,7 @@
   },
   "1252470794": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "greet",
     "range": [
       [
@@ -267,6 +286,7 @@
   },
   "1273732911": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "farewell",
     "range": [
       [
@@ -281,6 +301,7 @@
   },
   "1295767476": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "greet",
     "range": [
       [
@@ -295,6 +316,7 @@
   },
   "1522327402": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "farewell",
     "range": [
       [
@@ -309,6 +331,7 @@
   },
   "1529274156": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "multiply",
     "range": [
       [
@@ -323,6 +346,7 @@
   },
   "1543203695": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "multiply",
     "range": [
       [
@@ -337,6 +361,7 @@
   },
   "1568525173": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "add",
     "range": [
       [
@@ -351,6 +376,7 @@
   },
   "1678291280": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "greet",
     "range": [
       [
@@ -365,6 +391,7 @@
   },
   "1766750197": {
     "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
     "range": [
       [
@@ -379,6 +406,7 @@
   },
   "1862290972": {
     "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
     "range": [
       [
@@ -393,6 +421,7 @@
   },
   "1871036766": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "greet",
     "range": [
       [
@@ -407,6 +436,7 @@
   },
   "2010455107": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "add",
     "range": [
       [
@@ -421,6 +451,7 @@
   },
   "2042476985": {
     "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
     "range": [
       [
@@ -435,6 +466,7 @@
   },
   "2100962292": {
     "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
     "range": [
       [

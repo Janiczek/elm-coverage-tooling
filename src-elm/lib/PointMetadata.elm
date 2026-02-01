@@ -7,6 +7,7 @@ import Range exposing (Range)
 
 type alias PointMetadata =
     { moduleName : String
+    , moduleFilePath : String
     , declarationName : String
     , range : Range
     }
@@ -16,6 +17,7 @@ encode : PointMetadata -> Json.Encode.Value
 encode metadata =
     Json.Encode.object
         [ ( "moduleName", Json.Encode.string metadata.moduleName )
+        , ( "moduleFilePath", Json.Encode.string metadata.moduleFilePath )
         , ( "declarationName", Json.Encode.string metadata.declarationName )
         , ( "range", Range.encodeRange metadata.range )
         ]
@@ -23,7 +25,8 @@ encode metadata =
 
 decode : Decoder PointMetadata
 decode =
-    Decode.map3 PointMetadata
+    Decode.map4 PointMetadata
         (Decode.field "moduleName" Decode.string)
+        (Decode.field "moduleFilePath" Decode.string)
         (Decode.field "declarationName" Decode.string)
         (Decode.field "range" Range.decodeRange)

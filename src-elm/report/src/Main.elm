@@ -21,6 +21,7 @@ type alias Input =
     , coverageData : Dict Int Int
     , sources : Dict String String
     , moduleHashes : Dict String Int
+    , moduleNames : Dict String String
     , format : String
     }
 
@@ -51,11 +52,12 @@ main =
 
 flagsDecoder : Decoder Input
 flagsDecoder =
-    Decode.map5 Input
+    Decode.map6 Input
         (Decode.field "coverageMetadata" (dictIntKeysDecoder PointMetadata.decode))
         (Decode.field "coverageData" (dictIntKeysDecoder Decode.int))
         (Decode.field "sources" (Decode.dict Decode.string))
         (Decode.field "moduleHashes" (Decode.dict Decode.int))
+        (Decode.field "moduleNames" (Decode.dict Decode.string))
         (Decode.field "format" Decode.string)
 
 
@@ -80,10 +82,10 @@ work input =
         hashMismatches : List String
         hashMismatches =
             Dict.foldl
-                (\moduleName sourceCode acc ->
-                    case Dict.get moduleName input.moduleHashes of
+                (\filepath sourceCode acc ->
+                    case Dict.get filepath input.moduleHashes of
                         Nothing ->
-                            moduleName :: acc
+                            filepath :: acc
 
                         Just expectedHash ->
                             let
@@ -95,7 +97,7 @@ work input =
                                 acc
 
                             else
-                                moduleName :: acc
+                                filepath :: acc
                 )
                 []
                 input.sources
@@ -121,7 +123,7 @@ work input =
                 Err ("Unsupported format: " ++ input.format)
 
     else
-        Err ("Content hash mismatch for modules: " ++ String.join ", " hashMismatches)
+        Err ("Content hash mismatch for files: " ++ String.join ", " hashMismatches)
 
 
 encodeOutput : Output -> Json.Encode.Value

@@ -1,6 +1,7 @@
 {
   "583025675": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "add",
     "range": [
       [
@@ -15,6 +16,7 @@
   },
   "1054626379": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "greet",
     "range": [
       [
@@ -29,6 +31,7 @@
   },
   "1252470794": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "greet",
     "range": [
       [
@@ -43,6 +46,7 @@
   },
   "1295767476": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "greet",
     "range": [
       [
@@ -57,6 +61,7 @@
   },
   "1568525173": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "add",
     "range": [
       [
@@ -71,6 +76,7 @@
   },
   "1678291280": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "greet",
     "range": [
       [
@@ -85,6 +91,7 @@
   },
   "1871036766": {
     "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
     "declarationName": "greet",
     "range": [
       [
@@ -99,6 +106,7 @@
   },
   "2010455107": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "add",
     "range": [
       [

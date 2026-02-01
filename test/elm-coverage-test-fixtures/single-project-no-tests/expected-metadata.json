@@ -1,6 +1,7 @@
 {
   "472339208": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "subtract",
     "range": [
       [
@@ -15,6 +16,7 @@
   },
   "583025675": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "add",
     "range": [
       [
@@ -29,6 +31,7 @@
   },
   "1529274156": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "subtract",
     "range": [
       [
@@ -43,6 +46,7 @@
   },
   "1543203695": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "subtract",
     "range": [
       [
@@ -57,6 +61,7 @@
   },
   "1568525173": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "add",
     "range": [
       [
@@ -71,6 +76,7 @@
   },
   "2010455107": {
     "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
     "declarationName": "add",
     "range": [
       [

@@ -58,23 +58,26 @@ suite =
                          Dict.fromList
                              [ ( 1
                                , { moduleName = "A"
+                                 , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
                                  }
                                )
                              , ( 2
                                , { moduleName = "A"
+                                 , moduleFilePath = "src/A.elm"
                                  , declarationName = "b"
                                  , range = { start = { row = 2, column = 1 }, end = { row = 2, column = 5 } }
                                  }
                                )
                              ]
                      , coverageData = Dict.fromList [ ( 1, 1 ), ( 2, 0 ) ]
-                     , sources = Dict.fromList [ ( "A", "module A" ) ]
+                     , sources = Dict.fromList [ ( "src/A.elm", "module A" ) ]
                      , moduleHashes =
                          Dict.fromList
-                             [ ( "A", FNV1a.hash "module A" )
+                             [ ( "src/A.elm", FNV1a.hash "module A" )
                              ]
+                     , moduleNames = Dict.fromList [ ( "src/A.elm", "A" ) ]
                      , format = "plaintext"
                      }
                 , output =
@@ -82,7 +85,7 @@ suite =
                          { reports =
                              [ { filepath = "coverage.txt"
                                , contents = """Total: 1/2 (50%)
-A: 1/2 (50%)"""
+src/A.elm: 1/2 (50%)"""
                                }
                              ]
                          }
@@ -93,19 +96,21 @@ A: 1/2 (50%)"""
                          Dict.fromList
                              [ ( 1
                                , { moduleName = "A"
+                                 , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
                                  }
                                )
                              ]
                      , coverageData = Dict.fromList [ ( 1, 1 ) ]
-                     , sources = Dict.fromList [ ( "A", """module A
+                     , sources = Dict.fromList [ ( "src/A.elm", """module A
 a = 1""" ) ]
                      , moduleHashes =
                          Dict.fromList
-                             [ ( "A", FNV1a.hash """module A
+                             [ ( "src/A.elm", FNV1a.hash """module A
 a = 1""" )
                              ]
+                     , moduleNames = Dict.fromList [ ( "src/A.elm", "A" ) ]
                      , format = "html"
                      }
                 , output =
@@ -126,19 +131,19 @@ a = 1""" )
         a:hover { text-decoration: underline; }
     </style>
 </head>
-<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Coverage</th></tr></thead><tbody><tr><td><a href="A.html">A</a></td><td>1 / 1 (100%)</td></tr></tbody></table></div>
+<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Coverage</th></tr></thead><tbody><tr><td><a href="src/A.html">src/A.elm</a></td><td>1 / 1 (100%)</td></tr></tbody></table></div>
 </html>"""
                                }
-                             , { filepath = "A.html"
+                             , { filepath = "src/A.html"
                                , contents = """<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>A - Coverage Report</title>
+    <title>src/A.elm - Coverage Report</title>
     <style>
         body { font-family: sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
-        td { border: none; padding: 0; line-height: 1.2; }
+        td { border: none; padding: 0; line-height: 1.15; }
         tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
         .line-number { text-align: right; color: #666; user-select: none; }
         .covered { 
@@ -189,7 +194,7 @@ a = 1""" )
         }
     </style>
 </head>
-<div><h1>A</h1><p><a href="index.html">← Back to index</a></p><table><tr><td>1</td><td><pre><span><span class="covered">modul<span class="tooltip">1x</span></span><span class="no-coverage">e A</span></span></pre></td></tr><tr><td>2</td><td><pre>a = 1</pre></td></tr></table></div>
+<div><h1>src/A.elm</h1><p><a href="../index.html">← Back to index</a></p><table><tr><td>1</td><td><pre><span><span class="covered">modul<span class="tooltip">1x</span></span><span class="no-coverage">e A</span></span></pre></td></tr><tr><td>2</td><td><pre>a = 1</pre></td></tr></table></div>
 </html>"""
                                }
                              ]
@@ -201,27 +206,30 @@ a = 1""" )
                          Dict.fromList
                              [ ( 1
                                , { moduleName = "A"
+                                 , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 2, column = 1 }, end = { row = 2, column = 5 } }
                                  }
                                )
                              , ( 2
                                , { moduleName = "A"
+                                 , moduleFilePath = "src/A.elm"
                                  , declarationName = "b"
                                  , range = { start = { row = 3, column = 1 }, end = { row = 3, column = 5 } }
                                  }
                                )
                              ]
                      , coverageData = Dict.fromList [ ( 1, 5 ), ( 2, 0 ) ]
-                     , sources = Dict.fromList [ ( "A", """module A
+                     , sources = Dict.fromList [ ( "src/A.elm", """module A
 a = 1
 b = 2""" ) ]
                      , moduleHashes =
                          Dict.fromList
-                             [ ( "A", FNV1a.hash """module A
+                             [ ( "src/A.elm", FNV1a.hash """module A
 a = 1
 b = 2""" )
                              ]
+                     , moduleNames = Dict.fromList [ ( "src/A.elm", "A" ) ]
                      , format = "html"
                      }
                 , output =
@@ -242,19 +250,19 @@ b = 2""" )
         a:hover { text-decoration: underline; }
     </style>
 </head>
-<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Coverage</th></tr></thead><tbody><tr><td><a href="A.html">A</a></td><td>1 / 2 (50%)</td></tr></tbody></table></div>
+<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Coverage</th></tr></thead><tbody><tr><td><a href="src/A.html">src/A.elm</a></td><td>1 / 2 (50%)</td></tr></tbody></table></div>
 </html>"""
                                }
-                             , { filepath = "A.html"
+                             , { filepath = "src/A.html"
                                , contents = """<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>A - Coverage Report</title>
+    <title>src/A.elm - Coverage Report</title>
     <style>
         body { font-family: sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
-        td { border: none; padding: 0; line-height: 1.2; }
+        td { border: none; padding: 0; line-height: 1.15; }
         tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
         .line-number { text-align: right; color: #666; user-select: none; }
         .covered { 
@@ -305,7 +313,7 @@ b = 2""" )
         }
     </style>
 </head>
-<div><h1>A</h1><p><a href="index.html">← Back to index</a></p><table><tr><td>1</td><td><pre>module A</pre></td></tr><tr><td>2</td><td><pre><span><span class="covered">a = 1<span class="tooltip">5x</span></span></span></pre></td></tr><tr><td>3</td><td><pre><span><span class="uncovered">b = 2<span class="tooltip">0x</span></span></span></pre></td></tr></table></div>
+<div><h1>src/A.elm</h1><p><a href="../index.html">← Back to index</a></p><table><tr><td>1</td><td><pre>module A</pre></td></tr><tr><td>2</td><td><pre><span><span class="covered">a = 1<span class="tooltip">5x</span></span></span></pre></td></tr><tr><td>3</td><td><pre><span><span class="uncovered">b = 2<span class="tooltip">0x</span></span></span></pre></td></tr></table></div>
 </html>"""
                                }
                              ]
@@ -317,30 +325,35 @@ b = 2""" )
                          Dict.fromList
                              [ ( 1
                                , { moduleName = "A"
+                                 , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 4, column = 5 }, end = { row = 4, column = 16 } }
                                  }
                                )
                              , ( 2
                                , { moduleName = "A"
+                                 , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 4, column = 5 }, end = { row = 4, column = 6 } }
                                  }
                                )
                              , ( 3
                                , { moduleName = "A"
+                                 , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 4, column = 10 }, end = { row = 4, column = 16 } }
                                  }
                                )
                              , ( 4
                                , { moduleName = "A"
+                                 , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 4, column = 10 }, end = { row = 4, column = 11 } }
                                  }
                                )
                              , ( 5
                                , { moduleName = "A"
+                                 , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 4, column = 15 }, end = { row = 4, column = 16 } }
                                  }
@@ -354,18 +367,19 @@ b = 2""" )
                          , ( 5, 5 )
                          ]
                      , sources = Dict.fromList
-                         [ ( "A", """module A exposing (a)
+                         [ ( "src/A.elm", """module A exposing (a)
 
 a =
     a && b && c""" )
                          ]
                      , moduleHashes =
                          Dict.fromList
-                             [ ( "A", FNV1a.hash """module A exposing (a)
+                             [ ( "src/A.elm", FNV1a.hash """module A exposing (a)
 
 a =
     a && b && c""" )
                              ]
+                     , moduleNames = Dict.fromList [ ( "src/A.elm", "A" ) ]
                      , format = "html"
                      }
                 , output =
@@ -386,19 +400,19 @@ a =
         a:hover { text-decoration: underline; }
     </style>
 </head>
-<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Coverage</th></tr></thead><tbody><tr><td><a href="A.html">A</a></td><td>5 / 5 (100%)</td></tr></tbody></table></div>
+<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Coverage</th></tr></thead><tbody><tr><td><a href="src/A.html">src/A.elm</a></td><td>5 / 5 (100%)</td></tr></tbody></table></div>
 </html>"""
                                }
-                             , { filepath = "A.html"
+                             , { filepath = "src/A.html"
                                , contents = """<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>A - Coverage Report</title>
+    <title>src/A.elm - Coverage Report</title>
     <style>
         body { font-family: sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
-        td { border: none; padding: 0; line-height: 1.2; }
+        td { border: none; padding: 0; line-height: 1.15; }
         tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
         .line-number { text-align: right; color: #666; user-select: none; }
         .covered { 
@@ -449,19 +463,100 @@ a =
         }
     </style>
 </head>
-<div><h1>A</h1><p><a href="index.html">← Back to index</a></p><table><tr><td>1</td><td><pre>module A exposing (a)</pre></td></tr><tr><td>2</td><td><pre></pre></td></tr><tr><td>3</td><td><pre>a =</pre></td></tr><tr><td>4</td><td><pre><span><span class="no-coverage">    </span><span class="covered">a &amp;&amp; <span class="tooltip">10x</span></span><span class="covered">b &amp;&amp; <span class="tooltip">8x</span></span><span class="covered">c<span class="tooltip">5x</span></span></span></pre></td></tr></table></div>
+<div><h1>src/A.elm</h1><p><a href="../index.html">← Back to index</a></p><table><tr><td>1</td><td><pre>module A exposing (a)</pre></td></tr><tr><td>2</td><td><pre></pre></td></tr><tr><td>3</td><td><pre>a =</pre></td></tr><tr><td>4</td><td><pre><span><span class="no-coverage">    </span><span class="covered">a &amp;&amp; <span class="tooltip">10x</span></span><span class="covered">b &amp;&amp; <span class="tooltip">8x</span></span><span class="covered">c<span class="tooltip">5x</span></span></span></pre></td></tr></table></div>
 </html>"""
                                }
                              ]
                          }
                 }
-              -- TODO: add test for LCOV format
+              , { name = "lcov format - empty coverage"
+                , input =
+                     { coverageMetadata = Dict.empty
+                     , coverageData = Dict.empty
+                     , sources = Dict.empty
+                     , moduleHashes = Dict.empty
+                     , moduleNames = Dict.empty
+                     , format = "lcov"
+                     }
+                , output =
+                     Ok
+                         { reports =
+                             [ { filepath = "coverage.lcov"
+                               , contents = ""
+                               }
+                             ]
+                         }
+                }
+              , { name = "lcov format - with coverage data"
+                , input =
+                     { coverageMetadata =
+                         Dict.fromList
+                             [ ( 1
+                               , { moduleName = "A"
+                                 , moduleFilePath = "src/A.elm"
+                                 , declarationName = "a"
+                                 , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                                 }
+                               )
+                             , ( 2
+                               , { moduleName = "A"
+                                 , moduleFilePath = "src/A.elm"
+                                 , declarationName = "b"
+                                 , range = { start = { row = 2, column = 1 }, end = { row = 2, column = 5 } }
+                                 }
+                               )
+                             , ( 3
+                               , { moduleName = "B"
+                                 , moduleFilePath = "src/B.elm"
+                                 , declarationName = "c"
+                                 , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                                 }
+                               )
+                             ]
+                     , coverageData = Dict.fromList [ ( 1, 1 ), ( 2, 0 ), ( 3, 1 ) ]
+                     , sources =
+                         Dict.fromList
+                             [ ( "src/A.elm", """module A
+a = 1
+b = 2""" )
+                             , ( "src/B.elm", "module B\nc = 3" )
+                             ]
+                     , moduleHashes =
+                         Dict.fromList
+                             [ ( "src/A.elm", FNV1a.hash """module A
+a = 1
+b = 2""" )
+                             , ( "src/B.elm", FNV1a.hash "module B\nc = 3" )
+                             ]
+                     , moduleNames = Dict.fromList [ ( "src/A.elm", "A" ), ( "src/B.elm", "B" ) ]
+                     , format = "lcov"
+                     }
+                , output =
+                     Ok
+                         { reports =
+                             [ { filepath = "coverage.lcov"
+                               , contents = """SF:src/A.elm
+DA:1,1
+DA:2,0
+LH:1
+LF:2
+end_of_record
+SF:src/B.elm
+DA:1,1
+LH:1
+LF:1
+end_of_record"""
+                               }
+                             ]
+                         }
+                }
               , { name = "csv format"
                 , input =
                      { coverageMetadata = Dict.empty
                      , coverageData = Dict.empty
                      , sources = Dict.empty
                      , moduleHashes = Dict.empty
+                     , moduleNames = Dict.empty
                      , format = "csv"
                      }
                 , output =
@@ -478,37 +573,42 @@ Total,0,0,0""" }
                          Dict.fromList
                              [ ( 1
                                , { moduleName = "A"
+                                 , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
                                  }
                                )
                              , ( 2
                                , { moduleName = "A"
+                                 , moduleFilePath = "src/A.elm"
                                  , declarationName = "b"
                                  , range = { start = { row = 2, column = 1 }, end = { row = 2, column = 5 } }
                                  }
                                )
                              , ( 3
                                , { moduleName = "B"
+                                 , moduleFilePath = "src/B.elm"
                                  , declarationName = "c"
                                  , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
                                  }
                                )
                              , ( 4
                                , { moduleName = "C"
+                                 , moduleFilePath = "src/C.elm"
                                  , declarationName = "d"
                                  , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
                                  }
                                )
                              ]
                      , coverageData = Dict.fromList [ ( 1, 1 ), ( 2, 0 ), ( 3, 1 ), ( 4, 0 ) ]
-                     , sources = Dict.fromList [ ( "A", "module A" ), ( "B", "module B" ), ( "C", "module C" ) ]
+                     , sources = Dict.fromList [ ( "src/A.elm", "module A" ), ( "src/B.elm", "module B" ), ( "src/C.elm", "module C" ) ]
                      , moduleHashes =
                          Dict.fromList
-                             [ ( "A", FNV1a.hash "module A" )
-                             , ( "B", FNV1a.hash "module B" )
-                             , ( "C", FNV1a.hash "module C" )
+                             [ ( "src/A.elm", FNV1a.hash "module A" )
+                             , ( "src/B.elm", FNV1a.hash "module B" )
+                             , ( "src/C.elm", FNV1a.hash "module C" )
                              ]
+                     , moduleNames = Dict.fromList [ ( "src/A.elm", "A" ), ( "src/B.elm", "B" ), ( "src/C.elm", "C" ) ]
                      , format = "csv"
                      }
                 , output =
@@ -517,9 +617,9 @@ Total,0,0,0""" }
                              [ { filepath = "coverage.csv"
                                , contents = """Module,Covered,Total,Percentage
 Total,2,4,50
-A,1,2,50
-B,1,1,100
-C,0,1,0"""
+src/A.elm,1,2,50
+src/B.elm,1,1,100
+src/C.elm,0,1,0"""
                                }
                              ]
                          }
@@ -528,12 +628,13 @@ C,0,1,0"""
                 , input =
                      { coverageMetadata = Dict.empty
                      , coverageData = Dict.empty
-                     , sources = Dict.fromList [ ( "A", "module A" ) ]
-                     , moduleHashes = Dict.fromList [ ( "A", 999999 ) ]
+                     , sources = Dict.fromList [ ( "src/A.elm", "module A" ) ]
+                     , moduleHashes = Dict.fromList [ ( "src/A.elm", 999999 ) ]
+                     , moduleNames = Dict.fromList [ ( "src/A.elm", "A" ) ]
                      , format = "plaintext"
                      }
                 , output =
-                     Err "Content hash mismatch for modules: A"
+                     Err "Content hash mismatch for files: src/A.elm"
                 }
               , { name = "unsupported format error"
                 , input =
@@ -541,6 +642,7 @@ C,0,1,0"""
                      , coverageData = Dict.empty
                      , sources = Dict.empty
                      , moduleHashes = Dict.empty
+                     , moduleNames = Dict.empty
                      , format = "unknown"
                      }
                 , output =
@@ -550,12 +652,13 @@ C,0,1,0"""
                 , input =
                      { coverageMetadata = Dict.empty
                      , coverageData = Dict.empty
-                     , sources = Dict.fromList [ ( "A", "module A" ) ]
+                     , sources = Dict.fromList [ ( "src/A.elm", "module A" ) ]
                      , moduleHashes = Dict.empty
+                     , moduleNames = Dict.fromList [ ( "src/A.elm", "A" ) ]
                      , format = "plaintext"
                      }
                 , output =
-                     Err "Content hash mismatch for modules: A"
+                     Err "Content hash mismatch for files: src/A.elm"
                 }
               ]
                 |> List.map testCase
@@ -617,12 +720,22 @@ fuzzInput format =
     Fuzz.map3
         (\moduleName source points ->
             let
+                -- Convert module name dots to slashes for filepath
+                moduleFilePath : String
+                moduleFilePath =
+                    (moduleName
+                        |> String.split "."
+                        |> String.join "/"
+                    )
+                        ++ ".elm"
+
                 ( coverageMetadataList, coverageDataList ) =
                     points
                         |> List.map
                             (\( pointId, range, count ) ->
                                 ( ( pointId
                                   , { moduleName = moduleName
+                                    , moduleFilePath = moduleFilePath
                                     , declarationName = "decl" ++ String.fromInt pointId
                                     , range = range
                                     }
@@ -639,12 +752,16 @@ fuzzInput format =
                     Dict.fromList coverageDataList
 
                 moduleHashes =
-                    Dict.fromList [ ( moduleName, FNV1a.hash source ) ]
+                    Dict.fromList [ ( moduleFilePath, FNV1a.hash source ) ]
+
+                moduleNames =
+                    Dict.fromList [ ( moduleFilePath, moduleName ) ]
             in
             { coverageMetadata = coverageMetadata
             , coverageData = coverageData
-            , sources = Dict.fromList [ ( moduleName, source ) ]
+            , sources = Dict.fromList [ ( moduleFilePath, source ) ]
             , moduleHashes = moduleHashes
+            , moduleNames = moduleNames
             , format = format
             }
         )
