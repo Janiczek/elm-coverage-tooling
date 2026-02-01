@@ -201,22 +201,6 @@ async function createTempProject(
         await mkdir(targetSourceDir, { recursive: true });
     }
     
-    // Create Test.Coverage stub module in the first source directory (needed for instrumented code to compile)
-    // The JavaScript patching will replace the no-op implementation with actual tracking
-    const firstSourceDir = sourceDirs[0] || 'src';
-    const testCoverageDir = join(tempDir, firstSourceDir, 'Test');
-    await mkdir(testCoverageDir, { recursive: true });
-    const testCoverageModule = `module Test.Coverage exposing (track)
-
-{-| Stub module for coverage tracking.
-The actual implementation is provided via JavaScript patching.
--}
-track : Int -> ()
-track _ =
-    ()
-`;
-    await writeFile(join(tempDir, firstSourceDir, 'Test', 'Coverage.elm'), testCoverageModule);
-    
     const normalizedProjectRoot = resolve(projectDir).replace(/\\/g, '/');
     
     // Copy instrumented source files
@@ -272,7 +256,6 @@ track _ =
         await writeFile(targetPath, originalContent);
     }
 }
-
 
 async function runElmTest(tempDir: string, runner: string, forwardedArgs: string[], compilerWrapper: string): Promise<CoverageData> {
     const env = {

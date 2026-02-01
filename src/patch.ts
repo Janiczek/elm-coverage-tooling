@@ -22,13 +22,21 @@ setTimeout(function() {
     });
 }, 0);
 `;
-const trackFunctionDefinition = `
-var $author$project$Test$Coverage$track = function (pointId) {
+const footer = '// elm-coverage-tooling patch end';
+
+/**
+ * Generates the track function definition using the captured variable name.
+ * @param variableName - The full variable name (e.g., $author$project$Test$Coverage$track or $elm_explorations$test$Test$Coverage$track)
+ */
+function generateTrackFunctionDefinition(variableName: string): string {
+    return `
+var ${variableName} = function (pointId) {
     globalThis.__elm_line_coverage[pointId] = (globalThis.__elm_line_coverage[pointId] || 0) + 1;
     return _Utils_Tuple0;
 };
 `;
-const footer = '// elm-coverage-tooling patch end';
+}
+
 /**
  * Patches the compiled JS code to make Test.Coverage.* functions actually work.
  * Injects code to track coverage and persist it when elm-test finishes.
@@ -47,28 +55,33 @@ export function patch(compiledJsCode: string, config: { inTestingContext: boolea
     // Note: Using RegExp constructor to ensure proper escaping of $ characters
     // In regex, $ means end-of-string, so we need \$ to match literal $
     // In source code string, we need \\$ to get \$ in the regex
-    const pattern = new RegExp('var\\s*\\$author\\$project\\$Test\\$Coverage\\$track\\s*=\\s*function\\s+\\([^)]+\\)\\s*\\{.*?return\\s+_Utils_Tuple0;\\s*\\};', 'gms');
+    //
+    // The pattern matches any module path ending with $Test$Coverage$track
+    // and captures the full variable name in group 1
+    const pattern = new RegExp('var\\s*(\\$(?:[^$]+\\$)+Test\\$Coverage\\$track)\\s*=\\s*function\\s+\\([^)]+\\)\\s*\\{.*?return\\s+_Utils_Tuple0;\\s*\\};', 'gms');
 
     if (config.inTestingContext) {
         // Full patch for testing context - includes writing coverage to file
-        const fullPatch = `
+        return compiledJsCode.replace(pattern, (_match, variableName) => {
+            const trackFunctionDefinition = generateTrackFunctionDefinition(variableName);
+            return `
 ${header}
 ${counterInitialization}
 ${writeCoverageToFile}
 ${trackFunctionDefinition}
 ${footer}
 `;
-
-        return compiledJsCode.replace(pattern, fullPatch);
+        });
     } else {
         // Minimal patch for non-testing context - only enables the counter
-        const minimalPatch = `
+        return compiledJsCode.replace(pattern, (_match, variableName) => {
+            const trackFunctionDefinition = generateTrackFunctionDefinition(variableName);
+            return `
 ${header}
 ${counterInitialization}
 ${trackFunctionDefinition}
 ${footer}
 `;
-
-        return compiledJsCode.replace(pattern, minimalPatch);
+        });
     }
 }

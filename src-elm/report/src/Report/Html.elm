@@ -244,20 +244,8 @@ generateModulePage moduleName sourceCode regions =
                                 renderAnnotatedLine lineIndex lineText lineAnnotations
                     in
                     Html.tr []
-                        [ Html.td
-                            [ Attr.style "text-align" "right"
-                            , Attr.style "padding-right" "10px"
-                            , Attr.style "color" "#666"
-                            , Attr.style "user-select" "none"
-                            ]
-                            [ Html.text (String.fromInt lineIndex) ]
-                        , Html.td []
-                            [ Html.pre
-                                [ Attr.style "margin" "0"
-                                , Attr.style "font-family" "monospace"
-                                ]
-                                [ renderedLine ]
-                            ]
+                        [ Html.td [] [ Html.text (String.fromInt lineIndex) ]
+                        , Html.td [] [ Html.pre [ ] [ renderedLine ] ]
                         ]
                 )
                 lines
@@ -287,8 +275,9 @@ generateModulePage moduleName sourceCode regions =
     <style>
         body { font-family: sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
-        td { border: none; padding: 2px; }
-        .line-number { text-align: right; padding-right: 10px; color: #666; user-select: none; }
+        td { border: none; padding: 0; line-height: 1.2; }
+        tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
+        .line-number { text-align: right; color: #666; user-select: none; }
         .covered { 
             background-color: #d4edda; 
             border-radius: 6px; 
@@ -302,7 +291,19 @@ generateModulePage moduleName sourceCode regions =
         }
         .uncovered:hover { background-color: rgba(248, 215, 218, 0.25); outline: 2px solid #f8d7da; }
         .no-coverage { background-color: transparent; }
-        pre { margin: 0; font-family: monospace; white-space: pre-wrap; position: relative; }
+        td:first-child {
+            font-family: "JetBrains Mono", monospace; 
+            text-align: right;
+            color: #666;
+            user-select: none;
+            font-size: inherit;
+        }
+        pre { 
+            margin: 0; 
+            font-family: "JetBrains Mono", monospace; 
+            white-space: pre-wrap;
+            position: relative; 
+        }
         .tooltip { 
             display: none;
             background-color: #333;
@@ -314,7 +315,6 @@ generateModulePage moduleName sourceCode regions =
             z-index: 1000;
             pointer-events: none;
             position: absolute;
-            /* Pure CSS positioning: center above the parent span */
             bottom: 100%;
             left: 50%;
             transform: translateX(-50%);
