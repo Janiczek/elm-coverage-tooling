@@ -1,4 +1,7 @@
-Total: 63/71 (88.73%)
-src/Bar.elm: 21/26 (80.77%)
-src/Foo.elm: 36/39 (92.31%)
-src/Tests.elm: 6/6 (100%)
+File           Exprs     %
+--------------------------
+src/Bar.elm    21/26   81%
+src/Foo.elm    36/39   92%
+src/Tests.elm    6/6  100%
+--------------------------
+Total          63/71   89%

@@ -1,3 +1,3 @@
-Module,Covered,Total,Percentage
+File,Exprs covered,Exprs total,Percentage
 Total,19,29,65.52
 src/AndExprs.elm,19,29,65.52

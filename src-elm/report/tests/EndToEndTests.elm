@@ -84,8 +84,11 @@ suite =
                      Ok
                          { reports =
                              [ { filepath = "coverage.txt"
-                               , contents = """Total: 1/2 (50%)
-src/A.elm: 1/2 (50%)"""
+                               , contents = """File       Exprs    %
+---------------------
+src/A.elm    1/2  50%
+---------------------
+Total        1/2  50%"""
                                }
                              ]
                          }
@@ -562,7 +565,7 @@ end_of_record"""
                 , output =
                      Ok
                          { reports =
-                             [ { filepath = "coverage.csv", contents = """Module,Covered,Total,Percentage
+                             [ { filepath = "coverage.csv", contents = """File,Exprs covered,Exprs total,Percentage
 Total,0,0,0""" }
                              ]
                          }
@@ -615,7 +618,7 @@ Total,0,0,0""" }
                      Ok
                          { reports =
                              [ { filepath = "coverage.csv"
-                               , contents = """Module,Covered,Total,Percentage
+                               , contents = """File,Exprs covered,Exprs total,Percentage
 Total,2,4,50
 src/A.elm,1,2,50
 src/B.elm,1,1,100

@@ -1,4 +1,4 @@
-Module,Covered,Total,Percentage
+File,Exprs covered,Exprs total,Percentage
 Total,63,71,88.73
 src/Bar.elm,21,26,80.77
 src/Foo.elm,36,39,92.31

@@ -57,8 +57,12 @@ suite =
                         && (case List.head output.reports of
                                 Just report ->
                                     report.filepath == "coverage.txt"
-                                        && String.contains "Total: 1/2 (50%)" report.contents
-                                        && String.contains "src/A.elm: 1/2 (50%)" report.contents
+                                        && String.contains "File" report.contents
+                                        && String.contains "Exprs" report.contents
+                                        && String.contains "Total" report.contents
+                                        && String.contains "1/2" report.contents
+                                        && String.contains "50%" report.contents
+                                        && String.contains "src/A.elm" report.contents
 
                                 Nothing ->
                                     False
@@ -86,8 +90,10 @@ suite =
                 \output ->
                     case List.head output.reports of
                         Just report ->
-                            String.contains "Total: 1/1 (100%)" report.contents
-                                && String.contains "src/A.elm: 1/1 (100%)" report.contents
+                            String.contains "Total" report.contents
+                                && String.contains "1/1" report.contents
+                                && String.contains "100%" report.contents
+                                && String.contains "src/A.elm" report.contents
 
                         Nothing ->
                             False
@@ -114,8 +120,10 @@ suite =
                 \output ->
                     case List.head output.reports of
                         Just report ->
-                            String.contains "Total: 0/1 (0%)" report.contents
-                                && String.contains "src/A.elm: 0/1 (0%)" report.contents
+                            String.contains "Total" report.contents
+                                && String.contains "0/1" report.contents
+                                && String.contains "0%" report.contents
+                                && String.contains "src/A.elm" report.contents
 
                         Nothing ->
                             False
@@ -262,7 +270,7 @@ a = 1""" ) ]
                         && (case List.head output.reports of
                                 Just report ->
                                     report.filepath == "coverage.csv"
-                                        && String.contains "Module,Covered,Total,Percentage" report.contents
+                                        && String.contains "File,Exprs covered,Exprs total,Percentage" report.contents
                                         && String.contains "Total,0,0,0" report.contents
 
                                 Nothing ->
@@ -307,7 +315,7 @@ a = 1""" ) ]
                         && (case List.head output.reports of
                                 Just report ->
                                     report.filepath == "coverage.csv"
-                                        && String.contains "Module,Covered,Total,Percentage" report.contents
+                                        && String.contains "File,Exprs covered,Exprs total,Percentage" report.contents
                                         && String.contains "Total,2,3," report.contents
                                         && String.contains "src/A.elm,1,2," report.contents
                                         && String.contains "src/B.elm,1,1," report.contents
@@ -347,8 +355,12 @@ a = 1""" ) ]
                         && (case List.head output.reports of
                                 Just report ->
                                     report.filepath == "stdout"
-                                        && String.contains "Total: 1/2 (50%)" report.contents
-                                        && String.contains "src/A.elm: 1/2 (50%)" report.contents
+                                        && String.contains "File" report.contents
+                                        && String.contains "Exprs" report.contents
+                                        && String.contains "Total" report.contents
+                                        && String.contains "1/2" report.contents
+                                        && String.contains "50%" report.contents
+                                        && String.contains "src/A.elm" report.contents
 
                                 Nothing ->
                                     False

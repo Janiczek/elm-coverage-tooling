@@ -1,6 +1,5 @@
 module Report.Csv exposing (generate)
 
-import List
 import Report exposing (Input, ModuleStats, ReportFile)
 
 
@@ -43,7 +42,7 @@ generate input =
 
         header : String
         header =
-            "Module,Covered,Total,Percentage"
+            "File,Exprs covered,Exprs total,Percentage"
 
         totalRow : String
         totalRow =

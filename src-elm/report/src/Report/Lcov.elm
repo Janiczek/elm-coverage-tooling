@@ -1,7 +1,6 @@
 module Report.Lcov exposing (generate)
 
 import Dict exposing (Dict)
-import List
 import PointMetadata exposing (PointMetadata)
 import Report exposing (Input, ReportFile)
 import Sweep exposing (Annotation, Region)

@@ -1,4 +1,7 @@
-Total: 20/59 (33.9%)
-src/Foo.elm: 3/12 (25%)
-tests-program/ProgramTests.elm: 17/17 (100%)
-tests-unit/UnitTests.elm: 0/30 (0%)
+File                            Exprs     %
+-------------------------------------------
+src/Foo.elm                      3/12   25%
+tests-program/ProgramTests.elm  17/17  100%
+tests-unit/UnitTests.elm         0/30    0%
+-------------------------------------------
+Total                           20/59   34%

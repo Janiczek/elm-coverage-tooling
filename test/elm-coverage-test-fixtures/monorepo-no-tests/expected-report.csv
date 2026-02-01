@@ -1,0 +1,4 @@
+File,Exprs covered,Exprs total,Percentage
+Total,0,8,0
+lib/Bar.elm,0,5,0
+src/Foo.elm,0,3,0

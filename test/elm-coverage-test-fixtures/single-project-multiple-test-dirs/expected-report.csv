@@ -1,4 +1,4 @@
-Module,Covered,Total,Percentage
+File,Exprs covered,Exprs total,Percentage
 Total,56,59,94.92
 src/Foo.elm,9,12,75
 tests-program/ProgramTests.elm,17,17,100

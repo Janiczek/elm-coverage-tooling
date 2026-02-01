@@ -1,7 +1,6 @@
 module Sweep exposing (annotate, Annotation, Region)
 
 import Dict exposing (Dict)
-import List
 import Range exposing (Position, Range)
 
 

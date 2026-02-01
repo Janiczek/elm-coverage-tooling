@@ -1,6 +1,5 @@
 module Report.Plaintext exposing (generate)
 
-import List
 import Report exposing (Input, ModuleStats, ReportFile)
 
 
@@ -32,39 +31,90 @@ generate input =
                 }
                 moduleStats
 
-        formatModuleStats : ModuleStats -> String
-        formatModuleStats stats =
-            stats.moduleFilePath
-                ++ ": "
-                ++ String.fromInt stats.coveredPoints
-                ++ "/"
-                ++ String.fromInt stats.totalPoints
-                ++ " ("
-                ++ String.fromFloat (roundTo 2 stats.coveragePercentage)
-                ++ "%)"
+        allStatsForWidth : List ModuleStats
+        allStatsForWidth =
+            totalStats :: moduleStats
 
-        totalLine : String
-        totalLine =
-            formatModuleStats totalStats
+        formatExprs : Int -> Int -> String
+        formatExprs covered total =
+            String.fromInt covered ++ "/" ++ String.fromInt total
 
-        moduleLines : List String
-        moduleLines =
-            List.map formatModuleStats moduleStats
+        formatPercentage : Float -> String
+        formatPercentage percentage =
+            String.fromInt (round percentage) ++ "%"
+
+        fileColumnWidth : Int
+        fileColumnWidth =
+            List.foldl
+                (\stats acc ->
+                    max acc (String.length stats.moduleFilePath)
+                )
+                (String.length "File")
+                allStatsForWidth
+
+        exprsColumnWidth : Int
+        exprsColumnWidth =
+            List.foldl
+                (\stats acc ->
+                    max acc (String.length (formatExprs stats.coveredPoints stats.totalPoints))
+                )
+                (String.length "Exprs")
+                allStatsForWidth
+
+        percentageColumnWidth : Int
+        percentageColumnWidth =
+            List.foldl
+                (\stats acc ->
+                    max acc (String.length (formatPercentage stats.coveragePercentage))
+                )
+                (String.length "%")
+                allStatsForWidth
+
+        padLeft : Int -> String -> String
+        padLeft width str =
+            str ++ String.repeat (width - String.length str) " "
+
+        padRight : Int -> String -> String
+        padRight width str =
+            String.repeat (width - String.length str) " " ++ str
+
+        formatRow : ModuleStats -> String
+        formatRow stats =
+            padLeft fileColumnWidth stats.moduleFilePath
+                ++ "  "
+                ++ padRight exprsColumnWidth (formatExprs stats.coveredPoints stats.totalPoints)
+                ++ "  "
+                ++ padRight percentageColumnWidth (formatPercentage stats.coveragePercentage)
+
+        headerRow : String
+        headerRow =
+            padLeft fileColumnWidth "File"
+                ++ "  "
+                ++ padRight exprsColumnWidth "Exprs"
+                ++ "  "
+                ++ padRight percentageColumnWidth "%"
+
+        totalRowWidth : Int
+        totalRowWidth =
+            fileColumnWidth + 2 + exprsColumnWidth + 2 + percentageColumnWidth
+
+        separatorRow : String
+        separatorRow =
+            String.repeat totalRowWidth "-"
+
+        tableRows : List String
+        tableRows =
+            headerRow
+                :: separatorRow
+                :: List.map formatRow moduleStats
+                ++ [ separatorRow
+                   , formatRow totalStats
+                   ]
     in
     { reports =
         [ { filepath = "coverage.txt"
           , contents =
-                String.join "\n" (totalLine :: moduleLines)
+                String.join "\n" tableRows
           }
         ]
     }
-
-
-roundTo : Int -> Float -> Float
-roundTo decimals num =
-    let
-        multiplier : Float
-        multiplier =
-            10 ^ toFloat decimals
-    in
-    toFloat (round (num * multiplier)) / multiplier

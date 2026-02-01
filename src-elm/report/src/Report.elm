@@ -1,7 +1,6 @@
 module Report exposing (Input, ModuleStats, ReportFile, calculateModuleStats)
 
 import Dict exposing (Dict)
-import List
 import PointId exposing (PointId)
 import PointMetadata exposing (PointMetadata)
 import Range exposing (Range)

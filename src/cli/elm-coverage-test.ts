@@ -245,7 +245,7 @@ async function createTempProject(
     }
 }
 
-async function runElmTest(tempDir: string, runner: string, forwardedArgs: string[], compilerWrapper: string): Promise<CoverageData> {
+async function runElmTest(tempDir: string, runner: string, forwardedArgs: string[], compilerWrapper: string): Promise<{ coverageData: CoverageData; testFailed: boolean; error?: any }> {
     const env = {
         ...process.env,
         PATH: `${dirname(compilerWrapper)}:${process.env['PATH'] || ''}`,
@@ -257,12 +257,21 @@ async function runElmTest(tempDir: string, runner: string, forwardedArgs: string
         ...forwardedArgs,
     ];
     
-    await execFileAsync(runner, args, {
-        cwd: tempDir,
-        env,
-    });
+    let testFailed = false;
+    let testError: any = null;
     
-    // Read coverage data from all worker processes
+    try {
+        await execFileAsync(runner, args, {
+            cwd: tempDir,
+            env,
+        });
+    } catch (error) {
+        // Tests failed, but we still want to collect coverage data from tests that ran
+        testFailed = true;
+        testError = error;
+    }
+    
+    // Read coverage data from all worker processes (even if tests failed)
     const coverageData = new Map<number, number>();
     const elmStuffDir = join(tempDir, 'elm-stuff');
     
@@ -286,7 +295,7 @@ async function runElmTest(tempDir: string, runner: string, forwardedArgs: string
         // This might happen if tests failed before writing coverage data
     }
     
-    return coverageData;
+    return { coverageData, testFailed, error: testError };
 }
 
 function getFileExtensionForFormat(format: ReportFormat): string {
@@ -511,7 +520,7 @@ async function main() {
         await createTempProject(tempDir, instrumentedFiles, otherFiles, elmJsonContent, projectDir);
         const binDir = getBinDirectory();
         const compilerWrapper = join(binDir, 'elm-compiler-wrapper');
-        const coverageData = await runElmTest(tempDir, args.runner, args.forwardedArgs, compilerWrapper);
+        const { coverageData, testFailed, error: testError } = await runElmTest(tempDir, args.runner, args.forwardedArgs, compilerWrapper);
         
         // Write coverage.json if --keep-coverage-data is set
         if (args.keepCoverageData) {
@@ -523,6 +532,11 @@ async function main() {
         
         const reportContent = await report(coverageMetadata, coverageData, args.coverageFormat, sourcesByFilepath, moduleHashesByFilepath, moduleNamesByFilepath);
         await writeReport(reportContent, args.coverageFormat, args.coverageOutput);
+        
+        // If tests failed, re-throw the error so the process exits with the correct code
+        if (testFailed && testError) {
+            throw testError;
+        }
     } finally {
         // Only delete tempDir if --keep-instrumented-project is not set
         if (!args.keepInstrumentedProject) {
