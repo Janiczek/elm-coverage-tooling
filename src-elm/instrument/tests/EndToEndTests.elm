@@ -29,6 +29,8 @@ a =
                     { instrumentedElmSourceCode = """
 module A exposing (a)
 
+import Test.Coverage
+
 
 a : Int
 a =
@@ -62,6 +64,8 @@ a =
                 Ok
                     { instrumentedElmSourceCode = """
 module A.B.C exposing (a)
+
+import Test.Coverage
 
 
 a : Int
@@ -97,6 +101,8 @@ a () =
                     { instrumentedElmSourceCode = """
 module A exposing (a)
 
+import Test.Coverage
+
 
 a : () -> Int
 a () =
@@ -130,6 +136,8 @@ a =
                 Ok
                     { instrumentedElmSourceCode = """
 module A exposing (a)
+
+import Test.Coverage
 
 
 a : Int
@@ -190,6 +198,8 @@ a =
                 Ok
                     { instrumentedElmSourceCode = """
 module A exposing (a)
+
+import Test.Coverage
 
 
 a : Int
@@ -288,6 +298,8 @@ a =
                     { instrumentedElmSourceCode = """
 module A exposing (a)
 
+import Test.Coverage
+
 
 a : Int
 a =
@@ -374,6 +386,8 @@ b =
                 Ok
                     { instrumentedElmSourceCode = """
 module A exposing (a, b)
+
+import Test.Coverage
 
 
 b : String

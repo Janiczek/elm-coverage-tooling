@@ -4,7 +4,9 @@ import Dict exposing (Dict)
 import Elm.Syntax.Declaration exposing (Declaration)
 import Elm.Syntax.Expression exposing (Expression)
 import Elm.Syntax.File exposing (File)
+import Elm.Syntax.Import exposing (Import)
 import Elm.Syntax.Module
+import Elm.Syntax.ModuleName exposing (ModuleName)
 import Elm.Syntax.Node exposing (Node(..))
 import Elm.Syntax.Pattern exposing (Pattern)
 import Elm.Syntax.Range
@@ -36,9 +38,46 @@ instrument file =
                 (InstrumentState.init moduleName)
                 file.declarations
     in
-    ( { file | declarations = result.newDeclarations }
+    ( { file 
+        | declarations = result.newDeclarations
+        , imports = addTestCoverageImport file.imports
+      }
     , result.metadata
     )
+
+
+addTestCoverageImport : List (Node Import) -> List (Node Import)
+addTestCoverageImport imports =
+    let
+        testCoverageModuleName : List String
+        testCoverageModuleName =
+            [ "Test", "Coverage" ]
+
+        hasTestCoverageImport : Node Import -> Bool
+        hasTestCoverageImport importNode =
+            let
+                importModuleName : ModuleName
+                importModuleName = 
+                    importNode
+                        |> Elm.Syntax.Node.value
+                        |> .moduleName
+                        |> Elm.Syntax.Node.value
+            in
+            importModuleName == testCoverageModuleName
+    in
+    if List.any hasTestCoverageImport imports then
+        imports
+    else
+        let
+            newImportNode : Node Import
+            newImportNode =
+                Node Elm.Syntax.Range.empty
+                    { moduleName = Node Elm.Syntax.Range.empty testCoverageModuleName
+                    , moduleAlias = Nothing
+                    , exposingList = Nothing
+                    }
+        in
+        newImportNode :: imports
 
 
 instrumentDecl : Node Declaration -> InstrumentState -> InstrumentState

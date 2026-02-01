@@ -29,6 +29,8 @@ a =
             instrumentedElmSourceCode: `
 module A exposing (a)
 
+import Test.Coverage
+
 
 a : Int
 a =
@@ -37,7 +39,8 @@ a =
             Test.Coverage.track 154242004
     in
     123
-`
+`,
+            contentHash: 4167962317
         }
     },
     {
@@ -60,6 +63,8 @@ a =
             instrumentedElmSourceCode: `
 module A.B.C exposing (a)
 
+import Test.Coverage
+
 
 a : Int
 a =
@@ -68,7 +73,8 @@ a =
             Test.Coverage.track 1762450980
     in
     123
-`
+`,
+            contentHash: 3521263262
         }
     },
     {
@@ -82,6 +88,76 @@ a =
 `,
         output: {
             error: "Can't parse the Elm code."
+        }
+    },
+    {
+        name: 'import is added when not present',
+        input: `
+module A exposing (a)
+
+a : Int
+a =
+    123
+`,
+        output: {
+            coverageMetadata: new Map([
+                [154242004, {
+                    declarationName: 'a',
+                    moduleName: 'A',
+                    range: [[5, 5], [5, 8]]
+                }]
+            ]),
+            instrumentedElmSourceCode: `
+module A exposing (a)
+
+import Test.Coverage
+
+
+a : Int
+a =
+    let
+        _ =
+            Test.Coverage.track 154242004
+    in
+    123
+`,
+            contentHash: 4167962317
+        }
+    },
+    {
+        name: 'import is not duplicated if already present',
+        input: `
+module A exposing (a)
+
+import Test.Coverage
+
+a : Int
+a =
+    123
+`,
+        output: {
+            coverageMetadata: new Map([
+                [154242004, {
+                    declarationName: 'a',
+                    moduleName: 'A',
+                    range: [[7, 5], [7, 8]]
+                }]
+            ]),
+            instrumentedElmSourceCode: `
+module A exposing (a)
+
+import Test.Coverage
+
+
+a : Int
+a =
+    let
+        _ =
+            Test.Coverage.track 154242004
+    in
+    123
+`,
+            contentHash: 4246185318
         }
     }
 ];

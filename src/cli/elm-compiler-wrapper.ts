@@ -42,6 +42,9 @@ if (exitCode !== 0) {
 // If compilation succeeded, patch the output file
 if (outputFile && existsSync(outputFile)) {
     const jsCode = readFileSync(outputFile, 'utf-8');
-    const patched = patch(jsCode);
+    // Determine if we're in a testing context (default to true for elm-test usage)
+    // Can be overridden with ELM_COVERAGE_TESTING_CONTEXT=false environment variable
+    const inTestingContext = process.env['ELM_COVERAGE_TESTING_CONTEXT'] !== 'false';
+    const patched = patch(jsCode, { inTestingContext });
     writeFileSync(outputFile, patched);
 }
