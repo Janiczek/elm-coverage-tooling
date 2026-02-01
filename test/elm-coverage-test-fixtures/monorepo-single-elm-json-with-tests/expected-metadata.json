@@ -1,0 +1,450 @@
+{
+  "33765320": {
+    "moduleName": "Bar",
+    "declarationName": "farewell",
+    "range": [
+      [
+        9,
+        20
+      ],
+      [
+        9,
+        24
+      ]
+    ]
+  },
+  "72245905": {
+    "moduleName": "Foo",
+    "declarationName": "subtract",
+    "range": [
+      [
+        13,
+        9
+      ],
+      [
+        13,
+        10
+      ]
+    ]
+  },
+  "106420825": {
+    "moduleName": "Bar",
+    "declarationName": "farewell",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        31
+      ]
+    ]
+  },
+  "215408563": {
+    "moduleName": "Main",
+    "declarationName": "main",
+    "range": [
+      [
+        8,
+        25
+      ],
+      [
+        8,
+        39
+      ]
+    ]
+  },
+  "245304994": {
+    "moduleName": "Main",
+    "declarationName": "main",
+    "range": [
+      [
+        7,
+        5
+      ],
+      [
+        11,
+        10
+      ]
+    ]
+  },
+  "253452108": {
+    "moduleName": "Foo",
+    "declarationName": "subtract",
+    "range": [
+      [
+        13,
+        5
+      ],
+      [
+        13,
+        6
+      ]
+    ]
+  },
+  "389929308": {
+    "moduleName": "Main",
+    "declarationName": "main",
+    "range": [
+      [
+        8,
+        18
+      ],
+      [
+        8,
+        39
+      ]
+    ]
+  },
+  "440883689": {
+    "moduleName": "Main",
+    "declarationName": "main",
+    "range": [
+      [
+        8,
+        30
+      ],
+      [
+        8,
+        38
+      ]
+    ]
+  },
+  "472339208": {
+    "moduleName": "Foo",
+    "declarationName": "multiply",
+    "range": [
+      [
+        9,
+        9
+      ],
+      [
+        9,
+        10
+      ]
+    ]
+  },
+  "473628016": {
+    "moduleName": "Bar",
+    "declarationName": "farewell",
+    "range": [
+      [
+        9,
+        28
+      ],
+      [
+        9,
+        31
+      ]
+    ]
+  },
+  "474255985": {
+    "moduleName": "Main",
+    "declarationName": "main",
+    "range": [
+      [
+        9,
+        29
+      ],
+      [
+        9,
+        31
+      ]
+    ]
+  },
+  "559053829": {
+    "moduleName": "Main",
+    "declarationName": "main",
+    "range": [
+      [
+        9,
+        28
+      ],
+      [
+        9,
+        42
+      ]
+    ]
+  },
+  "573104768": {
+    "moduleName": "Main",
+    "declarationName": "main",
+    "range": [
+      [
+        9,
+        20
+      ],
+      [
+        9,
+        42
+      ]
+    ]
+  },
+  "583025675": {
+    "moduleName": "Foo",
+    "declarationName": "add",
+    "range": [
+      [
+        5,
+        5
+      ],
+      [
+        5,
+        10
+      ]
+    ]
+  },
+  "672707492": {
+    "moduleName": "Main",
+    "declarationName": "main",
+    "range": [
+      [
+        8,
+        9
+      ],
+      [
+        11,
+        10
+      ]
+    ]
+  },
+  "943683072": {
+    "moduleName": "Foo",
+    "declarationName": "subtract",
+    "range": [
+      [
+        13,
+        5
+      ],
+      [
+        13,
+        10
+      ]
+    ]
+  },
+  "1054626379": {
+    "moduleName": "Bar",
+    "declarationName": "greet",
+    "range": [
+      [
+        5,
+        26
+      ],
+      [
+        5,
+        29
+      ]
+    ]
+  },
+  "1225564788": {
+    "moduleName": "Main",
+    "declarationName": "main",
+    "range": [
+      [
+        8,
+        26
+      ],
+      [
+        8,
+        28
+      ]
+    ]
+  },
+  "1252470794": {
+    "moduleName": "Bar",
+    "declarationName": "greet",
+    "range": [
+      [
+        5,
+        18
+      ],
+      [
+        5,
+        29
+      ]
+    ]
+  },
+  "1273732911": {
+    "moduleName": "Bar",
+    "declarationName": "farewell",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        16
+      ]
+    ]
+  },
+  "1295767476": {
+    "moduleName": "Bar",
+    "declarationName": "greet",
+    "range": [
+      [
+        5,
+        18
+      ],
+      [
+        5,
+        22
+      ]
+    ]
+  },
+  "1522327402": {
+    "moduleName": "Bar",
+    "declarationName": "farewell",
+    "range": [
+      [
+        9,
+        20
+      ],
+      [
+        9,
+        31
+      ]
+    ]
+  },
+  "1529274156": {
+    "moduleName": "Foo",
+    "declarationName": "multiply",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        6
+      ]
+    ]
+  },
+  "1543203695": {
+    "moduleName": "Foo",
+    "declarationName": "multiply",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        10
+      ]
+    ]
+  },
+  "1568525173": {
+    "moduleName": "Foo",
+    "declarationName": "add",
+    "range": [
+      [
+        5,
+        5
+      ],
+      [
+        5,
+        6
+      ]
+    ]
+  },
+  "1678291280": {
+    "moduleName": "Bar",
+    "declarationName": "greet",
+    "range": [
+      [
+        5,
+        5
+      ],
+      [
+        5,
+        14
+      ]
+    ]
+  },
+  "1766750197": {
+    "moduleName": "Main",
+    "declarationName": "main",
+    "range": [
+      [
+        7,
+        5
+      ],
+      [
+        7,
+        20
+      ]
+    ]
+  },
+  "1862290972": {
+    "moduleName": "Main",
+    "declarationName": "main",
+    "range": [
+      [
+        10,
+        27
+      ],
+      [
+        10,
+        41
+      ]
+    ]
+  },
+  "1871036766": {
+    "moduleName": "Bar",
+    "declarationName": "greet",
+    "range": [
+      [
+        5,
+        5
+      ],
+      [
+        5,
+        29
+      ]
+    ]
+  },
+  "2010455107": {
+    "moduleName": "Foo",
+    "declarationName": "add",
+    "range": [
+      [
+        5,
+        9
+      ],
+      [
+        5,
+        10
+      ]
+    ]
+  },
+  "2042476985": {
+    "moduleName": "Main",
+    "declarationName": "main",
+    "range": [
+      [
+        10,
+        33
+      ],
+      [
+        10,
+        41
+      ]
+    ]
+  },
+  "2100962292": {
+    "moduleName": "Main",
+    "declarationName": "main",
+    "range": [
+      [
+        9,
+        33
+      ],
+      [
+        9,
+        41
+      ]
+    ]
+  }
+}

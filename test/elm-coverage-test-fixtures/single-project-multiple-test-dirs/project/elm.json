@@ -1,0 +1,21 @@
+{
+    "type": "application",
+    "source-directories": [
+        "src",
+        "tests-unit",
+        "tests-program"
+    ],
+    "elm-version": "0.19.1",
+    "dependencies": {
+        "direct": {
+            "elm/core": "1.0.5"
+        },
+        "indirect": {}
+    },
+    "test-dependencies": {
+        "direct": {
+            "elm-explorations/test": "2.2.1"
+        },
+        "indirect": {}
+    }
+}

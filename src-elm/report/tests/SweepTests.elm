@@ -117,6 +117,156 @@ a = 42
            , regions = []
            , expected = []
            }
+         , { name = "region entirely within leading whitespace is excluded"
+           , sourceCode = """
+module A exposing (a)
+
+a =
+    hello
+"""
+           , regions =
+                [ { range =
+                        { start = { row = 4, column = 1 }
+                        , end = { row = 4, column = 4 }
+                        }
+                  , count = 5
+                  }
+                , { range =
+                        { start = { row = 4, column = 6 }
+                        , end = { row = 4, column = 10 }
+                        }
+                  , count = 10
+                  }
+                ]
+           , expected =
+                [ { line = 4, column = 6, count = 10 }
+                , { line = 4, column = 11, count = -1 }
+                ]
+           }
+         , { name = "region starting in whitespace but extending beyond excludes whitespace portion"
+           , sourceCode = """
+module A exposing (a)
+
+a =
+    hello
+"""
+           , regions =
+                [ { range =
+                        { start = { row = 4, column = 2 }
+                        , end = { row = 4, column = 7 }
+                        }
+                  , count = 5
+                  }
+                ]
+           , expected =
+                [ { line = 4, column = 5, count = 5 }
+                , { line = 4, column = 8, count = -1 }
+                ]
+           }
+         , { name = "region entirely after whitespace is included"
+           , sourceCode = """
+module A exposing (a)
+
+a =
+    hello
+"""
+           , regions =
+                [ { range =
+                        { start = { row = 4, column = 6 }
+                        , end = { row = 4, column = 10 }
+                        }
+                  , count = 10
+                  }
+                ]
+           , expected =
+                [ { line = 4, column = 6, count = 10 }
+                , { line = 4, column = 11, count = -1 }
+                ]
+           }
+         , { name = "region continuing through line with whitespace is included"
+           , sourceCode = """
+module A exposing (a)
+
+a =
+    hello
+    world
+"""
+           , regions =
+                [ { range =
+                        { start = { row = 4, column = 6 }
+                        , end = { row = 5, column = 10 }
+                        }
+                  , count = 5
+                  }
+                ]
+           , expected =
+                [ { line = 4, column = 6, count = 5 }
+                , { line = 4, column = 10, count = -1 }
+                , { line = 5, column = 5, count = 5 }
+                , { line = 5, column = 11, count = -1 }
+                ]
+           }
+         , { name = "line with only whitespace excludes all regions"
+           , sourceCode = """
+module A exposing (a)
+
+a =
+    
+    hello
+"""
+           , regions =
+                [ { range =
+                        { start = { row = 4, column = 1 }
+                        , end = { row = 4, column = 4 }
+                        }
+                  , count = 5
+                  }
+                , { range =
+                        { start = { row = 5, column = 6 }
+                        , end = { row = 5, column = 10 }
+                        }
+                  , count = 10
+                  }
+                ]
+           , expected =
+                [ { line = 5, column = 6, count = 10 }
+                , { line = 5, column = 11, count = -1 }
+                ]
+           }
+         , { name = "multiple regions with some in whitespace"
+           , sourceCode = """
+module A exposing (a)
+
+a =
+    hello world
+"""
+           , regions =
+                [ { range =
+                        { start = { row = 4, column = 1 }
+                        , end = { row = 4, column = 3 }
+                        }
+                  , count = 1
+                  }
+                , { range =
+                        { start = { row = 4, column = 6 }
+                        , end = { row = 4, column = 10 }
+                        }
+                  , count = 5
+                  }
+                , { range =
+                        { start = { row = 4, column = 12 }
+                        , end = { row = 4, column = 16 }
+                        }
+                  , count = 10
+                  }
+                ]
+           , expected =
+                [ { line = 4, column = 6, count = 5 }
+                , { line = 4, column = 11, count = -1 }
+                , { line = 4, column = 12, count = 10 }
+                , { line = 4, column = 17, count = -1 }
+                ]
+           }
          ]
             |> List.map testCase
         )

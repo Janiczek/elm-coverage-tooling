@@ -1,0 +1,5 @@
+Module,Covered,Total,Percentage
+Total,56,59,94.92
+Foo,9,12,75
+ProgramTests,17,17,100
+UnitTests,30,30,100

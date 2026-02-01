@@ -1,0 +1,86 @@
+{
+  "472339208": {
+    "moduleName": "Foo",
+    "declarationName": "subtract",
+    "range": [
+      [
+        9,
+        9
+      ],
+      [
+        9,
+        10
+      ]
+    ]
+  },
+  "583025675": {
+    "moduleName": "Foo",
+    "declarationName": "add",
+    "range": [
+      [
+        5,
+        5
+      ],
+      [
+        5,
+        10
+      ]
+    ]
+  },
+  "1529274156": {
+    "moduleName": "Foo",
+    "declarationName": "subtract",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        6
+      ]
+    ]
+  },
+  "1543203695": {
+    "moduleName": "Foo",
+    "declarationName": "subtract",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        10
+      ]
+    ]
+  },
+  "1568525173": {
+    "moduleName": "Foo",
+    "declarationName": "add",
+    "range": [
+      [
+        5,
+        5
+      ],
+      [
+        5,
+        6
+      ]
+    ]
+  },
+  "2010455107": {
+    "moduleName": "Foo",
+    "declarationName": "add",
+    "range": [
+      [
+        5,
+        9
+      ],
+      [
+        5,
+        10
+      ]
+    ]
+  }
+}

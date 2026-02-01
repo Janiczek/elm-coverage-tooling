@@ -1,0 +1,828 @@
+{
+  "6585537": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        16
+      ],
+      [
+        10,
+        30
+      ]
+    ]
+  },
+  "64100879": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        18
+      ]
+    ]
+  },
+  "72245905": {
+    "moduleName": "Foo",
+    "declarationName": "subtract",
+    "range": [
+      [
+        16,
+        9
+      ],
+      [
+        16,
+        10
+      ]
+    ]
+  },
+  "84941532": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        13,
+        24
+      ],
+      [
+        13,
+        36
+      ]
+    ]
+  },
+  "90767125": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        11
+      ],
+      [
+        10,
+        15
+      ]
+    ]
+  },
+  "119922972": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        9,
+        19
+      ],
+      [
+        9,
+        38
+      ]
+    ]
+  },
+  "123883773": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        16,
+        30
+      ],
+      [
+        16,
+        31
+      ]
+    ]
+  },
+  "190348141": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        9
+      ],
+      [
+        14,
+        10
+      ]
+    ]
+  },
+  "200864303": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        9,
+        19
+      ],
+      [
+        9,
+        35
+      ]
+    ]
+  },
+  "240111545": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        13,
+        24
+      ],
+      [
+        13,
+        38
+      ]
+    ]
+  },
+  "243870970": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        17,
+        24
+      ],
+      [
+        17,
+        36
+      ]
+    ]
+  },
+  "253452108": {
+    "moduleName": "Foo",
+    "declarationName": "subtract",
+    "range": [
+      [
+        16,
+        5
+      ],
+      [
+        16,
+        6
+      ]
+    ]
+  },
+  "255446140": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        13,
+        24
+      ],
+      [
+        13,
+        38
+      ]
+    ]
+  },
+  "312029194": {
+    "moduleName": "Foo",
+    "declarationName": "divide",
+    "range": [
+      [
+        21,
+        10
+      ],
+      [
+        21,
+        11
+      ]
+    ]
+  },
+  "472339208": {
+    "moduleName": "Foo",
+    "declarationName": "multiply",
+    "range": [
+      [
+        11,
+        9
+      ],
+      [
+        11,
+        10
+      ]
+    ]
+  },
+  "473898408": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        15,
+        13
+      ],
+      [
+        17,
+        38
+      ]
+    ]
+  },
+  "490593012": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        14,
+        11
+      ],
+      [
+        14,
+        15
+      ]
+    ]
+  },
+  "500012567": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        16
+      ],
+      [
+        10,
+        27
+      ]
+    ]
+  },
+  "583025675": {
+    "moduleName": "Foo",
+    "declarationName": "add",
+    "range": [
+      [
+        6,
+        5
+      ],
+      [
+        6,
+        10
+      ]
+    ]
+  },
+  "669479839": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        12,
+        17
+      ],
+      [
+        12,
+        27
+      ]
+    ]
+  },
+  "671696672": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        16,
+        17
+      ],
+      [
+        16,
+        33
+      ]
+    ]
+  },
+  "728479469": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        11
+      ],
+      [
+        10,
+        15
+      ]
+    ]
+  },
+  "743576369": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        12,
+        25
+      ],
+      [
+        12,
+        26
+      ]
+    ]
+  },
+  "765745190": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        12,
+        17
+      ],
+      [
+        12,
+        31
+      ]
+    ]
+  },
+  "816178306": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        11,
+        13
+      ],
+      [
+        13,
+        38
+      ]
+    ]
+  },
+  "872865296": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        11
+      ],
+      [
+        10,
+        27
+      ]
+    ]
+  },
+  "885362291": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        11
+      ],
+      [
+        13,
+        38
+      ]
+    ]
+  },
+  "943683072": {
+    "moduleName": "Foo",
+    "declarationName": "subtract",
+    "range": [
+      [
+        16,
+        5
+      ],
+      [
+        16,
+        10
+      ]
+    ]
+  },
+  "1001194990": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        18
+      ]
+    ]
+  },
+  "1014602865": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        12,
+        17
+      ],
+      [
+        12,
+        24
+      ]
+    ]
+  },
+  "1199532509": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        13,
+        37
+      ],
+      [
+        13,
+        38
+      ]
+    ]
+  },
+  "1209814976": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        12,
+        28
+      ],
+      [
+        12,
+        29
+      ]
+    ]
+  },
+  "1216230753": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        11,
+        13
+      ],
+      [
+        13,
+        38
+      ]
+    ]
+  },
+  "1229155813": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        14,
+        11
+      ],
+      [
+        14,
+        32
+      ]
+    ]
+  },
+  "1267183074": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        12,
+        17
+      ],
+      [
+        13,
+        38
+      ]
+    ]
+  },
+  "1310489672": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        13,
+        37
+      ],
+      [
+        13,
+        38
+      ]
+    ]
+  },
+  "1326150844": {
+    "moduleName": "Foo",
+    "declarationName": "divide",
+    "range": [
+      [
+        21,
+        5
+      ],
+      [
+        21,
+        6
+      ]
+    ]
+  },
+  "1346846593": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        14,
+        10
+      ]
+    ]
+  },
+  "1389335179": {
+    "moduleName": "Foo",
+    "declarationName": "divide",
+    "range": [
+      [
+        21,
+        5
+      ],
+      [
+        21,
+        11
+      ]
+    ]
+  },
+  "1437954710": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        11
+      ],
+      [
+        13,
+        38
+      ]
+    ]
+  },
+  "1475862815": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        17,
+        37
+      ],
+      [
+        17,
+        38
+      ]
+    ]
+  },
+  "1486785218": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        14,
+        16
+      ],
+      [
+        14,
+        32
+      ]
+    ]
+  },
+  "1500958693": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        16,
+        17
+      ],
+      [
+        16,
+        29
+      ]
+    ]
+  },
+  "1529274156": {
+    "moduleName": "Foo",
+    "declarationName": "multiply",
+    "range": [
+      [
+        11,
+        5
+      ],
+      [
+        11,
+        6
+      ]
+    ]
+  },
+  "1543203695": {
+    "moduleName": "Foo",
+    "declarationName": "multiply",
+    "range": [
+      [
+        11,
+        5
+      ],
+      [
+        11,
+        10
+      ]
+    ]
+  },
+  "1568525173": {
+    "moduleName": "Foo",
+    "declarationName": "add",
+    "range": [
+      [
+        6,
+        5
+      ],
+      [
+        6,
+        6
+      ]
+    ]
+  },
+  "1616267393": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        12,
+        30
+      ],
+      [
+        12,
+        31
+      ]
+    ]
+  },
+  "1664332956": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        16,
+        32
+      ],
+      [
+        16,
+        33
+      ]
+    ]
+  },
+  "1747012000": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        18,
+        10
+      ]
+    ]
+  },
+  "1770131270": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        12,
+        27
+      ],
+      [
+        12,
+        28
+      ]
+    ]
+  },
+  "1828801268": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        16,
+        17
+      ],
+      [
+        17,
+        38
+      ]
+    ]
+  },
+  "1909674311": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        12,
+        17
+      ],
+      [
+        12,
+        28
+      ]
+    ]
+  },
+  "1956108682": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        12,
+        17
+      ],
+      [
+        13,
+        38
+      ]
+    ]
+  },
+  "1978494039": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        14,
+        11
+      ],
+      [
+        17,
+        38
+      ]
+    ]
+  },
+  "1979884200": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        13,
+        24
+      ],
+      [
+        13,
+        36
+      ]
+    ]
+  },
+  "2010455107": {
+    "moduleName": "Foo",
+    "declarationName": "add",
+    "range": [
+      [
+        6,
+        9
+      ],
+      [
+        6,
+        10
+      ]
+    ]
+  },
+  "2056577066": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        9
+      ],
+      [
+        18,
+        10
+      ]
+    ]
+  },
+  "2095761139": {
+    "moduleName": "ProgramTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        11
+      ],
+      [
+        10,
+        30
+      ]
+    ]
+  },
+  "2122700730": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        17,
+        24
+      ],
+      [
+        17,
+        38
+      ]
+    ]
+  }
+}

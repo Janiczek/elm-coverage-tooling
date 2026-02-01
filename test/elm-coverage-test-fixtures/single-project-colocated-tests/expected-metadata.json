@@ -1,0 +1,996 @@
+{
+  "977344": {
+    "moduleName": "Tests",
+    "declarationName": "suite",
+    "range": [
+      [
+        9,
+        14
+      ],
+      [
+        9,
+        25
+      ]
+    ]
+  },
+  "27547078": {
+    "moduleName": "Tests",
+    "declarationName": "suite",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        13
+      ]
+    ]
+  },
+  "33765320": {
+    "moduleName": "Bar",
+    "declarationName": "farewell",
+    "range": [
+      [
+        12,
+        20
+      ],
+      [
+        12,
+        24
+      ]
+    ]
+  },
+  "66147215": {
+    "moduleName": "Bar",
+    "declarationName": "barTest",
+    "range": [
+      [
+        17,
+        9
+      ],
+      [
+        21,
+        10
+      ]
+    ]
+  },
+  "72245905": {
+    "moduleName": "Foo",
+    "declarationName": "subtract",
+    "range": [
+      [
+        16,
+        9
+      ],
+      [
+        16,
+        10
+      ]
+    ]
+  },
+  "106420825": {
+    "moduleName": "Bar",
+    "declarationName": "farewell",
+    "range": [
+      [
+        12,
+        5
+      ],
+      [
+        12,
+        31
+      ]
+    ]
+  },
+  "120735152": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        24,
+        24
+      ],
+      [
+        24,
+        38
+      ]
+    ]
+  },
+  "131043047": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        27,
+        26
+      ],
+      [
+        27,
+        27
+      ]
+    ]
+  },
+  "147793955": {
+    "moduleName": "Bar",
+    "declarationName": "barTest",
+    "range": [
+      [
+        19,
+        17
+      ],
+      [
+        19,
+        30
+      ]
+    ]
+  },
+  "159263429": {
+    "moduleName": "Bar",
+    "declarationName": "barTest",
+    "range": [
+      [
+        20,
+        37
+      ],
+      [
+        20,
+        52
+      ]
+    ]
+  },
+  "200966175": {
+    "moduleName": "Tests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        11
+      ],
+      [
+        10,
+        22
+      ]
+    ]
+  },
+  "203617728": {
+    "moduleName": "Bar",
+    "declarationName": "barTest",
+    "range": [
+      [
+        20,
+        24
+      ],
+      [
+        20,
+        36
+      ]
+    ]
+  },
+  "227846454": {
+    "moduleName": "Bar",
+    "declarationName": "barTest",
+    "range": [
+      [
+        17,
+        11
+      ],
+      [
+        17,
+        15
+      ]
+    ]
+  },
+  "253452108": {
+    "moduleName": "Foo",
+    "declarationName": "subtract",
+    "range": [
+      [
+        16,
+        5
+      ],
+      [
+        16,
+        6
+      ]
+    ]
+  },
+  "312029194": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        20,
+        19
+      ],
+      [
+        20,
+        24
+      ]
+    ]
+  },
+  "463746766": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        27,
+        17
+      ],
+      [
+        27,
+        29
+      ]
+    ]
+  },
+  "472339208": {
+    "moduleName": "Foo",
+    "declarationName": "multiply",
+    "range": [
+      [
+        12,
+        9
+      ],
+      [
+        12,
+        10
+      ]
+    ]
+  },
+  "473628016": {
+    "moduleName": "Bar",
+    "declarationName": "farewell",
+    "range": [
+      [
+        12,
+        28
+      ],
+      [
+        12,
+        31
+      ]
+    ]
+  },
+  "482759411": {
+    "moduleName": "Tests",
+    "declarationName": "suite",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        12,
+        10
+      ]
+    ]
+  },
+  "541381121": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        25,
+        11
+      ],
+      [
+        25,
+        15
+      ]
+    ]
+  },
+  "577156297": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        28,
+        24
+      ],
+      [
+        28,
+        36
+      ]
+    ]
+  },
+  "583025675": {
+    "moduleName": "Foo",
+    "declarationName": "add",
+    "range": [
+      [
+        8,
+        5
+      ],
+      [
+        8,
+        10
+      ]
+    ]
+  },
+  "619009683": {
+    "moduleName": "Tests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        9
+      ],
+      [
+        12,
+        10
+      ]
+    ]
+  },
+  "638302264": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        23,
+        17
+      ],
+      [
+        23,
+        24
+      ]
+    ]
+  },
+  "696880320": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        28,
+        37
+      ],
+      [
+        28,
+        38
+      ]
+    ]
+  },
+  "699535814": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        21,
+        9
+      ],
+      [
+        29,
+        10
+      ]
+    ]
+  },
+  "731243182": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        24,
+        24
+      ],
+      [
+        24,
+        36
+      ]
+    ]
+  },
+  "761048117": {
+    "moduleName": "Bar",
+    "declarationName": "barTest",
+    "range": [
+      [
+        20,
+        24
+      ],
+      [
+        20,
+        52
+      ]
+    ]
+  },
+  "763229621": {
+    "moduleName": "Bar",
+    "declarationName": "barTest",
+    "range": [
+      [
+        16,
+        19
+      ],
+      [
+        16,
+        24
+      ]
+    ]
+  },
+  "785139579": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        25,
+        11
+      ],
+      [
+        25,
+        32
+      ]
+    ]
+  },
+  "943683072": {
+    "moduleName": "Foo",
+    "declarationName": "subtract",
+    "range": [
+      [
+        16,
+        5
+      ],
+      [
+        16,
+        10
+      ]
+    ]
+  },
+  "960037092": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        21,
+        16
+      ],
+      [
+        21,
+        27
+      ]
+    ]
+  },
+  "987936747": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        23,
+        17
+      ],
+      [
+        24,
+        38
+      ]
+    ]
+  },
+  "989525643": {
+    "moduleName": "Bar",
+    "declarationName": "barTest",
+    "range": [
+      [
+        18,
+        13
+      ],
+      [
+        20,
+        52
+      ]
+    ]
+  },
+  "1036955255": {
+    "moduleName": "Bar",
+    "declarationName": "barTest",
+    "range": [
+      [
+        17,
+        11
+      ],
+      [
+        20,
+        52
+      ]
+    ]
+  },
+  "1054626379": {
+    "moduleName": "Bar",
+    "declarationName": "greet",
+    "range": [
+      [
+        8,
+        26
+      ],
+      [
+        8,
+        29
+      ]
+    ]
+  },
+  "1107638296": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        27,
+        17
+      ],
+      [
+        27,
+        25
+      ]
+    ]
+  },
+  "1128740717": {
+    "moduleName": "Bar",
+    "declarationName": "barTest",
+    "range": [
+      [
+        19,
+        23
+      ],
+      [
+        19,
+        30
+      ]
+    ]
+  },
+  "1131483885": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        27,
+        17
+      ],
+      [
+        28,
+        38
+      ]
+    ]
+  },
+  "1176468248": {
+    "moduleName": "Bar",
+    "declarationName": "barTest",
+    "range": [
+      [
+        19,
+        17
+      ],
+      [
+        19,
+        22
+      ]
+    ]
+  },
+  "1176968440": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        21,
+        11
+      ],
+      [
+        24,
+        38
+      ]
+    ]
+  },
+  "1252470794": {
+    "moduleName": "Bar",
+    "declarationName": "greet",
+    "range": [
+      [
+        8,
+        18
+      ],
+      [
+        8,
+        29
+      ]
+    ]
+  },
+  "1273732911": {
+    "moduleName": "Bar",
+    "declarationName": "farewell",
+    "range": [
+      [
+        12,
+        5
+      ],
+      [
+        12,
+        16
+      ]
+    ]
+  },
+  "1295767476": {
+    "moduleName": "Bar",
+    "declarationName": "greet",
+    "range": [
+      [
+        8,
+        18
+      ],
+      [
+        8,
+        22
+      ]
+    ]
+  },
+  "1326150844": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        20,
+        5
+      ],
+      [
+        20,
+        18
+      ]
+    ]
+  },
+  "1365081669": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        23,
+        17
+      ],
+      [
+        23,
+        20
+      ]
+    ]
+  },
+  "1389335179": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        21,
+        11
+      ],
+      [
+        21,
+        15
+      ]
+    ]
+  },
+  "1395133468": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        22,
+        13
+      ],
+      [
+        24,
+        38
+      ]
+    ]
+  },
+  "1433374326": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        20,
+        5
+      ],
+      [
+        29,
+        10
+      ]
+    ]
+  },
+  "1522327402": {
+    "moduleName": "Bar",
+    "declarationName": "farewell",
+    "range": [
+      [
+        12,
+        20
+      ],
+      [
+        12,
+        31
+      ]
+    ]
+  },
+  "1529274156": {
+    "moduleName": "Foo",
+    "declarationName": "multiply",
+    "range": [
+      [
+        12,
+        5
+      ],
+      [
+        12,
+        6
+      ]
+    ]
+  },
+  "1543203695": {
+    "moduleName": "Foo",
+    "declarationName": "multiply",
+    "range": [
+      [
+        12,
+        5
+      ],
+      [
+        12,
+        10
+      ]
+    ]
+  },
+  "1568525173": {
+    "moduleName": "Foo",
+    "declarationName": "add",
+    "range": [
+      [
+        8,
+        5
+      ],
+      [
+        8,
+        6
+      ]
+    ]
+  },
+  "1576172087": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        28,
+        24
+      ],
+      [
+        28,
+        38
+      ]
+    ]
+  },
+  "1584273081": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        25,
+        11
+      ],
+      [
+        28,
+        38
+      ]
+    ]
+  },
+  "1621808322": {
+    "moduleName": "Tests",
+    "declarationName": "suite",
+    "range": [
+      [
+        11,
+        11
+      ],
+      [
+        11,
+        22
+      ]
+    ]
+  },
+  "1657102471": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        24,
+        37
+      ],
+      [
+        24,
+        38
+      ]
+    ]
+  },
+  "1678291280": {
+    "moduleName": "Bar",
+    "declarationName": "greet",
+    "range": [
+      [
+        8,
+        5
+      ],
+      [
+        8,
+        14
+      ]
+    ]
+  },
+  "1709855543": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        25,
+        16
+      ],
+      [
+        25,
+        32
+      ]
+    ]
+  },
+  "1772567270": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        26,
+        13
+      ],
+      [
+        28,
+        38
+      ]
+    ]
+  },
+  "1832804532": {
+    "moduleName": "Bar",
+    "declarationName": "barTest",
+    "range": [
+      [
+        17,
+        11
+      ],
+      [
+        17,
+        29
+      ]
+    ]
+  },
+  "1852283833": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        23,
+        23
+      ],
+      [
+        23,
+        24
+      ]
+    ]
+  },
+  "1871036766": {
+    "moduleName": "Bar",
+    "declarationName": "greet",
+    "range": [
+      [
+        8,
+        5
+      ],
+      [
+        8,
+        29
+      ]
+    ]
+  },
+  "1890083770": {
+    "moduleName": "Bar",
+    "declarationName": "barTest",
+    "range": [
+      [
+        17,
+        16
+      ],
+      [
+        17,
+        29
+      ]
+    ]
+  },
+  "1930637772": {
+    "moduleName": "Bar",
+    "declarationName": "barTest",
+    "range": [
+      [
+        19,
+        17
+      ],
+      [
+        20,
+        52
+      ]
+    ]
+  },
+  "1982882392": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        21,
+        11
+      ],
+      [
+        21,
+        27
+      ]
+    ]
+  },
+  "1998419612": {
+    "moduleName": "Bar",
+    "declarationName": "barTest",
+    "range": [
+      [
+        16,
+        5
+      ],
+      [
+        21,
+        10
+      ]
+    ]
+  },
+  "2010455107": {
+    "moduleName": "Foo",
+    "declarationName": "add",
+    "range": [
+      [
+        8,
+        9
+      ],
+      [
+        8,
+        10
+      ]
+    ]
+  },
+  "2034365157": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        23,
+        21
+      ],
+      [
+        23,
+        22
+      ]
+    ]
+  },
+  "2092670002": {
+    "moduleName": "Bar",
+    "declarationName": "barTest",
+    "range": [
+      [
+        16,
+        5
+      ],
+      [
+        16,
+        18
+      ]
+    ]
+  },
+  "2116421944": {
+    "moduleName": "Foo",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        27,
+        28
+      ],
+      [
+        27,
+        29
+      ]
+    ]
+  }
+}

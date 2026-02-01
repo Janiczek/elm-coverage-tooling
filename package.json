@@ -2,6 +2,12 @@
   "name": "elm-coverage-tooling",
   "version": "1.0.0",
   "main": "index.js",
+  "bin": {
+    "elm-coverage-instrument": "bin/elm-coverage-instrument",
+    "elm-coverage-make": "bin/elm-coverage-make",
+    "elm-coverage-report": "bin/elm-coverage-report",
+    "elm-coverage-test": "bin/elm-coverage-test"
+  },
   "scripts": {
     "test:elm:report": "cd src-elm/report && elm-test",
     "test:elm:instrument": "cd src-elm/instrument && elm-test",
@@ -13,6 +19,7 @@
     "test:js:elm-coverage-report": "node --no-warnings --test --experimental-strip-types test/elm-coverage-report.ts",
     "test:js": "node --no-warnings --test --experimental-strip-types test/*.ts",
     "test": "npm run test:elm && npm run test:js",
+    "approve": "node --no-warnings --experimental-strip-types scripts/approve-fixture.ts",
     "build:elm:instrument": "mkdir -p dist && cd src-elm/instrument && elm-esm make --optimize src/Main.elm --output=../../dist/elm-instrument.js && cp ../../src/elm-instrument.d.ts ../../dist/elm-instrument.d.ts",
     "build:elm:report": "mkdir -p dist && cd src-elm/report && elm-esm make --optimize src/Main.elm --output=../../dist/elm-report.js && cp ../../src/elm-report.d.ts ../../dist/elm-report.d.ts",
     "build:elm": "npm run build:elm:instrument && npm run build:elm:report",

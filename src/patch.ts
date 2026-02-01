@@ -37,10 +37,17 @@ const footer = '// elm-coverage-tooling patch end';
  * @param config.inTestingContext - Whether the code is running in a testing context (elm-test)
  */
 export function patch(compiledJsCode: string, config: { inTestingContext: boolean }): string {
-    // var $author$project$Test$Coverage$track = function (pointId) {
+    // var $author$project$Test$Coverage$track = function (_v0) {
     //     return _Utils_Tuple0;
     // };
-    const pattern = /var\s+\$author\$project\$Test\$Coverage\$track\s*=\s*function\s+\(pointId\)\s*\{[\s\S]*?return\s+_Utils_Tuple0;\s*\};/gm;
+    //
+    // Match any parameter name (not just "pointId") - Elm compiler may rename it to _v0, _v1, etc.
+    // Match the function with any content between the opening brace and return statement
+    //
+    // Note: Using RegExp constructor to ensure proper escaping of $ characters
+    // In regex, $ means end-of-string, so we need \$ to match literal $
+    // In source code string, we need \\$ to get \$ in the regex
+    const pattern = new RegExp('var\\s*\\$author\\$project\\$Test\\$Coverage\\$track\\s*=\\s*function\\s+\\([^)]+\\)\\s*\\{.*?return\\s+_Utils_Tuple0;\\s*\\};', 'gms');
 
     if (config.inTestingContext) {
         // Full patch for testing context - includes writing coverage to file

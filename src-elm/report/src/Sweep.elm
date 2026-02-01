@@ -92,7 +92,61 @@ annotateLine line lineContent regions =
         lineLength =
             String.length lineContent
 
+        -- Find the first non-whitespace character position (1-indexed)
+        -- Returns lineLength + 1 if the line is entirely whitespace
+        firstNonWhitespaceCol : Int
+        firstNonWhitespaceCol =
+            let
+                originalLength : Int
+                originalLength =
+                    String.length lineContent
+
+                trimmedLength : Int
+                trimmedLength =
+                    String.length (String.trimLeft lineContent)
+            in
+            (originalLength - trimmedLength) + 1
+
+        -- Filter out regions that are entirely within leading whitespace
+        -- A region is excluded if both its start and end on this line are before
+        -- the first non-whitespace character
+        filteredRegions : List Region
+        filteredRegions =
+            List.filter
+                (\region ->
+                    let
+                        startCol : Int
+                        startCol =
+                            if region.range.start.row == line then
+                                region.range.start.column
+
+                            else
+                                1
+
+                        endCol : Int
+                        endCol =
+                            if region.range.end.row == line then
+                                region.range.end.column
+
+                            else
+                                lineLength
+
+                        -- Check if region is entirely within leading whitespace
+                        -- Only exclude if both start and end are before first non-whitespace
+                        -- AND the region actually starts/ends on this line (not continuing through)
+                        isFullyWhitespace : Bool
+                        isFullyWhitespace =
+                            startCol < firstNonWhitespaceCol
+                                && endCol < firstNonWhitespaceCol
+                                && (region.range.start.row == line || region.range.end.row == line)
+                    in
+                    -- Include region if it's not fully within whitespace
+                    not isFullyWhitespace
+                )
+                regions
+
         -- Create events: start and end of each region on this line
+        -- Adjust startCol to skip leading whitespace if region starts in whitespace but extends beyond
         events : List ( Int, Event )
         events =
             List.concatMap
@@ -113,27 +167,38 @@ annotateLine line lineContent regions =
 
                             else
                                 lineLength
+
+                        -- Clip startCol to firstNonWhitespaceCol if it starts in whitespace
+                        -- but the region extends beyond whitespace
+                        adjustedStartCol : Int
+                        adjustedStartCol =
+                            if startCol < firstNonWhitespaceCol && endCol >= firstNonWhitespaceCol then
+                                firstNonWhitespaceCol
+
+                            else
+                                startCol
                     in
                     if region.range.end.row == line then
                         -- Region ends on this line: create both start and end events
-                        [ ( startCol, Start region )
+                        [ ( adjustedStartCol, Start region )
                         , ( endCol + 1, End region )
                         ]
 
                     else if region.range.start.row == line then
                         -- Region starts on this line but continues: start event and end at end of line
                         -- (to mark where coverage ends on this line, even though region continues)
-                        [ ( startCol, Start region )
+                        [ ( adjustedStartCol, Start region )
                         , ( lineLength + 1, End region )
                         ]
 
                     else
-                        -- Region continues through this line: start at beginning
+                        -- Region continues through this line: start at first non-whitespace
                         -- Don't create an End event - the region continues to the next line
-                        [ ( 1, Start region )
+                        -- Clip to skip leading whitespace on this line
+                        [ ( firstNonWhitespaceCol, Start region )
                         ]
                 )
-                regions
+                filteredRegions
                 |> List.sortBy Tuple.first
 
         -- Sweep through columns, maintaining active regions

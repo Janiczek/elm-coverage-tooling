@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>UnitTests - Coverage Report</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        td { border: none; padding: 2px; }
+        .line-number { text-align: right; padding-right: 10px; color: #666; user-select: none; }
+        .covered { 
+            background-color: #d4edda; 
+            border-radius: 6px; 
+            position: relative;
+        }
+        .covered:hover { background-color: rgba(212, 237, 218, 0.25); outline: 2px solid #d4edda; }
+        .uncovered { 
+            background-color: #f8d7da; 
+            border-radius: 6px; 
+            position: relative;
+        }
+        .uncovered:hover { background-color: rgba(248, 215, 218, 0.25); outline: 2px solid #f8d7da; }
+        .no-coverage { background-color: transparent; }
+        pre { margin: 0; font-family: monospace; white-space: pre-wrap; position: relative; }
+        .tooltip { 
+            display: none;
+            background-color: #333;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+            pointer-events: none;
+            position: absolute;
+            /* Pure CSS positioning: center above the parent span */
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 4px;
+        }
+        .covered:hover .tooltip,
+        .uncovered:hover .tooltip {
+            display: block;
+        }
+    </style>
+</head>
+<div><h1>UnitTests</h1><p><a href="index.html">← Back to index</a></p><table><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">1</td><td><pre style="margin: 0; font-family: monospace">module UnitTests exposing (suite)</pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">2</td><td><pre style="margin: 0; font-family: monospace"></pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">3</td><td><pre style="margin: 0; font-family: monospace">import Expect</pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">4</td><td><pre style="margin: 0; font-family: monospace">import Foo</pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">5</td><td><pre style="margin: 0; font-family: monospace">import Test exposing (Test, test)</pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">6</td><td><pre style="margin: 0; font-family: monospace"></pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">7</td><td><pre style="margin: 0; font-family: monospace"></pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">8</td><td><pre style="margin: 0; font-family: monospace">suite : Test</pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">9</td><td><pre style="margin: 0; font-family: monospace">suite =</pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">10</td><td><pre style="margin: 0; font-family: monospace"><span><span class="no-coverage">    </span><span class="covered">Test.describe "Foo unit tests"<span class="tooltip">10x</span></span></span></pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">11</td><td><pre style="margin: 0; font-family: monospace"><span><span class="no-coverage">        </span><span class="covered">[ test "add works" &lt;|<span class="tooltip">10x</span></span></span></pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">12</td><td><pre style="margin: 0; font-family: monospace"><span><span class="no-coverage">            </span><span class="covered">\_ -&gt;<span class="tooltip">10x</span></span></span></pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">13</td><td><pre style="margin: 0; font-family: monospace"><span><span class="no-coverage">                </span><span class="covered">Foo.add 2 3<span class="tooltip">1x</span></span></span></pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">14</td><td><pre style="margin: 0; font-family: monospace"><span><span class="no-coverage">                    </span><span class="covered">|&gt; Expect.equal 5<span class="tooltip">1x</span></span></span></pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">15</td><td><pre style="margin: 0; font-family: monospace"><span><span class="no-coverage">        </span><span class="covered">]<span class="tooltip">10x</span></span></span></pre></td></tr><tr><td style="text-align: right; padding-right: 10px; color: #666; user-select: none">16</td><td><pre style="margin: 0; font-family: monospace"></pre></td></tr></table></div>
+</html>

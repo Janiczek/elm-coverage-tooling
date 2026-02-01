@@ -1,0 +1,6 @@
+Module,Covered,Total,Percentage
+Total,41,49,83.67
+Bar,5,10,50
+Foo,3,6,50
+IntegrationTests,16,16,100
+UnitTests,17,17,100

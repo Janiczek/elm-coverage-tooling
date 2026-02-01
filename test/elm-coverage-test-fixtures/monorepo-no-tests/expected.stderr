@@ -1,0 +1,7 @@
+The tests/ directory does not exist.
+
+To generate some initial tests to get things going: elm-test init
+
+Alternatively, if your project has tests in a different directory,
+try calling elm-test with a glob such as: elm-test "src/**/*Tests.elm"
+

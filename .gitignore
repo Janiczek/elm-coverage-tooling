@@ -1,4 +1,4 @@
-src-elm/*/elm-stuff/
+elm-stuff/
 src-elm/*/index.html
 node_modules/
 dist/

@@ -21,6 +21,8 @@ interface CliArgs {
     runner: string;
     coverageFormat: ReportFormat;
     coverageOutput?: string;
+    keepInstrumentedProject: boolean;
+    keepCoverageData: boolean;
     forwardedArgs: string[];
 }
 
@@ -43,11 +45,21 @@ function parseArgs(): CliArgs {
             type: 'string',
             description: 'Path to the coverage output file (or folder for HTML format). Ignored when format is stdout.',
         })
+        .option('keep-instrumented-project', {
+            type: 'boolean',
+            default: false,
+            description: 'Keep the instrumented project in elm-stuff/instrumented-project and write coverage-metadata.json',
+        })
+        .option('keep-coverage-data', {
+            type: 'boolean',
+            default: false,
+            description: 'Write merged coverage data to elm-stuff/coverage.json',
+        })
         .strict(false) // Allow unknown options to be forwarded
         .help();
     
-    // Show help if no arguments provided
-    if (args.length === 0) {
+    // Only show help if --help is explicitly passed
+    if (args.includes('--help') || args.includes('-h')) {
         yargsInstance.showHelp();
         process.exit(0);
     }
@@ -57,9 +69,11 @@ function parseArgs(): CliArgs {
     const runner = argv.runner as string;
     const coverageFormat = argv['coverage-format'] as ReportFormat;
     const coverageOutput = argv['coverage-output'] as string | undefined;
+    const keepInstrumentedProject = argv['keep-instrumented-project'] as boolean;
+    const keepCoverageData = argv['keep-coverage-data'] as boolean;
 
     const forwardedArgs: string[] = [];
-    const knownFlags = new Set(['--runner', '--coverage-format', '--coverage-output']);
+    const knownFlags = new Set(['--runner', '--coverage-format', '--coverage-output', '--keep-instrumented-project', '--keep-coverage-data']);
     const originalArgs = process.argv.slice(2);
     
     let skipNext = false;
@@ -83,7 +97,9 @@ function parseArgs(): CliArgs {
             typeof arg === 'string' &&
             (arg.startsWith('--runner=') ||
             arg.startsWith('--coverage-format=') ||
-            arg.startsWith('--coverage-output='))
+            arg.startsWith('--coverage-output=') ||
+            arg.startsWith('--keep-instrumented-project=') ||
+            arg.startsWith('--keep-coverage-data='))
         ) {
             // Skip flags with =value syntax
             return;
@@ -95,6 +111,8 @@ function parseArgs(): CliArgs {
     const result: CliArgs = {
         runner,
         coverageFormat,
+        keepInstrumentedProject,
+        keepCoverageData,
         forwardedArgs,
     };
     if (coverageOutput !== undefined) {
@@ -133,11 +151,13 @@ async function findElmFiles(dir: string): Promise<string[]> {
 async function instrumentFiles(elmFiles: string[]): Promise<{ 
     coverageMetadata: CoverageMetadataMap, 
     instrumentedFiles: Map<string, string>,
-    moduleMetadata: ModuleMetadata
+    moduleMetadata: ModuleMetadata,
+    originalSources: Map<string, string>
 }> {
     const coverageMetadatas: CoverageMetadataMap[] = [];
     const instrumentedFiles = new Map<string, string>();
     const moduleMetadata: ModuleMetadata = new Map<string, number>();
+    const originalSources = new Map<string, string>();
     
     for (const filePath of elmFiles) {
         const sourceCode = await readFile(filePath, 'utf-8');
@@ -151,23 +171,56 @@ async function instrumentFiles(elmFiles: string[]): Promise<{
         instrumentedFiles.set(filePath, output.instrumentedElmSourceCode);
         coverageMetadatas.push(output.coverageMetadata);
         moduleMetadata.set(filePath, output.contentHash);
+        // Store original source code for later use in reporting
+        originalSources.set(filePath, sourceCode);
     }
 
     const coverageMetadata: CoverageMetadataMap = new Map(coverageMetadatas.flatMap(m => [...m]));
     
-    return { coverageMetadata, instrumentedFiles, moduleMetadata };
+    return { coverageMetadata, instrumentedFiles, moduleMetadata, originalSources };
 }
 
 async function createTempProject(
     tempDir: string,
     instrumentedFiles: Map<string, string>,
+    otherFiles: string[],
     originalElmJson: string,
-    originalSourceDirs: string[]
+    originalSourceDirs: string[],
+    projectDir: string
 ): Promise<void> {
     // Copy elm.json
     await writeFile(join(tempDir, 'elm.json'), originalElmJson);
     
-    // Create source directories and copy instrumented files
+    // Parse elm.json to get source directories relative to project root
+    const elmJson = JSON.parse(originalElmJson);
+    const sourceDirs = elmJson['source-directories'] || ['src'];
+    
+    // Create all source directories (even if empty) to satisfy elm.json requirements
+    for (const sourceDir of sourceDirs) {
+        const targetSourceDir = join(tempDir, sourceDir);
+        await mkdir(targetSourceDir, { recursive: true });
+    }
+    
+    // Create Test.Coverage stub module in the first source directory (needed for instrumented code to compile)
+    // The JavaScript patching will replace the no-op implementation with actual tracking
+    const firstSourceDir = sourceDirs[0] || 'src';
+    const testCoverageDir = join(tempDir, firstSourceDir, 'Test');
+    await mkdir(testCoverageDir, { recursive: true });
+    const testCoverageModule = `module Test.Coverage exposing (track)
+
+{-| Stub module for coverage tracking.
+The actual implementation is provided via JavaScript patching.
+-}
+track : Int -> ()
+track _ =
+    ()
+`;
+    await writeFile(join(tempDir, firstSourceDir, 'Test', 'Coverage.elm'), testCoverageModule);
+    
+    const normalizedProjectRoot = resolve(projectDir).replace(/\\/g, '/');
+    
+    // Copy instrumented source files
+    // TODO: would this be simpler if we tracked modules to instrument by their path and not the module name?
     for (const [originalPath, instrumentedCode] of instrumentedFiles.entries()) {
         // Find which source directory this file belongs to
         let relativePath: string | null = null;
@@ -175,16 +228,22 @@ async function createTempProject(
         
         for (const sourceDir of originalSourceDirs) {
             const normalizedSourceDir = resolve(sourceDir).replace(/\\/g, '/');
-            if (normalizedOriginalPath.startsWith(normalizedSourceDir + '/')) {
-                relativePath = normalizedOriginalPath.slice(normalizedSourceDir.length + 1);
-                break;
+            if (normalizedOriginalPath.startsWith(normalizedSourceDir + '/') || normalizedOriginalPath === normalizedSourceDir) {
+                const fileRelativeToSource = normalizedOriginalPath.slice(normalizedSourceDir.length);
+                for (const sourceDirName of sourceDirs) {
+                    const normalizedSourceDirName = resolve(projectDir, sourceDirName).replace(/\\/g, '/');
+                    if (normalizedSourceDir === normalizedSourceDirName) {
+                        relativePath = sourceDirName + fileRelativeToSource;
+                        break;
+                    }
+                }
+                if (relativePath) break;
             }
         }
         
+        // TODO: check if needed
+        // Fallback: use the file's directory structure relative to project root
         if (!relativePath) {
-            // Fallback: use the file's directory structure relative to project root
-            const projectRoot = process.cwd();
-            const normalizedProjectRoot = resolve(projectRoot).replace(/\\/g, '/');
             if (normalizedOriginalPath.startsWith(normalizedProjectRoot + '/')) {
                 relativePath = normalizedOriginalPath.slice(normalizedProjectRoot.length + 1);
             } else {
@@ -195,6 +254,22 @@ async function createTempProject(
         const targetPath = join(tempDir, relativePath);
         await mkdir(dirname(targetPath), { recursive: true });
         await writeFile(targetPath, instrumentedCode);
+    }
+    
+    // Copy other files (like tests) as-is
+    for (const originalPath of otherFiles) {
+        const normalizedOriginalPath = resolve(originalPath).replace(/\\/g, '/');
+        let relativePath: string;
+        if (normalizedOriginalPath.startsWith(normalizedProjectRoot + '/')) {
+            relativePath = normalizedOriginalPath.slice(normalizedProjectRoot.length + 1);
+        } else {
+            relativePath = basename(originalPath);
+        }
+        
+        const targetPath = join(tempDir, relativePath);
+        await mkdir(dirname(targetPath), { recursive: true });
+        const originalContent = await readFile(originalPath, 'utf-8');
+        await writeFile(targetPath, originalContent);
     }
 }
 
@@ -258,18 +333,6 @@ function getFileExtensionForFormat(format: ReportFormat): string {
     }
 }
 
-function generateDateTimeString(date: Date): string {
-    const pad = (n: number) => n.toString().padStart(2, '0');
-    return [
-        date.getFullYear(),
-        date.getMonth() + 1,
-        date.getDate(),
-        date.getHours(),
-        date.getMinutes(),
-        date.getSeconds()
-    ].map(pad).join('-');
-}
-
 async function writeReport(reportFiles: Report, format: ReportFormat, output?: string): Promise<void> {
     if (format === 'stdout') {
         // For stdout, just print the first file's contents
@@ -281,15 +344,15 @@ async function writeReport(reportFiles: Report, format: ReportFormat, output?: s
     
     const ext = getFileExtensionForFormat(format);
     
-    // If no output is specified, generate a default output path in elm-stuff/coverage-report-YYYY-MM-DD-HH-MM-SS.EXT
+    // If no output is specified, generate a default output path
+    // HTML reports: elm-stuff/coverage-report (fixed folder name)
+    // Other formats: elm-stuff/coverage-report.EXT
     if (!output) {
-        const now = new Date();
-        const dateTimeStr = generateDateTimeString(now);
-        // HTML reports are directories, so don't add extension
-        output = join(
-            'elm-stuff',
-            `coverage-report-${dateTimeStr}${ext === 'html' ? '' : '.' + ext}`
-        );
+        if (ext === 'html') {
+            output = join('elm-stuff', 'coverage-report');
+        } else {
+            output = join('elm-stuff', `coverage-report.${ext}`);
+        }
     }
     
     if (ext === 'html') {
@@ -327,19 +390,92 @@ async function readElmJson(projectDir: string): Promise<{ content: string; sourc
     return { content, sourceDirs: absoluteSourceDirs };
 }
 
+function serializeCoverageMetadata(metadata: CoverageMetadataMap): Record<string, { moduleName: string; declarationName: string; range: [[number, number], [number, number]] }> {
+    const result: Record<string, { moduleName: string; declarationName: string; range: [[number, number], [number, number]] }> = {};
+    for (const [pointId, meta] of metadata.entries()) {
+        result[pointId.toString()] = {
+            moduleName: meta.moduleName,
+            declarationName: meta.declarationName,
+            range: meta.range,
+        };
+    }
+    return result;
+}
+
+function serializeCoverageData(data: CoverageData): Record<string, number> {
+    const result: Record<string, number> = {};
+    for (const [pointId, count] of data.entries()) {
+        result[pointId.toString()] = count;
+    }
+    return result;
+}
+
+async function cleanupCoverageFiles(projectDir: string): Promise<void> {
+    const elmStuffPath = join(projectDir, 'elm-stuff');
+    const coverageFiles = [
+        'coverage-metadata.json',
+        'coverage-report',
+        'coverage-report.csv',
+        'coverage-report.lcov',
+        'coverage-report.txt',
+        'coverage.json',
+        'instrumented-project',
+    ];
+    
+    for (const file of coverageFiles) {
+        const filePath = join(elmStuffPath, file);
+        try {
+            await rm(filePath, { recursive: true, force: true });
+        } catch {
+            // File doesn't exist, which is fine
+        }
+    }
+}
+
 async function main() {
     const args = parseArgs();
     const projectDir = process.cwd();
     await ensureElmProjectRoot(projectDir);
-    const { content: elmJsonContent, sourceDirs } = await readElmJson(projectDir);
-    const elmFiles = await findElmFiles(projectDir);
-    const { coverageMetadata, instrumentedFiles, moduleMetadata } = await instrumentFiles(elmFiles);
     
-    // Collect original sources by module name
+    // Clean up coverage-related files at the very beginning
+    await cleanupCoverageFiles(projectDir);
+    
+    const { content: elmJsonContent, sourceDirs } = await readElmJson(projectDir);
+    const allElmFiles = await findElmFiles(projectDir);
+    
+    // Separate source files (to instrument) from other files (to copy as-is, like tests)
+    const sourceFiles: string[] = [];
+    const otherFiles: string[] = [];
+    const normalizedSourceDirs = sourceDirs.map(dir => resolve(dir).replace(/\\/g, '/'));
+    
+    for (const filePath of allElmFiles) {
+        const normalizedPath = resolve(filePath).replace(/\\/g, '/');
+        const isInSourceDir = normalizedSourceDirs.some(sourceDir => 
+            normalizedPath.startsWith(sourceDir + '/')
+        );
+        if (isInSourceDir) {
+            sourceFiles.push(filePath);
+        } else {
+            otherFiles.push(filePath);
+        }
+    }
+    
+    const { coverageMetadata, instrumentedFiles, moduleMetadata, originalSources } = await instrumentFiles(sourceFiles);
+    
+    // Collect original sources by module name (only from source files, not test files)
+    // Use the same source code that was used for hash calculation to avoid hash mismatches
     // Extract module name from file content (first line: "module Module.Name exposing (...)")
     const sourcesByModule = new Map<string, string>();
-    for (const filePath of elmFiles) {
-        const sourceCode = await readFile(filePath, 'utf-8');
+    const moduleHashesByName = new Map<string, number>();
+    for (const filePath of sourceFiles) {
+        const sourceCode = originalSources.get(filePath);
+        if (!sourceCode) {
+            continue; // Should not happen, but skip if missing
+        }
+        const hash = moduleMetadata.get(filePath);
+        if (hash === undefined) {
+            continue; // Should not happen, but skip if missing
+        }
         // Extract module name from the module declaration
         const lines = sourceCode.split('\n');
         for (const line of lines) {
@@ -349,6 +485,7 @@ async function main() {
                 if (moduleMatch && moduleMatch[1]) {
                     const moduleName = moduleMatch[1];
                     sourcesByModule.set(moduleName, sourceCode);
+                    moduleHashesByName.set(moduleName, hash);
                     break;
                 }
             }
@@ -357,19 +494,45 @@ async function main() {
     
     const tempDir = join(projectDir, 'elm-stuff', 'instrumented-project');
     await mkdir(tempDir, { recursive: true });
+    
+    // Write coverage-metadata.json if --keep-instrumented-project is set
+    if (args.keepInstrumentedProject) {
+        const metadataPath = join(projectDir, 'elm-stuff', 'coverage-metadata.json');
+        await mkdir(dirname(metadataPath), { recursive: true });
+        const serializedMetadata = serializeCoverageMetadata(coverageMetadata);
+        await writeFile(metadataPath, JSON.stringify(serializedMetadata, null, 2));
+    }
+    
     try {
-        await createTempProject(tempDir, instrumentedFiles, elmJsonContent, sourceDirs);
+        await createTempProject(tempDir, instrumentedFiles, otherFiles, elmJsonContent, sourceDirs, projectDir);
         const binDir = getBinDirectory();
         const compilerWrapper = join(binDir, 'elm-compiler-wrapper');
         const coverageData = await runElmTest(tempDir, args.runner, args.forwardedArgs, compilerWrapper);
-        const reportContent = await report(coverageMetadata, coverageData, args.coverageFormat, sourcesByModule, moduleMetadata);
+        
+        // Write coverage.json if --keep-coverage-data is set
+        if (args.keepCoverageData) {
+            const coveragePath = join(projectDir, 'elm-stuff', 'coverage.json');
+            await mkdir(dirname(coveragePath), { recursive: true });
+            const serializedData = serializeCoverageData(coverageData);
+            await writeFile(coveragePath, JSON.stringify(serializedData, null, 2));
+        }
+        
+        const reportContent = await report(coverageMetadata, coverageData, args.coverageFormat, sourcesByModule, moduleHashesByName);
         await writeReport(reportContent, args.coverageFormat, args.coverageOutput);
     } finally {
-        await rm(tempDir, { recursive: true, force: true });
+        // Only delete tempDir if --keep-instrumented-project is not set
+        if (!args.keepInstrumentedProject) {
+            await rm(tempDir, { recursive: true, force: true });
+        }
     }
 }
 
 main().catch((error) => {
-    console.error('Error:', error);
+    // If the error has stderr (from execFileAsync), just print that
+    if (error && typeof error === 'object' && 'stderr' in error && typeof error.stderr === 'string') {
+        console.error(error.stderr);
+    } else {
+        console.error('Error:', error);
+    }
     process.exit(1);
 });

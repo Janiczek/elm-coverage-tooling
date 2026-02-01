@@ -1,0 +1,688 @@
+{
+  "33765320": {
+    "moduleName": "Bar",
+    "declarationName": "farewell",
+    "range": [
+      [
+        9,
+        20
+      ],
+      [
+        9,
+        24
+      ]
+    ]
+  },
+  "42993546": {
+    "moduleName": "IntegrationTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        11,
+        11
+      ],
+      [
+        11,
+        29
+      ]
+    ]
+  },
+  "64100879": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        5
+      ],
+      [
+        10,
+        18
+      ]
+    ]
+  },
+  "84941532": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        14,
+        24
+      ],
+      [
+        14,
+        36
+      ]
+    ]
+  },
+  "90767125": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        11,
+        11
+      ],
+      [
+        11,
+        15
+      ]
+    ]
+  },
+  "106420825": {
+    "moduleName": "Bar",
+    "declarationName": "farewell",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        31
+      ]
+    ]
+  },
+  "200864303": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        19
+      ],
+      [
+        10,
+        35
+      ]
+    ]
+  },
+  "240111545": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        14,
+        24
+      ],
+      [
+        14,
+        38
+      ]
+    ]
+  },
+  "287637700": {
+    "moduleName": "IntegrationTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        12,
+        13
+      ],
+      [
+        14,
+        52
+      ]
+    ]
+  },
+  "398129630": {
+    "moduleName": "IntegrationTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        11,
+        9
+      ],
+      [
+        15,
+        10
+      ]
+    ]
+  },
+  "472339208": {
+    "moduleName": "Foo",
+    "declarationName": "subtract",
+    "range": [
+      [
+        9,
+        9
+      ],
+      [
+        9,
+        10
+      ]
+    ]
+  },
+  "473628016": {
+    "moduleName": "Bar",
+    "declarationName": "farewell",
+    "range": [
+      [
+        9,
+        28
+      ],
+      [
+        9,
+        31
+      ]
+    ]
+  },
+  "490593012": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        11,
+        9
+      ],
+      [
+        15,
+        10
+      ]
+    ]
+  },
+  "500012567": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        11,
+        16
+      ],
+      [
+        11,
+        27
+      ]
+    ]
+  },
+  "583025675": {
+    "moduleName": "Foo",
+    "declarationName": "add",
+    "range": [
+      [
+        5,
+        5
+      ],
+      [
+        5,
+        10
+      ]
+    ]
+  },
+  "651850139": {
+    "moduleName": "IntegrationTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        11,
+        16
+      ],
+      [
+        11,
+        29
+      ]
+    ]
+  },
+  "731565934": {
+    "moduleName": "IntegrationTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        5
+      ],
+      [
+        10,
+        18
+      ]
+    ]
+  },
+  "743576369": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        13,
+        25
+      ],
+      [
+        13,
+        26
+      ]
+    ]
+  },
+  "786744427": {
+    "moduleName": "IntegrationTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        14,
+        24
+      ],
+      [
+        14,
+        52
+      ]
+    ]
+  },
+  "872865296": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        11,
+        11
+      ],
+      [
+        11,
+        27
+      ]
+    ]
+  },
+  "915305882": {
+    "moduleName": "IntegrationTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        13,
+        27
+      ],
+      [
+        13,
+        34
+      ]
+    ]
+  },
+  "1014602865": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        13,
+        17
+      ],
+      [
+        13,
+        24
+      ]
+    ]
+  },
+  "1054626379": {
+    "moduleName": "Bar",
+    "declarationName": "greet",
+    "range": [
+      [
+        5,
+        26
+      ],
+      [
+        5,
+        29
+      ]
+    ]
+  },
+  "1155629139": {
+    "moduleName": "IntegrationTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        13,
+        17
+      ],
+      [
+        13,
+        34
+      ]
+    ]
+  },
+  "1199532509": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        14,
+        37
+      ],
+      [
+        14,
+        38
+      ]
+    ]
+  },
+  "1216230753": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        12,
+        13
+      ],
+      [
+        14,
+        38
+      ]
+    ]
+  },
+  "1246225193": {
+    "moduleName": "IntegrationTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        14,
+        37
+      ],
+      [
+        14,
+        52
+      ]
+    ]
+  },
+  "1252470794": {
+    "moduleName": "Bar",
+    "declarationName": "greet",
+    "range": [
+      [
+        5,
+        18
+      ],
+      [
+        5,
+        29
+      ]
+    ]
+  },
+  "1273732911": {
+    "moduleName": "Bar",
+    "declarationName": "farewell",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        16
+      ]
+    ]
+  },
+  "1284326578": {
+    "moduleName": "IntegrationTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        11,
+        11
+      ],
+      [
+        14,
+        52
+      ]
+    ]
+  },
+  "1295767476": {
+    "moduleName": "Bar",
+    "declarationName": "greet",
+    "range": [
+      [
+        5,
+        18
+      ],
+      [
+        5,
+        22
+      ]
+    ]
+  },
+  "1323402811": {
+    "moduleName": "IntegrationTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        11,
+        11
+      ],
+      [
+        11,
+        15
+      ]
+    ]
+  },
+  "1331104317": {
+    "moduleName": "IntegrationTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        5
+      ],
+      [
+        15,
+        10
+      ]
+    ]
+  },
+  "1437954710": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        11,
+        11
+      ],
+      [
+        14,
+        38
+      ]
+    ]
+  },
+  "1486785218": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        5
+      ],
+      [
+        15,
+        10
+      ]
+    ]
+  },
+  "1522327402": {
+    "moduleName": "Bar",
+    "declarationName": "farewell",
+    "range": [
+      [
+        9,
+        20
+      ],
+      [
+        9,
+        31
+      ]
+    ]
+  },
+  "1529274156": {
+    "moduleName": "Foo",
+    "declarationName": "subtract",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        6
+      ]
+    ]
+  },
+  "1543203695": {
+    "moduleName": "Foo",
+    "declarationName": "subtract",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        10
+      ]
+    ]
+  },
+  "1568525173": {
+    "moduleName": "Foo",
+    "declarationName": "add",
+    "range": [
+      [
+        5,
+        5
+      ],
+      [
+        5,
+        6
+      ]
+    ]
+  },
+  "1678291280": {
+    "moduleName": "Bar",
+    "declarationName": "greet",
+    "range": [
+      [
+        5,
+        5
+      ],
+      [
+        5,
+        14
+      ]
+    ]
+  },
+  "1770131270": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        13,
+        27
+      ],
+      [
+        13,
+        28
+      ]
+    ]
+  },
+  "1860925883": {
+    "moduleName": "IntegrationTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        13,
+        17
+      ],
+      [
+        14,
+        52
+      ]
+    ]
+  },
+  "1871036766": {
+    "moduleName": "Bar",
+    "declarationName": "greet",
+    "range": [
+      [
+        5,
+        5
+      ],
+      [
+        5,
+        29
+      ]
+    ]
+  },
+  "1900956245": {
+    "moduleName": "IntegrationTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        13,
+        17
+      ],
+      [
+        13,
+        26
+      ]
+    ]
+  },
+  "1909674311": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        13,
+        17
+      ],
+      [
+        13,
+        28
+      ]
+    ]
+  },
+  "1956108682": {
+    "moduleName": "UnitTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        13,
+        17
+      ],
+      [
+        14,
+        38
+      ]
+    ]
+  },
+  "1957654050": {
+    "moduleName": "IntegrationTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        14,
+        24
+      ],
+      [
+        14,
+        36
+      ]
+    ]
+  },
+  "1977586647": {
+    "moduleName": "IntegrationTests",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        19
+      ],
+      [
+        10,
+        42
+      ]
+    ]
+  },
+  "2010455107": {
+    "moduleName": "Foo",
+    "declarationName": "add",
+    "range": [
+      [
+        5,
+        9
+      ],
+      [
+        5,
+        10
+      ]
+    ]
+  }
+}
