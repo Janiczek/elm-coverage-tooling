@@ -5,7 +5,7 @@ import { execFile } from 'child_process';
 import { promisify } from 'util';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { instrument, combineMetadata, analyzeCoverage, report, type CoverageMetadata, type CoverageData, type ReportFormat, type Report } from '../library.js';
+import { instrument, report, type CoverageMetadataMap, type CoverageData, type ReportFormat, type Report, type ModuleMetadata } from '../library.js';
 import { ensureElmProjectRoot } from './helpers.js';
 
 const execFileAsync = promisify(execFile);
@@ -120,9 +120,14 @@ async function findElmFiles(dir: string): Promise<string[]> {
     return files;
 }
 
-async function instrumentFiles(elmFiles: string[]): Promise<{ metadata: CoverageMetadata[], instrumentedFiles: Map<string, string> }> {
-    const metadata: CoverageMetadata[] = [];
+async function instrumentFiles(elmFiles: string[]): Promise<{ 
+    coverageMetadata: CoverageMetadataMap, 
+    instrumentedFiles: Map<string, string>,
+    moduleMetadata: ModuleMetadata
+}> {
+    const coverageMetadatas: CoverageMetadataMap[] = [];
     const instrumentedFiles = new Map<string, string>();
+    const moduleMetadata: ModuleMetadata = new Map<string, number>();
     
     for (const filePath of elmFiles) {
         const sourceCode = await readFile(filePath, 'utf-8');
@@ -134,10 +139,13 @@ async function instrumentFiles(elmFiles: string[]): Promise<{ metadata: Coverage
         }
         
         instrumentedFiles.set(filePath, output.instrumentedElmSourceCode);
-        metadata.push(output.coverageMetadata);
+        coverageMetadatas.push(output.coverageMetadata);
+        moduleMetadata.set(filePath, output.contentHash);
     }
+
+    const coverageMetadata: CoverageMetadataMap = new Map(coverageMetadatas.flatMap(m => [...m]));
     
-    return { metadata, instrumentedFiles };
+    return { coverageMetadata, instrumentedFiles, moduleMetadata };
 }
 
 async function createTempProject(
@@ -315,8 +323,28 @@ async function main() {
     await ensureElmProjectRoot(projectDir);
     const { content: elmJsonContent, sourceDirs } = await readElmJson(projectDir);
     const elmFiles = await findElmFiles(projectDir);
-    const { metadata, instrumentedFiles } = await instrumentFiles(elmFiles);
-    const combinedMetadata = combineMetadata(metadata);
+    const { coverageMetadata, instrumentedFiles, moduleMetadata } = await instrumentFiles(elmFiles);
+    
+    // Collect original sources by module name
+    // Extract module name from file content (first line: "module Module.Name exposing (...)")
+    const sourcesByModule = new Map<string, string>();
+    for (const filePath of elmFiles) {
+        const sourceCode = await readFile(filePath, 'utf-8');
+        // Extract module name from the module declaration
+        const lines = sourceCode.split('\n');
+        for (const line of lines) {
+            const trimmed = line.trim();
+            if (trimmed.startsWith('module ')) {
+                const moduleMatch = trimmed.match(/^module\s+([A-Z][A-Za-z0-9_.]*)\s+exposing/);
+                if (moduleMatch && moduleMatch[1]) {
+                    const moduleName = moduleMatch[1];
+                    sourcesByModule.set(moduleName, sourceCode);
+                    break;
+                }
+            }
+        }
+    }
+    
     const tempDir = join(projectDir, 'elm-stuff', 'instrumented-project');
     await mkdir(tempDir, { recursive: true });
     try {
@@ -324,8 +352,7 @@ async function main() {
         const binDir = getBinDirectory();
         const compilerWrapper = join(binDir, 'elm-compiler-wrapper');
         const coverageData = await runElmTest(tempDir, args.runner, args.forwardedArgs, compilerWrapper);
-        const analysis = analyzeCoverage(combinedMetadata, coverageData);
-        const reportContent = report(analysis, args.coverageFormat);
+        const reportContent = await report(coverageMetadata, coverageData, args.coverageFormat, sourcesByModule, moduleMetadata);
         await writeReport(reportContent, args.coverageFormat, args.coverageOutput);
     } finally {
         await rm(tempDir, { recursive: true, force: true });

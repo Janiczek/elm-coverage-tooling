@@ -1,0 +1,70 @@
+module Report.Plaintext exposing (generate)
+
+import List
+import Report exposing (Input, ModuleStats, ReportFile)
+
+
+generate : Input -> { reports : List ReportFile }
+generate input =
+    let
+        moduleStats : List ModuleStats
+        moduleStats =
+            Report.calculateModuleStats input
+
+        totalStats : ModuleStats
+        totalStats =
+            List.foldl
+                (\moduleStat acc ->
+                    { moduleName = "Total"
+                    , totalPoints = acc.totalPoints + moduleStat.totalPoints
+                    , coveredPoints = acc.coveredPoints + moduleStat.coveredPoints
+                    , coveragePercentage =
+                        if acc.totalPoints + moduleStat.totalPoints > 0 then
+                            (toFloat (acc.coveredPoints + moduleStat.coveredPoints) / toFloat (acc.totalPoints + moduleStat.totalPoints)) * 100
+                        else
+                            0
+                    }
+                )
+                { moduleName = "Total"
+                , totalPoints = 0
+                , coveredPoints = 0
+                , coveragePercentage = 0
+                }
+                moduleStats
+
+        formatModuleStats : ModuleStats -> String
+        formatModuleStats stats =
+            stats.moduleName
+                ++ ": "
+                ++ String.fromInt stats.coveredPoints
+                ++ "/"
+                ++ String.fromInt stats.totalPoints
+                ++ " ("
+                ++ String.fromFloat (roundTo 2 stats.coveragePercentage)
+                ++ "%)"
+
+        totalLine : String
+        totalLine =
+            formatModuleStats totalStats
+
+        moduleLines : List String
+        moduleLines =
+            List.map formatModuleStats moduleStats
+    in
+    { reports =
+        [ { filepath = "coverage.txt"
+          , contents =
+                String.join "\n" (totalLine :: moduleLines)
+          }
+        ]
+    }
+
+
+roundTo : Int -> Float -> Float
+roundTo decimals num =
+    let
+        multiplier : Float
+        multiplier =
+            10 ^ toFloat decimals
+    in
+    toFloat (round (num * multiplier)) / multiplier

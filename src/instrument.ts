@@ -1,9 +1,10 @@
 import { Elm } from "../dist/elm-instrument.js";
-import type { CoverageMetadata } from './types.js';
+import type { CoverageMetadataMap } from './types.js';
 
 export type InstrumentOutput = {
     instrumentedElmSourceCode: string;
-    coverageMetadata: CoverageMetadata;
+    coverageMetadata: CoverageMetadataMap;
+    contentHash: number;
 } | { error: string };
 
 export function instrument(elmSourceCode: string): Promise<InstrumentOutput> {
@@ -19,13 +20,14 @@ export function instrument(elmSourceCode: string): Promise<InstrumentOutput> {
 
             if (output.error) {
                 resolve({ error: output.error });
-            } else if (output.instrumentedElmSourceCode && output.coverageMetadata) {
+            } else if (output.instrumentedElmSourceCode && output.coverageMetadata && output.contentHash) {
                 const rawMetadata: Record<string, any> = output.coverageMetadata;
-                const coverageMetadata: CoverageMetadata = new Map(Object.entries(rawMetadata)
+                const coverageMetadata: CoverageMetadataMap = new Map(Object.entries(rawMetadata)
                     .map(([key, value]) => [Number(key), value]));
                 resolve({
                     instrumentedElmSourceCode: output.instrumentedElmSourceCode,
-                    coverageMetadata
+                    coverageMetadata,
+                    contentHash: output.contentHash,
                 });
             } else {
                 resolve({ error: "Invalid output structure from Elm instrumenter." });

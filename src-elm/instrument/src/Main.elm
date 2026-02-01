@@ -1,4 +1,4 @@
-port module Main exposing (Flags, Input, Model, Msg, Output, main, work)
+module Main exposing (Input, Output, main, work)
 
 import Dict exposing (Dict)
 import Elm.Parser
@@ -8,7 +8,6 @@ import Elm.Syntax.File exposing (File)
 import Elm.Syntax.Module
 import Elm.Syntax.Node exposing (Node(..))
 import Elm.Syntax.Pattern
-import Elm.Syntax.Range exposing (Range)
 import Elm.Syntax.Signature
 import Elm.Syntax.Type
 import Elm.Syntax.TypeAlias
@@ -19,6 +18,7 @@ import InstrumentState exposing (InstrumentState)
 import Json.Encode
 import PointId exposing (PointId)
 import PointMetadata exposing (PointMetadata)
+import PureFunction exposing (PureMain)
 import Random exposing (Generator)
 
 
@@ -33,41 +33,18 @@ type alias Output =
 type alias SuccessOutput =
     { instrumentedElmSourceCode : String
     , coverageMetadata : Dict PointId PointMetadata
+    , contentHash : Int
     }
 
 
-port sendOutput : Json.Encode.Value -> Cmd msg
 
 
-type alias Flags =
-    Input
-
-
-type alias Model =
-    ()
-
-
-type alias Msg =
-    Never
-
-
-main : Program Flags Model Msg
+main : PureMain Input
 main =
-    Platform.worker
-        { init = init
-        , update = \_ m -> ( m, Cmd.none )
-        , subscriptions = \_ -> Sub.none
+    PureFunction.pureFunction
+        { work = work
+        , encodeOutput = encodeOutput
         }
-
-
-init : Flags -> ( Model, Cmd Msg )
-init input =
-    ( ()
-    , input
-        |> work
-        |> encodeOutput
-        |> sendOutput
-    )
 
 
 encodeOutput : Output -> Json.Encode.Value
@@ -87,6 +64,9 @@ encodeOutput output =
                         PointMetadata.encode
                         success.coverageMetadata
                   )
+                , ( "contentHash"
+                  , Json.Encode.int success.contentHash
+                  )
                 ]
 
 
@@ -105,6 +85,7 @@ work { elmSourceCode } =
             Ok
                 { instrumentedElmSourceCode = format instrumentedElmAST
                 , coverageMetadata = coverageMetadata
+                , contentHash = FNV1a.hash elmSourceCode
                 }
 
 

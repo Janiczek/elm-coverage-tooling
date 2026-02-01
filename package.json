@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "test:elm:report": "cd src-elm/report && elm-test",
     "test:elm:instrument": "cd src-elm/instrument && elm-test",
-    "test:elm": "npm run test:elm:instrument",
+    "test:elm": "npm run test:elm:instrument && npm run test:elm:report",
     "test:js:instrument": "node --test --experimental-strip-types test/instrument.ts",
     "test:js": "npm run test:js:instrument",
     "test": "npm run test:elm && npm run test:js",
     "build:elm:instrument": "mkdir -p dist && cd src-elm/instrument && elm-esm make src/Main.elm --output=../../dist/elm-instrument.js && cp ../../src/elm-instrument.d.ts ../../dist/elm-instrument.d.ts",
-    "build:elm": "npm run build:elm:instrument",
+    "build:elm:report": "mkdir -p dist && cd src-elm/report && elm-esm make src/Main.elm --output=../../dist/elm-report.js && cp ../../src/elm-report.d.ts ../../dist/elm-report.d.ts",
+    "build:elm": "npm run build:elm:instrument && npm run build:elm:report",
     "build:js": "tsc",
     "build": "npm run build:elm && npm run build:js"
   },

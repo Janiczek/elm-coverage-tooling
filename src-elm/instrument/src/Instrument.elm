@@ -7,11 +7,12 @@ import Elm.Syntax.File exposing (File)
 import Elm.Syntax.Module
 import Elm.Syntax.Node exposing (Node(..))
 import Elm.Syntax.Pattern exposing (Pattern)
+import Elm.Syntax.Range
 import Random
-import Elm.Syntax.Range exposing (Range)
 import InstrumentState exposing (InstrumentState)
 import PointId exposing (PointId)
 import PointMetadata exposing (PointMetadata)
+import Range exposing (Range)
 
 
 {-| Regions can overlap.

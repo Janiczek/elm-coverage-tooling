@@ -1,4 +1,5 @@
-import type { CoverageAnalysis } from './analyzeCoverage.js';
+import { Elm } from "../dist/elm-report.js";
+import type { CoverageMetadata, CoverageMetadataMap, CoverageData } from './types.js';
 
 export type ReportFormat = 'lcov' | 'html' | 'csv' | 'plaintext' | 'stdout';
 
@@ -10,40 +11,39 @@ export type ReportFile = {
 export type Report = ReportFile[];
 
 /**
- * Formats the coverage analysis into a report.
+ * Formats the coverage data into a report.
  */
-export function report(analysis: CoverageAnalysis, format: ReportFormat): Report {
-    // No-op implementations for now
-    switch (format) {
-        case 'stdout':
-        case 'plaintext':
-            return [{
-                filepath: 'stdout',
-                contents: `Coverage: ${analysis.coveredPoints}/${analysis.totalPoints} (${analysis.coveragePercentage.toFixed(2)}%)`
-            }];
-        
-        case 'lcov':
-            // TODO: Implement LCOV format
-            return [{
-                filepath: 'coverage.lcov',
-                contents: ''
-            }];
-        
-        case 'html':
-            // TODO: Implement HTML format
-            return [{
-                filepath: 'index.html',
-                contents: ''
-            }];
-        
-        case 'csv':
-            // TODO: Implement CSV format
-            return [{
-                filepath: 'coverage.csv',
-                contents: ''
-            }];
-        
-        default:
-            return [];
-    }
+export async function report(
+    metadata: CoverageMetadataMap,
+    data: CoverageData,
+    format: ReportFormat,
+    sources: Map<string, string>,
+    moduleHashes: Map<string, number>
+): Promise<Report> {
+    const coverageMetadataRecord: Record<number, CoverageMetadata> = Object.fromEntries(metadata.entries());
+    const coverageDataRecord: Record<number, number> = Object.fromEntries(data.entries());
+    const sourcesRecord: Record<string, string> = Object.fromEntries(sources.entries());
+    const moduleHashesRecord: Record<string, number> = Object.fromEntries(moduleHashes.entries());
+
+    return new Promise((resolve, reject) => {
+        const app = Elm.Main.init({
+            flags: {
+                coverageMetadata: coverageMetadataRecord,
+                coverageData: coverageDataRecord,
+                sources: sourcesRecord,
+                moduleHashes: moduleHashesRecord,
+                format: format
+            }
+        });
+
+        app.ports.sendOutput.subscribe((output: any) => {
+            if (output.error) {
+                reject(new Error(output.error));
+            } else if (output.reports) {
+                resolve(output.reports);
+            } else {
+                reject(new Error("Invalid output structure from Elm reporter."));
+            }
+        });
+    });
 }

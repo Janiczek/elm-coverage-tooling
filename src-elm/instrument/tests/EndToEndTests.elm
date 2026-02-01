@@ -47,6 +47,7 @@ a =
                                 }
                               )
                             ]
+                    , contentHash = 4167962317
                     }
            }
         ,  { name = "compound module name"
@@ -80,6 +81,7 @@ a =
                                 }
                               )
                             ]
+                    , contentHash = 3521263262
                     }
            }
          , { name = "function with unit parameter"
@@ -113,6 +115,7 @@ a () =
                                 }
                               )
                             ]
+                    , contentHash = 3074062920
                     }
            }
          , { name = "addition expression"
@@ -169,6 +172,7 @@ a =
                                 }
                               )
                             ]
+                    , contentHash = 3759383353
                     }
            }
          , { name = "if expression"
@@ -265,6 +269,7 @@ a =
                                 }
                               )
                             ]
+                    , contentHash = 230325722
                     }
            }
          , { name = "case expression"
@@ -350,6 +355,7 @@ a =
                                 }
                               )
                             ]
+                    , contentHash = 510858290
                     }
            }
          , { name = "multiple declarations"
@@ -402,6 +408,7 @@ a =
                                 }
                               )
                             ]
+                    , contentHash = 3470614315
                     }
            }
          , { name = "parse error"
