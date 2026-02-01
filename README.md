@@ -30,7 +30,6 @@ line coverage data to an error monitoring service like Sentry.
 Allows to analyze and report the line coverage data (eg. gathered from
 `elm-coverage-make`) in the wanted format.
 
-
 ## JS Library
 
 ### `instrument(elmSourceCode: string) => Promise<InstrumentOutput>`
@@ -44,13 +43,9 @@ Returns coverage metadata to be combined with coverage counts during reporting.
 Patches the `Test.Coverage.*` functions in the JS form of the instrumented Elm
 program to do useful work instead of being no-ops.
 
-### `analyzeCoverage(metadata: CoverageMetadata, counts: CoverageData) => CoverageAnalysis`
-
-Analyzes code coverage data.
-
 ### `report(analysis: CoverageAnalysis, format: ReportFormat) => Report`
 
-Formats the coverage analysis into a report in the requested file format.
+Formats the data analysis into a report in the requested file format.
 
 Formats:
 
