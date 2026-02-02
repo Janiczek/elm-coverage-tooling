@@ -543,6 +543,673 @@ a =
            , output =
                 Err "Can't parse the Elm code."
            }
+         , { name = "nested let-case-if"
+           , input = """
+module NestedLetCaseIf exposing (nestedCaseOf, caseInLet, ifInLet, complexNested)
+
+-- Nested case..of expressions
+nestedCaseOf : Maybe (Result String Int) -> String
+nestedCaseOf maybeResult =
+    case maybeResult of
+        Just result ->
+            case result of
+                Ok value ->
+                    case value of
+                        0 ->
+                            "zero"
+                        1 ->
+                            "one"
+                        _ ->
+                            "other"
+                Err msg ->
+                    "error: " ++ msg
+        Nothing ->
+            "nothing"
+
+-- case..of inside let-in body
+caseInLet : Maybe Int -> Int -> Int
+caseInLet maybeX y =
+    let
+        x =
+            case maybeX of
+                Just val ->
+                    val
+                Nothing ->
+                    0
+    in
+    x + y
+
+-- if-expr inside let-in body
+ifInLet : Bool -> Int -> Int
+ifInLet flag value =
+    let
+        multiplier =
+            if flag then
+                2
+            else
+                1
+    in
+    value * multiplier
+
+-- Complex nested: let-in with case and if inside
+complexNested : Maybe Int -> Bool -> String
+complexNested maybeValue flag =
+    let
+        value =
+            case maybeValue of
+                Just x ->
+                    x
+                Nothing ->
+                    0
+
+        description =
+            if flag then
+                case value of
+                    0 ->
+                        "zero with flag"
+                    1 ->
+                        "one with flag"
+                    _ ->
+                        "other with flag"
+            else
+                case value of
+                    0 ->
+                        "zero without flag"
+                    1 ->
+                        "one without flag"
+                    _ ->
+                        "other without flag"
+    in
+    description
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module NestedLetCaseIf exposing (caseInLet, complexNested, ifInLet, nestedCaseOf)
+
+import Test.Coverage
+
+
+
+-- Nested case..of expressions
+-- case..of inside let-in body
+-- if-expr inside let-in body
+-- Complex nested: let-in with case and if inside
+
+
+complexNested : Maybe Int -> Bool -> String
+complexNested maybeValue flag =
+    let
+        value =
+            let
+                _ =
+                    Test.Coverage.track
+                        954960163
+            in
+            case
+                let
+                    _ =
+                        Test.Coverage.track 65480399
+                in
+                maybeValue
+            of
+                Just x ->
+                    let
+                        _ =
+                            Test.Coverage.track 159104197
+                    in
+                    x
+
+                Nothing ->
+                    let
+                        _ =
+                            Test.Coverage.track 1479773536
+                    in
+                    0
+
+        description =
+            let
+                _ =
+                    Test.Coverage.track
+                        1469809502
+            in
+            if flag then
+                case
+                    let
+                        _ =
+                            Test.Coverage.track 1210665696
+                    in
+                    value
+                of
+                    0 ->
+                        let
+                            _ =
+                                Test.Coverage.track 1146639121
+                        in
+                        "zero with flag"
+
+                    1 ->
+                        let
+                            _ =
+                                Test.Coverage.track 1386782202
+                        in
+                        "one with flag"
+
+                    _ ->
+                        let
+                            _ =
+                                Test.Coverage.track 662760606
+                        in
+                        "other with flag"
+
+            else
+                case
+                    let
+                        _ =
+                            Test.Coverage.track 329579790
+                    in
+                    value
+                of
+                    0 ->
+                        let
+                            _ =
+                                Test.Coverage.track 1111335368
+                        in
+                        "zero without flag"
+
+                    1 ->
+                        let
+                            _ =
+                                Test.Coverage.track 2001614685
+                        in
+                        "one without flag"
+
+                    _ ->
+                        let
+                            _ =
+                                Test.Coverage.track 1724073323
+                        in
+                        "other without flag"
+    in
+    let
+        _ =
+            Test.Coverage.track 23467525
+    in
+    description
+
+
+ifInLet : Bool -> Int -> Int
+ifInLet flag value =
+    let
+        multiplier =
+            let
+                _ =
+                    Test.Coverage.track
+                        1503310822
+            in
+            if flag then
+                let
+                    _ =
+                        Test.Coverage.track 9892290
+                in
+                2
+
+            else
+                let
+                    _ =
+                        Test.Coverage.track 984664282
+                in
+                1
+    in
+    let
+        _ =
+            Test.Coverage.track 169508008
+    in
+    value * multiplier
+
+
+caseInLet : Maybe Int -> Int -> Int
+caseInLet maybeX y =
+    let
+        x =
+            let
+                _ =
+                    Test.Coverage.track
+                        421798468
+            in
+            case
+                let
+                    _ =
+                        Test.Coverage.track 182652811
+                in
+                maybeX
+            of
+                Just val ->
+                    let
+                        _ =
+                            Test.Coverage.track 431196966
+                    in
+                    val
+
+                Nothing ->
+                    let
+                        _ =
+                            Test.Coverage.track 798163806
+                    in
+                    0
+    in
+    let
+        _ =
+            Test.Coverage.track 1698499172
+    in
+    x + y
+
+
+nestedCaseOf : Maybe (Result String Int) -> String
+nestedCaseOf maybeResult =
+    let
+        _ =
+            Test.Coverage.track
+                1221367523
+    in
+    case
+        let
+            _ =
+                Test.Coverage.track 357133973
+        in
+        maybeResult
+    of
+        Just result ->
+            case
+                let
+                    _ =
+                        Test.Coverage.track 1615377089
+                in
+                result
+            of
+                Ok value ->
+                    case
+                        let
+                            _ =
+                                Test.Coverage.track 353199476
+                        in
+                        value
+                    of
+                        0 ->
+                            let
+                                _ =
+                                    Test.Coverage.track 2069063037
+                            in
+                            "zero"
+
+                        1 ->
+                            let
+                                _ =
+                                    Test.Coverage.track 1161055252
+                            in
+                            "one"
+
+                        _ ->
+                            let
+                                _ =
+                                    Test.Coverage.track 1337164990
+                            in
+                            "other"
+
+                Err msg ->
+                    let
+                        _ =
+                            Test.Coverage.track 2130358651
+                    in
+                    "error: " ++ msg
+
+        Nothing ->
+            let
+                _ =
+                    Test.Coverage.track 960691989
+            in
+            "nothing"
+
+
+
+-- case..of inside let-in body
+-- if-expr inside let-in body
+-- Complex nested: let-in with case and if inside
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 9892290
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "ifInLet"
+                                , range = { start = { row = 41, column = 17 }, end = { row = 41, column = 18 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 65480399
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 52, column = 18 }, end = { row = 52, column = 28 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 159104197
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 54, column = 21 }, end = { row = 54, column = 22 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 1469809502
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 59, column = 13 }, end = { row = 74, column = 45 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 1724073323
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 74, column = 25 }, end = { row = 74, column = 45 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 1503310822
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "ifInLet"
+                                , range = { start = { row = 40, column = 13 }, end = { row = 43, column = 18 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 1479773536
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 56, column = 21 }, end = { row = 56, column = 22 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 1503310822
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "ifInLet"
+                                , range = { start = { row = 40, column = 13 }, end = { row = 43, column = 18 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 169508008
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "ifInLet"
+                                , range = { start = { row = 45, column = 5 }, end = { row = 45, column = 23 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 1698499172
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "caseInLet"
+                                , range = { start = { row = 33, column = 5 }, end = { row = 33, column = 10 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 1724073323
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 74, column = 25 }, end = { row = 74, column = 45 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 23467525
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 76, column = 5 }, end = { row = 76, column = 16 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 182652811
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "caseInLet"
+                                , range = { start = { row = 27, column = 18 }, end = { row = 27, column = 24 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 353199476
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "nestedCaseOf"
+                                , range = { start = { row = 10, column = 26 }, end = { row = 10, column = 31 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 357133973
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "nestedCaseOf"
+                                , range = { start = { row = 6, column = 10 }, end = { row = 6, column = 21 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 421798468
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "caseInLet"
+                                , range = { start = { row = 27, column = 13 }, end = { row = 31, column = 22 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 431196966
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "caseInLet"
+                                , range = { start = { row = 29, column = 21 }, end = { row = 29, column = 24 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 662760606
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 70, column = 25 }, end = { row = 70, column = 44 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 798163806
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "caseInLet"
+                                , range = { start = { row = 31, column = 21 }, end = { row = 31, column = 22 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 954960163
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 52, column = 13 }, end = { row = 56, column = 22 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 960691989
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "nestedCaseOf"
+                                , range = { start = { row = 20, column = 13 }, end = { row = 20, column = 22 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 984664282
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "ifInLet"
+                                , range = { start = { row = 43, column = 17 }, end = { row = 43, column = 18 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1146639121
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 62, column = 25 }, end = { row = 62, column = 41 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 1479773536
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 56, column = 21 }, end = { row = 56, column = 22 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 1503310822
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "ifInLet"
+                                , range = { start = { row = 40, column = 13 }, end = { row = 43, column = 18 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 1698499172
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "caseInLet"
+                                , range = { start = { row = 33, column = 5 }, end = { row = 33, column = 10 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 1161055252
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "nestedCaseOf"
+                                , range = { start = { row = 14, column = 29 }, end = { row = 14, column = 34 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 1210665696
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 60, column = 22 }, end = { row = 60, column = 27 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1221367523
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "nestedCaseOf"
+                                , range = { start = { row = 6, column = 5 }, end = { row = 20, column = 22 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 2001614685
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 72, column = 25 }, end = { row = 72, column = 43 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 329579790
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 72, column = 25 }, end = { row = 72, column = 43 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 1111335368
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 74, column = 25 }, end = { row = 74, column = 45 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 1337164990
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "nestedCaseOf"
+                                , range = { start = { row = 16, column = 29 }, end = { row = 16, column = 36 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 1386782202
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 64, column = 25 }, end = { row = 64, column = 40 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 329579790
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 68, column = 22 }, end = { row = 68, column = 27 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1479773536
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 60, column = 22 }, end = { row = 60, column = 27 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1503310822
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 52, column = 18 }, end = { row = 52, column = 28 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1615377089
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "nestedCaseOf"
+                                , range = { start = { row = 8, column = 18 }, end = { row = 8, column = 24 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1698499172
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 52, column = 18 }, end = { row = 52, column = 28 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 2069063037
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "nestedCaseOf"
+                                , range = { start = { row = 12, column = 29 }, end = { row = 12, column = 35 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 2130358651
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "nestedCaseOf"
+                                , range = { start = { row = 18, column = 21 }, end = { row = 18, column = 37 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            ]
+                    , contentHash = 862151992
+                    }
+           }
          ]
             |> List.map testCase
         )
