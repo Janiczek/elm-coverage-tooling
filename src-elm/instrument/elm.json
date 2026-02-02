@@ -10,15 +10,13 @@
             "elm/core": "1.0.5",
             "elm/json": "1.1.4",
             "elm/random": "1.0.0",
-            "lue-bird/elm-syntax-format": "1.1.14",
+            "lue-bird/elm-syntax-format": "1.1.15",
             "robinheghan/fnv1a": "1.0.0",
             "stil4m/elm-syntax": "7.3.9"
         },
         "indirect": {
             "elm/parser": "1.1.0",
             "elm/time": "1.0.0",
-            "elm/url": "1.0.0",
-            "elm/virtual-dom": "1.0.5",
             "miniBill/elm-unicode": "1.1.1",
             "rtfeldman/elm-hex": "1.0.0",
             "stil4m/structured-writer": "1.0.3"
@@ -30,7 +28,8 @@
         },
         "indirect": {
             "elm/bytes": "1.0.8",
-            "elm/html": "1.0.1"
+            "elm/html": "1.0.1",
+            "elm/virtual-dom": "1.0.5"
         }
     }
 }

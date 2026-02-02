@@ -2,3 +2,4 @@ elm-stuff/
 src-elm/*/index.html
 node_modules/
 dist/
+.DS_Store
