@@ -186,7 +186,7 @@ instrumentExprWithCategory exprNode declarationName category state =
         Elm.Syntax.Expression.CaseExpression caseBlock ->
             let
                 ( instExpr, state1 ) =
-                    instrumentExpr caseBlock.expression declarationName state
+                    instrumentExprWithCategory caseBlock.expression declarationName "subexpression" state
 
                 ( instrumentedCases, state2 ) =
                     List.foldl
@@ -310,7 +310,11 @@ instrumentExprRecurse exprNode declarationName state =
         Elm.Syntax.Expression.OperatorApplication op dir left right ->
             let
                 ( instLeft, state1 ) =
-                    instrumentExpr left declarationName state
+                    if op == "&&" || op == "||" then
+                        -- Track the left-hand side subexpression with "subexpression" category
+                        instrumentExprWithCategory left declarationName "subexpression" state
+                    else
+                        instrumentExpr left declarationName state
 
                 ( instRight, state2 ) =
                     if op == "&&" || op == "||" then
@@ -395,7 +399,7 @@ instrumentExprRecurse exprNode declarationName state =
         Elm.Syntax.Expression.CaseExpression caseBlock ->
             let
                 ( instExpr, state1 ) =
-                    instrumentExpr caseBlock.expression declarationName state
+                    instrumentExprWithCategory caseBlock.expression declarationName "subexpression" state
 
                 ( instrumentedCases, state2 ) =
                     List.foldl

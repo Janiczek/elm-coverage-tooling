@@ -168,9 +168,9 @@ interpolateCoverageColor percentage =
         yellowG = 255
         yellowB = 204
 
-        greenR = 204
-        greenG = 255
-        greenB = 204
+        greenR = 124
+        greenG = 252
+        greenB = 0
 
         lerp : Float -> Int -> Int -> Int
         lerp t start end =
@@ -240,6 +240,36 @@ relativePathToIndex sanitizedFilePath =
             ++ "index.html"
 
 
+getCoverageColorWithColorMix : Float -> String
+getCoverageColorWithColorMix percentage =
+    if percentage <= 50 then
+        -- Interpolate between red (#ffcccc) and yellow (#ffffcc)
+        -- percentage goes from 0 to 50, so we need to map it to 0-100% for color-mix
+        let
+            mixPercentage : Float
+            mixPercentage =
+                (percentage / 50) * 100
+
+            mixPercentageStr : String
+            mixPercentageStr =
+                String.fromFloat (roundTo 2 mixPercentage)
+        in
+        "color-mix(in srgb, #ffcccc " ++ mixPercentageStr ++ "%, #ffffcc)"
+    else
+        -- Interpolate between yellow (#ffffcc) and green (#ccffcc)
+        -- percentage goes from 50 to 100, so we map it to 0-100% for color-mix
+        let
+            mixPercentage : Float
+            mixPercentage =
+                ((percentage - 50) / 50) * 100
+
+            mixPercentageStr : String
+            mixPercentageStr =
+                String.fromFloat (roundTo 2 mixPercentage)
+        in
+        "color-mix(in srgb, #ffffcc " ++ mixPercentageStr ++ "%, #ccffcc)"
+
+
 generateIndexPage : List ModuleStats -> ModuleStats -> String
 generateIndexPage stats totalStats =
     let
@@ -248,7 +278,7 @@ generateIndexPage stats totalStats =
             let
                 attrs =
                     if total > 0 then
-                        [ Attr.style "background-color" (interpolateCoverageColor percentage) ]
+                        [ Attr.style "background-color" (getCoverageColorWithColorMix percentage) ]
                     else
                         []
             in
@@ -427,6 +457,33 @@ generateIndexPage stats totalStats =
 </html>"""
 
 
+calculateMinMaxCounts : List Region -> ( Maybe Int, Int )
+calculateMinMaxCounts regions =
+    let
+        nonZeroCounts : List Int
+        nonZeroCounts =
+            regions
+                |> List.map .count
+                |> List.filter (\count -> count > 0)
+
+        allCounts : List Int
+        allCounts =
+            List.map .count regions
+
+        minNonZero : Maybe Int
+        minNonZero =
+            if List.isEmpty nonZeroCounts then
+                Nothing
+            else
+                Just (List.minimum nonZeroCounts |> Maybe.withDefault 0)
+
+        maxCount : Int
+        maxCount =
+            List.maximum allCounts |> Maybe.withDefault 0
+    in
+    ( minNonZero, maxCount )
+
+
 generateModulePage : String -> String -> List Region -> Maybe ModuleStats -> String
 generateModulePage moduleFilePath sourceCode regions maybeStats =
     let
@@ -437,6 +494,9 @@ generateModulePage moduleFilePath sourceCode regions maybeStats =
         indexLinkPath : String
         indexLinkPath =
             relativePathToIndex sanitizedFilePath
+
+        ( minCount, maxCount ) =
+            calculateMinMaxCounts regions
 
         lines : List String
         lines =
@@ -492,7 +552,7 @@ generateModulePage moduleFilePath sourceCode regions maybeStats =
                                 Html.text lineText
 
                             else
-                                renderAnnotatedLine lineIndex lineText lineAnnotations
+                                renderAnnotatedLine lineIndex lineText lineAnnotations minCount maxCount
                     in
                     Html.tr []
                         [ Html.td [] [ Html.text (String.fromInt lineIndex) ]
@@ -511,7 +571,7 @@ generateModulePage moduleFilePath sourceCode regions maybeStats =
                             let
                                 attrs =
                                     if total > 0 then
-                                        [ Attr.style "background-color" (interpolateCoverageColor percentage) ]
+                                        [ Attr.style "background-color" (getCoverageColorWithColorMix percentage) ]
                                     else
                                         []
                             in
@@ -521,7 +581,7 @@ generateModulePage moduleFilePath sourceCode regions maybeStats =
                         summaryRows : List (Html.Html msg)
                         summaryRows =
                             [ Html.tr []
-                                [ Html.td [] [ Html.text "Total" ]
+                                [ Html.td [] []
                                 , makeCell stats.coveragePercentage stats.totalPoints
                                     (String.fromInt stats.coveredPoints
                                         ++ " / "
@@ -679,8 +739,40 @@ generateModulePage moduleFilePath sourceCode regions maybeStats =
 </html>"""
 
 
-renderAnnotatedLine : Int -> String -> List Annotation -> Html.Html msg
-renderAnnotatedLine lineNum lineText annotations =
+getCoveredBackgroundColor : Maybe Int -> Int -> Int -> Maybe String
+getCoveredBackgroundColor minCount maxCount count =
+    case minCount of
+        Nothing ->
+            -- No non-zero counts, use CSS class only
+            Nothing
+
+        Just min ->
+            if min == maxCount then
+                -- All covered regions have same count, use CSS class only
+                Nothing
+            else if count <= 0 then
+                -- Shouldn't happen for covered, but fallback to CSS class
+                Nothing
+            else
+                -- Calculate percentage: (count - min) / (max - min) * 100
+                let
+                    percentage : Float
+                    percentage =
+                        if maxCount == min then
+                            0
+                        else
+                            (toFloat (count - min) / toFloat (maxCount - min)) * 100
+
+                    percentageStr : String
+                    percentageStr =
+                        String.fromFloat (roundTo 2 percentage)
+                in
+                -- Use color-mix: light green (#d4edda) for min coverage, dark green (#00cc00) for max coverage
+                Just ("color-mix(in srgb, #00cc00 " ++ percentageStr ++ "%, #d4edda)")
+
+
+renderAnnotatedLine : Int -> String -> List Annotation -> Maybe Int -> Int -> Html.Html msg
+renderAnnotatedLine lineNum lineText annotations minCount maxCount =
     let
         sortedAnnotations : List Annotation
         sortedAnnotations =
@@ -731,8 +823,22 @@ renderAnnotatedLine lineNum lineText annotations =
 
                                     spanAttrs : List (Html.Attribute msg)
                                     spanAttrs =
-                                        [ Attr.class previousClassName
-                                        ]
+                                        if currentCount > 0 then
+                                            -- Covered: use color-mix() for background if needed
+                                            case getCoveredBackgroundColor minCount maxCount currentCount of
+                                                Nothing ->
+                                                    -- Use CSS class only
+                                                    [ Attr.class previousClassName
+                                                    ]
+
+                                                Just colorValue ->
+                                                    -- Use inline style with color-mix()
+                                                    [ Attr.class previousClassName
+                                                    , Attr.style "background-color" colorValue
+                                                    ]
+                                        else
+                                            [ Attr.class previousClassName
+                                            ]
                                 in
                                 if String.isEmpty tooltipText then
                                     [ Html.span spanAttrs [ Html.text segmentText ] ]
@@ -791,8 +897,22 @@ renderAnnotatedLine lineNum lineText annotations =
 
                                         spanAttrs : List (Html.Attribute msg)
                                         spanAttrs =
-                                            [ Attr.class lastClassName
-                                            ]
+                                            if lastCount > 0 then
+                                                -- Covered: use color-mix() for background if needed
+                                                case getCoveredBackgroundColor minCount maxCount lastCount of
+                                                    Nothing ->
+                                                        -- Use CSS class only
+                                                        [ Attr.class lastClassName
+                                                        ]
+
+                                                    Just colorValue ->
+                                                        -- Use inline style with color-mix()
+                                                        [ Attr.class lastClassName
+                                                        , Attr.style "background-color" colorValue
+                                                        ]
+                                            else
+                                                [ Attr.class lastClassName
+                                                ]
                                     in
                                     if String.isEmpty tooltipText then
                                         [ Html.span spanAttrs [ Html.text remainingText ] ]

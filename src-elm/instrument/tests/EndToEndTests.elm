@@ -190,24 +190,29 @@ import Test.Coverage
 a : Int
 a =
     if
-        True
+        (let
+            _ =
+                Test.Coverage.track 154242004
+         in
+         True
+        )
             && (let
                     _ =
-                        Test.Coverage.track 154242004
+                        Test.Coverage.track 1751612961
                 in
                 False
                )
     then
         let
             _ =
-                Test.Coverage.track 1751612961
+                Test.Coverage.track 107558697
         in
         5
 
     else
         let
             _ =
-                Test.Coverage.track 107558697
+                Test.Coverage.track 1885435985
         in
         6
 """
@@ -217,7 +222,7 @@ a =
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 8, column = 9 }, end = { row = 8, column = 10 } }
+                                , range = { start = { row = 6, column = 9 }, end = { row = 6, column = 10 } }
                                 , category = "if-branch"
                                 }
                               )
@@ -225,7 +230,7 @@ a =
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 5, column = 16 }, end = { row = 5, column = 21 } }
+                                , range = { start = { row = 5, column = 8 }, end = { row = 5, column = 12 } }
                                 , category = "subexpression"
                                 }
                               )
@@ -233,7 +238,15 @@ a =
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 6, column = 9 }, end = { row = 6, column = 10 } }
+                                , range = { start = { row = 5, column = 16 }, end = { row = 5, column = 21 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1885435985
+                              , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
+                                , declarationName = "a"
+                                , range = { start = { row = 8, column = 9 }, end = { row = 8, column = 10 } }
                                 , category = "if-branch"
                                 }
                               )
@@ -262,25 +275,31 @@ import Test.Coverage
 
 a : Int
 a =
-    case 2 of
+    case
+        let
+            _ =
+                Test.Coverage.track 154242004
+        in
+        2
+    of
         1 ->
             let
                 _ =
-                    Test.Coverage.track 154242004
+                    Test.Coverage.track 1751612961
             in
             100
 
         2 ->
             let
                 _ =
-                    Test.Coverage.track 1751612961
+                    Test.Coverage.track 107558697
             in
             200
 
         _ ->
             let
                 _ =
-                    Test.Coverage.track 107558697
+                    Test.Coverage.track 1885435985
             in
             0
 """
@@ -290,7 +309,7 @@ a =
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 8, column = 15 }, end = { row = 8, column = 16 } }
+                                , range = { start = { row = 7, column = 14 }, end = { row = 7, column = 17 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -298,15 +317,23 @@ a =
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 6, column = 14 }, end = { row = 6, column = 17 } }
-                                , category = "case-branch"
+                                , range = { start = { row = 5, column = 10 }, end = { row = 5, column = 11 } }
+                                , category = "subexpression"
                                 }
                               )
                             , ( 1751612961
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 7, column = 14 }, end = { row = 7, column = 17 } }
+                                , range = { start = { row = 6, column = 14 }, end = { row = 6, column = 17 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 1885435985
+                              , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
+                                , declarationName = "a"
+                                , range = { start = { row = 8, column = 15 }, end = { row = 8, column = 16 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -371,6 +398,136 @@ a =
                               )
                             ]
                     , contentHash = 3470614315
+                    }
+           }
+         , { name = "or expressions in if statements"
+           , input = """
+module A exposing (a)
+
+a b c =
+    if b == 1 || c == 1 then
+        ()
+    else if b == 2 || c == 2 then
+        ()
+    else
+        ()
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module A exposing (a)
+
+import Test.Coverage
+
+
+a b c =
+    if
+        (let
+            _ =
+                Test.Coverage.track 154242004
+         in
+         b == 1
+        )
+            || (let
+                    _ =
+                        Test.Coverage.track 1751612961
+                in
+                c == 1
+               )
+    then
+        let
+            _ =
+                Test.Coverage.track 107558697
+        in
+        ()
+
+    else if
+        (let
+            _ =
+                Test.Coverage.track 1885435985
+         in
+         b == 2
+        )
+            || (let
+                    _ =
+                        Test.Coverage.track 434548591
+                in
+                c == 2
+               )
+    then
+        let
+            _ =
+                Test.Coverage.track 1004572879
+        in
+        ()
+
+    else
+        let
+            _ =
+                Test.Coverage.track 1045688889
+        in
+        ()
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 107558697
+                              , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
+                                , declarationName = "a"
+                                , range = { start = { row = 5, column = 9 }, end = { row = 5, column = 11 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 154242004
+                              , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
+                                , declarationName = "a"
+                                , range = { start = { row = 4, column = 8 }, end = { row = 4, column = 14 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 434548591
+                              , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
+                                , declarationName = "a"
+                                , range = { start = { row = 6, column = 23 }, end = { row = 6, column = 29 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1004572879
+                              , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
+                                , declarationName = "a"
+                                , range = { start = { row = 7, column = 9 }, end = { row = 7, column = 11 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1045688889
+                              , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
+                                , declarationName = "a"
+                                , range = { start = { row = 9, column = 9 }, end = { row = 9, column = 11 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1751612961
+                              , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
+                                , declarationName = "a"
+                                , range = { start = { row = 4, column = 18 }, end = { row = 4, column = 24 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1885435985
+                              , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
+                                , declarationName = "a"
+                                , range = { start = { row = 6, column = 13 }, end = { row = 6, column = 19 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            ]
+                    , contentHash = 4057747903
                     }
            }
          , { name = "parse error"
