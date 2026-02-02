@@ -4,7 +4,7 @@ import Dict exposing (Dict)
 import Html.String as Html
 import Html.String.Attributes as Attr
 import PointMetadata exposing (PointMetadata)
-import Report exposing (Input, ModuleStats, ReportFile)
+import Report exposing (Input, ModuleStats, CategoryStats, ReportFile)
 import Sweep exposing (Annotation, Region)
 
 
@@ -33,10 +33,23 @@ generate input =
         moduleStats =
             Report.calculateModuleStats input
 
+        moduleStatsDict : Dict String ModuleStats
+        moduleStatsDict =
+            List.foldl
+                (\stat acc ->
+                    Dict.insert stat.moduleFilePath stat acc
+                )
+                Dict.empty
+                moduleStats
+
+        totalStats : ModuleStats
+        totalStats =
+            calculateTotalStats moduleStats
+
         indexPage : ReportFile
         indexPage =
             { filepath = "index.html"
-            , contents = generateIndexPage moduleStats
+            , contents = generateIndexPage moduleStats totalStats
             }
 
         modulePages : List ReportFile
@@ -71,10 +84,14 @@ generate input =
                         sanitizedFilePath =
                             sanitizeFilePathForHtml filepath
 
+                        moduleStat : Maybe ModuleStats
+                        moduleStat =
+                            Dict.get filepath moduleStatsDict
+
                         page : ReportFile
                         page =
                             { filepath = sanitizedFilePath ++ ".html"
-                            , contents = generateModulePage filepath sourceCode regions
+                            , contents = generateModulePage filepath sourceCode regions moduleStat
                             }
                     in
                     page :: acc
@@ -88,6 +105,121 @@ sanitizeFilePathForHtml : String -> String
 sanitizeFilePathForHtml filepath =
     filepath
         |> String.replace ".elm" ""
+
+
+calculateTotalStats : List ModuleStats -> ModuleStats
+calculateTotalStats stats =
+    let
+        addCategoryStats : CategoryStats -> CategoryStats -> CategoryStats
+        addCategoryStats a b =
+            let
+                total = a.total + b.total
+                covered = a.covered + b.covered
+                percentage =
+                    if total > 0 then
+                        (toFloat covered / toFloat total) * 100
+                    else
+                        0
+            in
+            { total = total
+            , covered = covered
+            , percentage = percentage
+            }
+    in
+    List.foldl
+        (\moduleStat acc ->
+            { moduleFilePath = "Total"
+            , totalPoints = acc.totalPoints + moduleStat.totalPoints
+            , coveredPoints = acc.coveredPoints + moduleStat.coveredPoints
+            , coveragePercentage =
+                if acc.totalPoints + moduleStat.totalPoints > 0 then
+                    (toFloat (acc.coveredPoints + moduleStat.coveredPoints) / toFloat (acc.totalPoints + moduleStat.totalPoints)) * 100
+                else
+                    0
+            , declaration = addCategoryStats acc.declaration moduleStat.declaration
+            , subexpression = addCategoryStats acc.subexpression moduleStat.subexpression
+            , lambda = addCategoryStats acc.lambda moduleStat.lambda
+            , ifBranch = addCategoryStats acc.ifBranch moduleStat.ifBranch
+            , caseBranch = addCategoryStats acc.caseBranch moduleStat.caseBranch
+            }
+        )
+        { moduleFilePath = "Total"
+        , totalPoints = 0
+        , coveredPoints = 0
+        , coveragePercentage = 0
+        , declaration = { total = 0, covered = 0, percentage = 0 }
+        , subexpression = { total = 0, covered = 0, percentage = 0 }
+        , lambda = { total = 0, covered = 0, percentage = 0 }
+        , ifBranch = { total = 0, covered = 0, percentage = 0 }
+        , caseBranch = { total = 0, covered = 0, percentage = 0 }
+        }
+        stats
+
+
+interpolateCoverageColor : Float -> String
+interpolateCoverageColor percentage =
+    let
+        -- Color endpoints: red (0%), yellow (50%), green (100%)
+        redR = 255
+        redG = 204
+        redB = 204
+
+        yellowR = 255
+        yellowG = 255
+        yellowB = 204
+
+        greenR = 204
+        greenG = 255
+        greenB = 204
+
+        lerp : Float -> Int -> Int -> Int
+        lerp t start end =
+            round (toFloat start + t * (toFloat end - toFloat start))
+
+        ( r, g, b ) =
+            if percentage <= 50 then
+                -- Interpolate between red and yellow
+                let
+                    t = percentage / 50
+                in
+                ( lerp t redR yellowR
+                , lerp t redG yellowG
+                , lerp t redB yellowB
+                )
+            else
+                -- Interpolate between yellow and green
+                let
+                    t = (percentage - 50) / 50
+                in
+                ( lerp t yellowR greenR
+                , lerp t yellowG greenG
+                , lerp t yellowB greenB
+                )
+
+        toHex : Int -> String
+        toHex n =
+            let
+                high = n // 16
+                low = remainderBy 16 n
+            in
+            toHexDigit high ++ toHexDigit low
+    in
+    "#" ++ toHex r ++ toHex g ++ toHex b
+
+
+toHexDigit : Int -> String
+toHexDigit n =
+    if n < 10 then
+        String.fromInt n
+    else
+        case n of
+            10 -> "A"
+            11 -> "B"
+            12 -> "C"
+            13 -> "D"
+            14 -> "E"
+            15 -> "F"
+            _ -> "0"
 
 
 relativePathToIndex : String -> String
@@ -108,88 +240,146 @@ relativePathToIndex sanitizedFilePath =
             ++ "index.html"
 
 
-generateIndexPage : List ModuleStats -> String
-generateIndexPage stats =
+generateIndexPage : List ModuleStats -> ModuleStats -> String
+generateIndexPage stats totalStats =
     let
+        makeCell : Float -> Int -> String -> Html.Html msg
+        makeCell percentage total content =
+            let
+                attrs =
+                    if total > 0 then
+                        [ Attr.style "background-color" (interpolateCoverageColor percentage) ]
+                    else
+                        []
+            in
+            Html.td attrs
+                [ Html.text content ]
+
+        makeModuleRow : ModuleStats -> Html.Html msg
+        makeModuleRow stat =
+            let
+                sanitizedFilePath : String
+                sanitizedFilePath =
+                    sanitizeFilePathForHtml stat.moduleFilePath
+            in
+            Html.tr []
+                ([ Html.td []
+                    [ Html.a [ Attr.href (sanitizedFilePath ++ ".html") ]
+                        [ Html.text stat.moduleFilePath ]
+                    ]
+                 , makeCell stat.coveragePercentage stat.totalPoints
+                    (String.fromInt stat.coveredPoints
+                        ++ " / "
+                        ++ String.fromInt stat.totalPoints
+                        ++ " ("
+                        ++ String.fromFloat (roundTo 2 stat.coveragePercentage)
+                        ++ "%)"
+                    )
+                 ]
+                    ++ [ makeCell stat.declaration.percentage stat.declaration.total
+                            (String.fromInt stat.declaration.covered
+                                ++ " / "
+                                ++ String.fromInt stat.declaration.total
+                                ++ " ("
+                                ++ String.fromFloat (roundTo 2 stat.declaration.percentage)
+                                ++ "%)"
+                            )
+                       , makeCell stat.subexpression.percentage stat.subexpression.total
+                            (String.fromInt stat.subexpression.covered
+                                ++ " / "
+                                ++ String.fromInt stat.subexpression.total
+                                ++ " ("
+                                ++ String.fromFloat (roundTo 2 stat.subexpression.percentage)
+                                ++ "%)"
+                            )
+                       , makeCell stat.lambda.percentage stat.lambda.total
+                            (String.fromInt stat.lambda.covered
+                                ++ " / "
+                                ++ String.fromInt stat.lambda.total
+                                ++ " ("
+                                ++ String.fromFloat (roundTo 2 stat.lambda.percentage)
+                                ++ "%)"
+                            )
+                       , makeCell stat.ifBranch.percentage stat.ifBranch.total
+                            (String.fromInt stat.ifBranch.covered
+                                ++ " / "
+                                ++ String.fromInt stat.ifBranch.total
+                                ++ " ("
+                                ++ String.fromFloat (roundTo 2 stat.ifBranch.percentage)
+                                ++ "%)"
+                            )
+                       , makeCell stat.caseBranch.percentage stat.caseBranch.total
+                            (String.fromInt stat.caseBranch.covered
+                                ++ " / "
+                                ++ String.fromInt stat.caseBranch.total
+                                ++ " ("
+                                ++ String.fromFloat (roundTo 2 stat.caseBranch.percentage)
+                                ++ "%)"
+                            )
+                       ]
+            )
+
+        makeTotalRow : ModuleStats -> Html.Html msg
+        makeTotalRow stat =
+            Html.tr []
+                ([ Html.td [ Attr.style "font-weight" "bold" ]
+                    [ Html.text stat.moduleFilePath ]
+                 , makeCell stat.coveragePercentage stat.totalPoints
+                    (String.fromInt stat.coveredPoints
+                        ++ " / "
+                        ++ String.fromInt stat.totalPoints
+                        ++ " ("
+                        ++ String.fromFloat (roundTo 2 stat.coveragePercentage)
+                        ++ "%)"
+                    )
+                 ]
+                    ++ [ makeCell stat.declaration.percentage stat.declaration.total
+                            (String.fromInt stat.declaration.covered
+                                ++ " / "
+                                ++ String.fromInt stat.declaration.total
+                                ++ " ("
+                                ++ String.fromFloat (roundTo 2 stat.declaration.percentage)
+                                ++ "%)"
+                            )
+                       , makeCell stat.subexpression.percentage stat.subexpression.total
+                            (String.fromInt stat.subexpression.covered
+                                ++ " / "
+                                ++ String.fromInt stat.subexpression.total
+                                ++ " ("
+                                ++ String.fromFloat (roundTo 2 stat.subexpression.percentage)
+                                ++ "%)"
+                            )
+                       , makeCell stat.lambda.percentage stat.lambda.total
+                            (String.fromInt stat.lambda.covered
+                                ++ " / "
+                                ++ String.fromInt stat.lambda.total
+                                ++ " ("
+                                ++ String.fromFloat (roundTo 2 stat.lambda.percentage)
+                                ++ "%)"
+                            )
+                       , makeCell stat.ifBranch.percentage stat.ifBranch.total
+                            (String.fromInt stat.ifBranch.covered
+                                ++ " / "
+                                ++ String.fromInt stat.ifBranch.total
+                                ++ " ("
+                                ++ String.fromFloat (roundTo 2 stat.ifBranch.percentage)
+                                ++ "%)"
+                            )
+                       , makeCell stat.caseBranch.percentage stat.caseBranch.total
+                            (String.fromInt stat.caseBranch.covered
+                                ++ " / "
+                                ++ String.fromInt stat.caseBranch.total
+                                ++ " ("
+                                ++ String.fromFloat (roundTo 2 stat.caseBranch.percentage)
+                                ++ "%)"
+                            )
+                       ]
+            )
+
         rows : List (Html.Html msg)
         rows =
-            List.map
-                (\stat ->
-                    let
-                        sanitizedFilePath : String
-                        sanitizedFilePath =
-                            sanitizeFilePathForHtml stat.moduleFilePath
-                    in
-                    Html.tr []
-                        ([ Html.td []
-                            [ Html.a [ Attr.href (sanitizedFilePath ++ ".html") ]
-                                [ Html.text stat.moduleFilePath ]
-                            ]
-                         , Html.td []
-                            [ Html.text
-                                (String.fromInt stat.coveredPoints
-                                    ++ " / "
-                                    ++ String.fromInt stat.totalPoints
-                                    ++ " ("
-                                    ++ String.fromFloat (roundTo 2 stat.coveragePercentage)
-                                    ++ "%)"
-                                )
-                            ]
-                         ]
-                            ++ [ Html.td []
-                                    [ Html.text
-                                        (String.fromInt stat.declaration.covered
-                                            ++ " / "
-                                            ++ String.fromInt stat.declaration.total
-                                            ++ " ("
-                                            ++ String.fromFloat (roundTo 2 stat.declaration.percentage)
-                                            ++ "%)"
-                                        )
-                                    ]
-                               , Html.td []
-                                    [ Html.text
-                                        (String.fromInt stat.subexpression.covered
-                                            ++ " / "
-                                            ++ String.fromInt stat.subexpression.total
-                                            ++ " ("
-                                            ++ String.fromFloat (roundTo 2 stat.subexpression.percentage)
-                                            ++ "%)"
-                                        )
-                                    ]
-                               , Html.td []
-                                    [ Html.text
-                                        (String.fromInt stat.lambda.covered
-                                            ++ " / "
-                                            ++ String.fromInt stat.lambda.total
-                                            ++ " ("
-                                            ++ String.fromFloat (roundTo 2 stat.lambda.percentage)
-                                            ++ "%)"
-                                        )
-                                    ]
-                               , Html.td []
-                                    [ Html.text
-                                        (String.fromInt stat.ifBranch.covered
-                                            ++ " / "
-                                            ++ String.fromInt stat.ifBranch.total
-                                            ++ " ("
-                                            ++ String.fromFloat (roundTo 2 stat.ifBranch.percentage)
-                                            ++ "%)"
-                                        )
-                                    ]
-                               , Html.td []
-                                    [ Html.text
-                                        (String.fromInt stat.caseBranch.covered
-                                            ++ " / "
-                                            ++ String.fromInt stat.caseBranch.total
-                                            ++ " ("
-                                            ++ String.fromFloat (roundTo 2 stat.caseBranch.percentage)
-                                            ++ "%)"
-                                        )
-                                    ]
-                               ]
-                        )
-                )
-                stats
+            List.map makeModuleRow stats
+                ++ [ makeTotalRow totalStats ]
 
         bodyHtml : Html.Html msg
         bodyHtml =
@@ -237,8 +427,8 @@ generateIndexPage stats =
 </html>"""
 
 
-generateModulePage : String -> String -> List Region -> String
-generateModulePage moduleFilePath sourceCode regions =
+generateModulePage : String -> String -> List Region -> Maybe ModuleStats -> String
+generateModulePage moduleFilePath sourceCode regions maybeStats =
     let
         sanitizedFilePath : String
         sanitizedFilePath =
@@ -311,6 +501,98 @@ generateModulePage moduleFilePath sourceCode regions =
                 )
                 lines
 
+        summaryTable : Html.Html msg
+        summaryTable =
+            case maybeStats of
+                Just stats ->
+                    let
+                        makeCell : Float -> Int -> String -> Html.Html msg
+                        makeCell percentage total content =
+                            let
+                                attrs =
+                                    if total > 0 then
+                                        [ Attr.style "background-color" (interpolateCoverageColor percentage) ]
+                                    else
+                                        []
+                            in
+                            Html.td attrs
+                                [ Html.text content ]
+
+                        summaryRows : List (Html.Html msg)
+                        summaryRows =
+                            [ Html.tr []
+                                [ Html.td [] [ Html.text "Total" ]
+                                , makeCell stats.coveragePercentage stats.totalPoints
+                                    (String.fromInt stats.coveredPoints
+                                        ++ " / "
+                                        ++ String.fromInt stats.totalPoints
+                                        ++ " ("
+                                        ++ String.fromFloat (roundTo 2 stats.coveragePercentage)
+                                        ++ "%)"
+                                    )
+                                , makeCell stats.declaration.percentage stats.declaration.total
+                                    (String.fromInt stats.declaration.covered
+                                        ++ " / "
+                                        ++ String.fromInt stats.declaration.total
+                                        ++ " ("
+                                        ++ String.fromFloat (roundTo 2 stats.declaration.percentage)
+                                        ++ "%)"
+                                    )
+                                , makeCell stats.subexpression.percentage stats.subexpression.total
+                                    (String.fromInt stats.subexpression.covered
+                                        ++ " / "
+                                        ++ String.fromInt stats.subexpression.total
+                                        ++ " ("
+                                        ++ String.fromFloat (roundTo 2 stats.subexpression.percentage)
+                                        ++ "%)"
+                                    )
+                                , makeCell stats.lambda.percentage stats.lambda.total
+                                    (String.fromInt stats.lambda.covered
+                                        ++ " / "
+                                        ++ String.fromInt stats.lambda.total
+                                        ++ " ("
+                                        ++ String.fromFloat (roundTo 2 stats.lambda.percentage)
+                                        ++ "%)"
+                                    )
+                                , makeCell stats.ifBranch.percentage stats.ifBranch.total
+                                    (String.fromInt stats.ifBranch.covered
+                                        ++ " / "
+                                        ++ String.fromInt stats.ifBranch.total
+                                        ++ " ("
+                                        ++ String.fromFloat (roundTo 2 stats.ifBranch.percentage)
+                                        ++ "%)"
+                                    )
+                                , makeCell stats.caseBranch.percentage stats.caseBranch.total
+                                    (String.fromInt stats.caseBranch.covered
+                                        ++ " / "
+                                        ++ String.fromInt stats.caseBranch.total
+                                        ++ " ("
+                                        ++ String.fromFloat (roundTo 2 stats.caseBranch.percentage)
+                                        ++ "%)"
+                                    )
+                                ]
+                            ]
+                    in
+                    Html.table [ Attr.class "summary-table" ]
+                        [ Html.thead []
+                            [ Html.tr []
+                                ([ Html.th [] [ Html.text "Category" ]
+                                 , Html.th [] [ Html.text "Total" ]
+                                 ]
+                                    ++ [ Html.th [] [ Html.text "Declaration" ]
+                                       , Html.th [] [ Html.text "Subexpression" ]
+                                       , Html.th [] [ Html.text "Lambda" ]
+                                       , Html.th [] [ Html.text "If-branch" ]
+                                       , Html.th [] [ Html.text "Case-branch" ]
+                                       ]
+                                )
+                            ]
+                        , Html.tbody [] summaryRows
+                        ]
+
+                Nothing ->
+                    Html.text ""
+
         bodyHtml : Html.Html msg
         bodyHtml =
             Html.div []
@@ -319,7 +601,8 @@ generateModulePage moduleFilePath sourceCode regions =
                     [ Html.a [ Attr.href indexLinkPath ]
                         [ Html.text "← Back to index" ]
                     ]
-                , Html.table [] renderedLines
+                , summaryTable
+                , Html.table [ Attr.class "source-table" ] renderedLines
                 ]
 
         bodyString : String
@@ -336,8 +619,11 @@ generateModulePage moduleFilePath sourceCode regions =
     <style>
         body { font-family: sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
-        td { border: none; padding: 0; line-height: 1.15; }
-        tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
+        table.summary-table { margin-bottom: 20px; }
+        table.summary-table th, table.summary-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        table.summary-table th { background-color: #f2f2f2; }
+        table.source-table td { border: none; padding: 0; line-height: 1.15; }
+        table.source-table tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
         .line-number { text-align: right; color: #666; user-select: none; }
         .covered { 
             background-color: #d4edda; 

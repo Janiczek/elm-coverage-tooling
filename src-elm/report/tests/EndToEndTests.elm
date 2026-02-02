@@ -9,6 +9,44 @@ import Range exposing (Position, Range)
 import Test exposing (Test)
 
 
+stripAnsiCodes : String -> String
+stripAnsiCodes text =
+    -- Remove ANSI escape sequences: \u001b[ followed by numbers/semicolons and ending with m
+    -- Simple recursive approach to strip ANSI codes
+    stripAnsiCodesHelper text ""
+
+
+stripAnsiCodesHelper : String -> String -> String
+stripAnsiCodesHelper remaining acc =
+    case String.uncons remaining of
+        Nothing ->
+            acc
+
+        Just ( char, rest ) ->
+            if char == '\u{001B}' then
+                -- Found ESC, skip until 'm'
+                skipUntilM rest acc
+
+            else
+                stripAnsiCodesHelper rest (acc ++ String.fromChar char)
+
+
+skipUntilM : String -> String -> String
+skipUntilM remaining acc =
+    case String.uncons remaining of
+        Nothing ->
+            acc
+
+        Just ( char, rest ) ->
+            if char == 'm' then
+                -- Found 'm', continue stripping
+                stripAnsiCodesHelper rest acc
+
+            else
+                -- Continue skipping
+                skipUntilM rest acc
+
+
 type alias TestCase =
     { name : String
     , input : Main.Input
@@ -22,7 +60,7 @@ suite =
         List.concat <|
             [ [ Test.fuzz
                     (fuzzInput "stdout")
-                    "stdout format - same as plaintext"
+                    "stdout format - same as plaintext (after stripping ANSI codes)"
                     (\input ->
                         let
                             plaintextInput =
@@ -38,7 +76,7 @@ suite =
                             ( Ok stdout, Ok plaintext ) ->
                                 let
                                     stdoutContents =
-                                        List.map .contents stdout.reports
+                                        List.map (.contents >> stripAnsiCodes) stdout.reports
 
                                     plaintextContents =
                                         List.map .contents plaintext.reports
@@ -137,7 +175,7 @@ a = 1""" )
         a:hover { text-decoration: underline; }
     </style>
 </head>
-<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Total</th><th>Declaration</th><th>Subexpression</th><th>Lambda</th><th>If-branch</th><th>Case-branch</th></tr></thead><tbody><tr><td><a href="src/A.html">src/A.elm</a></td><td>1 / 1 (100%)</td><td>1 / 1 (100%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td></tr></tbody></table></div>
+<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Total</th><th>Declaration</th><th>Subexpression</th><th>Lambda</th><th>If-branch</th><th>Case-branch</th></tr></thead><tbody><tr><td><a href="src/A.html">src/A.elm</a></td><td style="background-color: #CCFFCC">1 / 1 (100%)</td><td style="background-color: #CCFFCC">1 / 1 (100%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td></tr><tr><td style="font-weight: bold">Total</td><td style="background-color: #CCFFCC">1 / 1 (100%)</td><td style="background-color: #CCFFCC">1 / 1 (100%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td></tr></tbody></table></div>
 </html>"""
                                }
                              , { filepath = "src/A.html"
@@ -149,8 +187,11 @@ a = 1""" )
     <style>
         body { font-family: sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
-        td { border: none; padding: 0; line-height: 1.15; }
-        tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
+        table.summary-table { margin-bottom: 20px; }
+        table.summary-table th, table.summary-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        table.summary-table th { background-color: #f2f2f2; }
+        table.source-table td { border: none; padding: 0; line-height: 1.15; }
+        table.source-table tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
         .line-number { text-align: right; color: #666; user-select: none; }
         .covered { 
             background-color: #d4edda; 
@@ -200,7 +241,7 @@ a = 1""" )
         }
     </style>
 </head>
-<div><h1>src/A.elm</h1><p><a href="../index.html">← Back to index</a></p><table><tr><td>1</td><td><pre><span><span class="covered">modul<span class="tooltip">1x</span></span><span class="no-coverage">e A</span></span></pre></td></tr><tr><td>2</td><td><pre>a = 1</pre></td></tr></table></div>
+<div><h1>src/A.elm</h1><p><a href="../index.html">← Back to index</a></p><table class="summary-table"><thead><tr><th>Category</th><th>Total</th><th>Declaration</th><th>Subexpression</th><th>Lambda</th><th>If-branch</th><th>Case-branch</th></tr></thead><tbody><tr><td>Total</td><td style="background-color: #CCFFCC">1 / 1 (100%)</td><td style="background-color: #CCFFCC">1 / 1 (100%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td></tr></tbody></table><table class="source-table"><tr><td>1</td><td><pre><span><span class="covered">modul<span class="tooltip">1x</span></span><span class="no-coverage">e A</span></span></pre></td></tr><tr><td>2</td><td><pre>a = 1</pre></td></tr></table></div>
 </html>"""
                                }
                              ]
@@ -258,7 +299,7 @@ b = 2""" )
         a:hover { text-decoration: underline; }
     </style>
 </head>
-<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Total</th><th>Declaration</th><th>Subexpression</th><th>Lambda</th><th>If-branch</th><th>Case-branch</th></tr></thead><tbody><tr><td><a href="src/A.html">src/A.elm</a></td><td>1 / 2 (50%)</td><td>1 / 2 (50%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td></tr></tbody></table></div>
+<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Total</th><th>Declaration</th><th>Subexpression</th><th>Lambda</th><th>If-branch</th><th>Case-branch</th></tr></thead><tbody><tr><td><a href="src/A.html">src/A.elm</a></td><td style="background-color: #FFFFCC">1 / 2 (50%)</td><td style="background-color: #FFFFCC">1 / 2 (50%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td></tr><tr><td style="font-weight: bold">Total</td><td style="background-color: #FFFFCC">1 / 2 (50%)</td><td style="background-color: #FFFFCC">1 / 2 (50%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td></tr></tbody></table></div>
 </html>"""
                                }
                              , { filepath = "src/A.html"
@@ -270,8 +311,11 @@ b = 2""" )
     <style>
         body { font-family: sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
-        td { border: none; padding: 0; line-height: 1.15; }
-        tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
+        table.summary-table { margin-bottom: 20px; }
+        table.summary-table th, table.summary-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        table.summary-table th { background-color: #f2f2f2; }
+        table.source-table td { border: none; padding: 0; line-height: 1.15; }
+        table.source-table tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
         .line-number { text-align: right; color: #666; user-select: none; }
         .covered { 
             background-color: #d4edda; 
@@ -321,7 +365,7 @@ b = 2""" )
         }
     </style>
 </head>
-<div><h1>src/A.elm</h1><p><a href="../index.html">← Back to index</a></p><table><tr><td>1</td><td><pre>module A</pre></td></tr><tr><td>2</td><td><pre><span><span class="covered">a = 1<span class="tooltip">5x</span></span></span></pre></td></tr><tr><td>3</td><td><pre><span><span class="uncovered">b = 2<span class="tooltip">0x</span></span></span></pre></td></tr></table></div>
+<div><h1>src/A.elm</h1><p><a href="../index.html">← Back to index</a></p><table class="summary-table"><thead><tr><th>Category</th><th>Total</th><th>Declaration</th><th>Subexpression</th><th>Lambda</th><th>If-branch</th><th>Case-branch</th></tr></thead><tbody><tr><td>Total</td><td style="background-color: #FFFFCC">1 / 2 (50%)</td><td style="background-color: #FFFFCC">1 / 2 (50%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td></tr></tbody></table><table class="source-table"><tr><td>1</td><td><pre>module A</pre></td></tr><tr><td>2</td><td><pre><span><span class="covered">a = 1<span class="tooltip">5x</span></span></span></pre></td></tr><tr><td>3</td><td><pre><span><span class="uncovered">b = 2<span class="tooltip">0x</span></span></span></pre></td></tr></table></div>
 </html>"""
                                }
                              ]
@@ -413,7 +457,7 @@ a =
         a:hover { text-decoration: underline; }
     </style>
 </head>
-<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Total</th><th>Declaration</th><th>Subexpression</th><th>Lambda</th><th>If-branch</th><th>Case-branch</th></tr></thead><tbody><tr><td><a href="src/A.html">src/A.elm</a></td><td>5 / 5 (100%)</td><td>1 / 1 (100%)</td><td>4 / 4 (100%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td></tr></tbody></table></div>
+<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Total</th><th>Declaration</th><th>Subexpression</th><th>Lambda</th><th>If-branch</th><th>Case-branch</th></tr></thead><tbody><tr><td><a href="src/A.html">src/A.elm</a></td><td style="background-color: #CCFFCC">5 / 5 (100%)</td><td style="background-color: #CCFFCC">1 / 1 (100%)</td><td style="background-color: #CCFFCC">4 / 4 (100%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td></tr><tr><td style="font-weight: bold">Total</td><td style="background-color: #CCFFCC">5 / 5 (100%)</td><td style="background-color: #CCFFCC">1 / 1 (100%)</td><td style="background-color: #CCFFCC">4 / 4 (100%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td></tr></tbody></table></div>
 </html>"""
                                }
                              , { filepath = "src/A.html"
@@ -425,8 +469,11 @@ a =
     <style>
         body { font-family: sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
-        td { border: none; padding: 0; line-height: 1.15; }
-        tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
+        table.summary-table { margin-bottom: 20px; }
+        table.summary-table th, table.summary-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        table.summary-table th { background-color: #f2f2f2; }
+        table.source-table td { border: none; padding: 0; line-height: 1.15; }
+        table.source-table tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
         .line-number { text-align: right; color: #666; user-select: none; }
         .covered { 
             background-color: #d4edda; 
@@ -476,7 +523,7 @@ a =
         }
     </style>
 </head>
-<div><h1>src/A.elm</h1><p><a href="../index.html">← Back to index</a></p><table><tr><td>1</td><td><pre>module A exposing (a)</pre></td></tr><tr><td>2</td><td><pre></pre></td></tr><tr><td>3</td><td><pre>a =</pre></td></tr><tr><td>4</td><td><pre><span><span class="no-coverage">    </span><span class="covered">a &amp;&amp; <span class="tooltip">10x</span></span><span class="covered">b &amp;&amp; <span class="tooltip">8x</span></span><span class="covered">c<span class="tooltip">5x</span></span></span></pre></td></tr></table></div>
+<div><h1>src/A.elm</h1><p><a href="../index.html">← Back to index</a></p><table class="summary-table"><thead><tr><th>Category</th><th>Total</th><th>Declaration</th><th>Subexpression</th><th>Lambda</th><th>If-branch</th><th>Case-branch</th></tr></thead><tbody><tr><td>Total</td><td style="background-color: #CCFFCC">5 / 5 (100%)</td><td style="background-color: #CCFFCC">1 / 1 (100%)</td><td style="background-color: #CCFFCC">4 / 4 (100%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td></tr></tbody></table><table class="source-table"><tr><td>1</td><td><pre>module A exposing (a)</pre></td></tr><tr><td>2</td><td><pre></pre></td></tr><tr><td>3</td><td><pre>a =</pre></td></tr><tr><td>4</td><td><pre><span><span class="no-coverage">    </span><span class="covered">a &amp;&amp; <span class="tooltip">10x</span></span><span class="covered">b &amp;&amp; <span class="tooltip">8x</span></span><span class="covered">c<span class="tooltip">5x</span></span></span></pre></td></tr></table></div>
 </html>"""
                                }
                              ]

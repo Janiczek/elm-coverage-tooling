@@ -6,8 +6,11 @@
     <style>
         body { font-family: sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
-        td { border: none; padding: 0; line-height: 1.15; }
-        tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
+        table.summary-table { margin-bottom: 20px; }
+        table.summary-table th, table.summary-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        table.summary-table th { background-color: #f2f2f2; }
+        table.source-table td { border: none; padding: 0; line-height: 1.15; }
+        table.source-table tr td:first-child { width: 1%; white-space: nowrap; padding-right: 8px; }
         .line-number { text-align: right; color: #666; user-select: none; }
         .covered { 
             background-color: #d4edda; 
@@ -57,5 +60,5 @@
         }
     </style>
 </head>
-<div><h1>src/Foo.elm</h1><p><a href="../index.html">← Back to index</a></p><table><tr><td>1</td><td><pre>module Foo exposing (add, multiply)</pre></td></tr><tr><td>2</td><td><pre></pre></td></tr><tr><td>3</td><td><pre>add : Int -&gt; Int -&gt; Int</pre></td></tr><tr><td>4</td><td><pre>add a b =</pre></td></tr><tr><td>5</td><td><pre><span><span class="no-coverage">    </span><span class="covered">a + b<span class="tooltip">2x</span></span></span></pre></td></tr><tr><td>6</td><td><pre></pre></td></tr><tr><td>7</td><td><pre>multiply : Int -&gt; Int -&gt; Int</pre></td></tr><tr><td>8</td><td><pre>multiply a b =</pre></td></tr><tr><td>9</td><td><pre><span><span class="no-coverage">    </span><span class="covered">a * b<span class="tooltip">2x</span></span></span></pre></td></tr><tr><td>10</td><td><pre></pre></td></tr><tr><td>11</td><td><pre>subtract : Int -&gt; Int -&gt; Int</pre></td></tr><tr><td>12</td><td><pre>subtract a b =</pre></td></tr><tr><td>13</td><td><pre><span><span class="no-coverage">    </span><span class="uncovered">a - b<span class="tooltip">0x</span></span></span></pre></td></tr><tr><td>14</td><td><pre></pre></td></tr></table></div>
+<div><h1>src/Foo.elm</h1><p><a href="../index.html">← Back to index</a></p><table class="summary-table"><thead><tr><th>Category</th><th>Total</th><th>Declaration</th><th>Subexpression</th><th>Lambda</th><th>If-branch</th><th>Case-branch</th></tr></thead><tbody><tr><td>Total</td><td style="background-color: #EEFFCC">2 / 3 (66.67%)</td><td style="background-color: #EEFFCC">2 / 3 (66.67%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td></tr></tbody></table><table class="source-table"><tr><td>1</td><td><pre>module Foo exposing (add, multiply)</pre></td></tr><tr><td>2</td><td><pre></pre></td></tr><tr><td>3</td><td><pre>add : Int -&gt; Int -&gt; Int</pre></td></tr><tr><td>4</td><td><pre>add a b =</pre></td></tr><tr><td>5</td><td><pre><span><span class="no-coverage">    </span><span class="covered">a + b<span class="tooltip">2x</span></span></span></pre></td></tr><tr><td>6</td><td><pre></pre></td></tr><tr><td>7</td><td><pre>multiply : Int -&gt; Int -&gt; Int</pre></td></tr><tr><td>8</td><td><pre>multiply a b =</pre></td></tr><tr><td>9</td><td><pre><span><span class="no-coverage">    </span><span class="covered">a * b<span class="tooltip">2x</span></span></span></pre></td></tr><tr><td>10</td><td><pre></pre></td></tr><tr><td>11</td><td><pre>subtract : Int -&gt; Int -&gt; Int</pre></td></tr><tr><td>12</td><td><pre>subtract a b =</pre></td></tr><tr><td>13</td><td><pre><span><span class="no-coverage">    </span><span class="uncovered">a - b<span class="tooltip">0x</span></span></span></pre></td></tr><tr><td>14</td><td><pre></pre></td></tr></table></div>
 </html>

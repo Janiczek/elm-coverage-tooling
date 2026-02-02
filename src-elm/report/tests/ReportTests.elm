@@ -61,7 +61,6 @@ suite =
                                     report.filepath == "coverage.txt"
                                         && String.contains "File" report.contents
                                         && String.contains "Total" report.contents
-                                        && String.contains "Total" report.contents
                                         && String.contains "1/2" report.contents
                                         && String.contains "50%" report.contents
                                         && String.contains "src/A.elm" report.contents
@@ -370,7 +369,6 @@ a = 1""" ) ]
                                 Just report ->
                                     report.filepath == "stdout"
                                         && String.contains "File" report.contents
-                                        && String.contains "Total" report.contents
                                         && String.contains "Total" report.contents
                                         && String.contains "1/2" report.contents
                                         && String.contains "50%" report.contents
