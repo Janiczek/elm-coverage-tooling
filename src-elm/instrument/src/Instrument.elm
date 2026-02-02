@@ -223,7 +223,7 @@ instrumentExprWithCategory exprNode declarationName category state =
             ( finalExpr, finalState )
 
         -- For case expressions, track branches with "case-branch" category
-        -- If category is "declaration", also track the whole case expression with "declaration" category
+        -- Don't track the whole case expression, even when category is "declaration"
         Elm.Syntax.Expression.CaseExpression caseBlock ->
             let
                 ( instExpr, state1 ) =
@@ -246,49 +246,10 @@ instrumentExprWithCategory exprNode declarationName category state =
                     { expression = instExpr
                     , cases = List.reverse instrumentedCases
                     }
-
-                ( finalExpr, finalState ) =
-                    if category == "declaration" then
-                        let
-                            ( pointId, newSeed ) =
-                                Random.step PointId.generator state2.seed
-
-                            moduleFilePath : String
-                            moduleFilePath =
-                                (state.moduleName
-                                    |> String.split "."
-                                    |> String.join "/"
-                                )
-                                    ++ ".elm"
-
-                            metadata : PointMetadata
-                            metadata =
-                                { moduleName = state.moduleName
-                                , moduleFilePath = moduleFilePath
-                                , declarationName = declarationName
-                                , range = exprRange
-                                , category = "declaration"
-                                }
-
-                            newState : InstrumentState
-                            newState =
-                                { state2
-                                    | seed = newSeed
-                                    , metadata = Dict.insert pointId metadata state2.metadata
-                                }
-
-                            wrappedExpr : Node Elm.Syntax.Expression.Expression
-                            wrappedExpr =
-                                Node exprRange (Elm.Syntax.Expression.CaseExpression newCaseBlock)
-                                    |> wrapWithTracking pointId exprRange
-                        in
-                        ( wrappedExpr, newState )
-                    else
-                        ( Node exprRange (Elm.Syntax.Expression.CaseExpression newCaseBlock)
-                        , state2
-                        )
             in
-            ( finalExpr, finalState )
+            ( Node exprRange (Elm.Syntax.Expression.CaseExpression newCaseBlock)
+            , state2
+            )
 
         -- For let expressions, don't track the whole expression - just recurse
         -- The binding bodies are already tracked with "declaration" category

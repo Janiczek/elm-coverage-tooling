@@ -547,7 +547,6 @@ a =
            , input = """
 module NestedLetCaseIf exposing (nestedCaseOf, caseInLet, ifInLet, complexNested)
 
--- Nested case..of expressions
 nestedCaseOf : Maybe (Result String Int) -> String
 nestedCaseOf maybeResult =
     case maybeResult of
@@ -566,7 +565,6 @@ nestedCaseOf maybeResult =
         Nothing ->
             "nothing"
 
--- case..of inside let-in body
 caseInLet : Maybe Int -> Int -> Int
 caseInLet maybeX y =
     let
@@ -579,7 +577,6 @@ caseInLet maybeX y =
     in
     x + y
 
--- if-expr inside let-in body
 ifInLet : Bool -> Int -> Int
 ifInLet flag value =
     let
@@ -591,7 +588,6 @@ ifInLet flag value =
     in
     value * multiplier
 
--- Complex nested: let-in with case and if inside
 complexNested : Maybe Int -> Bool -> String
 complexNested maybeValue flag =
     let
@@ -628,13 +624,6 @@ complexNested maybeValue flag =
 module NestedLetCaseIf exposing (caseInLet, complexNested, ifInLet, nestedCaseOf)
 
 import Test.Coverage
-
-
-
--- Nested case..of expressions
--- case..of inside let-in body
--- if-expr inside let-in body
--- Complex nested: let-in with case and if inside
 
 
 complexNested : Maybe Int -> Bool -> String
@@ -807,11 +796,6 @@ caseInLet maybeX y =
 
 nestedCaseOf : Maybe (Result String Int) -> String
 nestedCaseOf maybeResult =
-    let
-        _ =
-            Test.Coverage.track
-                1221367523
-    in
     case
         let
             _ =
@@ -869,12 +853,6 @@ nestedCaseOf maybeResult =
                     Test.Coverage.track 960691989
             in
             "nothing"
-
-
-
--- case..of inside let-in body
--- if-expr inside let-in body
--- Complex nested: let-in with case and if inside
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -1100,14 +1078,6 @@ nestedCaseOf maybeResult =
                                 , declarationName = "complexNested"
                                 , range = { start = { row = 60, column = 22 }, end = { row = 60, column = 27 } }
                                 , category = "subexpression"
-                                }
-                              )
-                            , ( 1221367523
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "nestedCaseOf"
-                                , range = { start = { row = 6, column = 5 }, end = { row = 20, column = 22 } }
-                                , category = "declaration"
                                 }
                               )
                             , ( 2001614685

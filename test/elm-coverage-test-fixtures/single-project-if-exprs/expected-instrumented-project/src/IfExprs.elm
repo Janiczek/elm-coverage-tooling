@@ -12,96 +12,116 @@ import Test.Coverage
 
 partiallyCoveredIf : Bool -> Bool -> String
 partiallyCoveredIf flag1 flag2 =
+    let
+        _ =
+            Test.Coverage.track
+                2112286391
+    in
     if flag1 then
         if flag2 then
             let
                 _ =
-                    Test.Coverage.track 1859779131
+                    Test.Coverage.track 533113279
             in
             "both true"
 
         else
             let
                 _ =
-                    Test.Coverage.track 909342744
+                    Test.Coverage.track 937987871
             in
             "flag1 true, flag2 false"
 
     else
         let
             _ =
-                Test.Coverage.track 1220395682
+                Test.Coverage.track 1663934988
         in
         "flag1 false"
 
 
 complexIf : Int -> Int -> Int -> String
 complexIf a b c =
+    let
+        _ =
+            Test.Coverage.track
+                1220395682
+    in
     if a > 0 then
         if b > 0 then
             if c > 0 then
                 let
                     _ =
-                        Test.Coverage.track 228959606
+                        Test.Coverage.track 2013356303
                 in
                 "all positive"
 
             else
                 let
                     _ =
-                        Test.Coverage.track 1946860432
+                        Test.Coverage.track 417254371
                 in
                 "a and b positive"
 
         else
             let
                 _ =
-                    Test.Coverage.track 2013356303
+                    Test.Coverage.track 1859779131
             in
             "only a positive"
 
     else
         let
             _ =
-                Test.Coverage.track 417254371
+                Test.Coverage.track 909342744
         in
         "a not positive"
 
 
 nestedIfs : Int -> Int -> String
 nestedIfs x y =
+    let
+        _ =
+            Test.Coverage.track
+                1946860432
+    in
     if x > 0 then
         if y > 0 then
             let
                 _ =
-                    Test.Coverage.track 1792477483
+                    Test.Coverage.track 1605425470
             in
             "both positive"
 
         else
             let
                 _ =
-                    Test.Coverage.track 1605425470
+                    Test.Coverage.track 2138834269
             in
             "x positive, y not"
 
     else if y > 0 then
         let
             _ =
-                Test.Coverage.track 2138834269
+                Test.Coverage.track 742339696
         in
         "y positive, x not"
 
     else
         let
             _ =
-                Test.Coverage.track 742339696
+                Test.Coverage.track 228959606
         in
         "both non-positive"
 
 
 singleIf : Int -> String
 singleIf x =
+    let
+        _ =
+            Test.Coverage.track
+                1792477483
+    in
     if x > 0 then
         let
             _ =
