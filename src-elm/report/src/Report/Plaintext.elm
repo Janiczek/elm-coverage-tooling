@@ -96,32 +96,78 @@ generate input =
                 (String.length "%")
                 allStatsForWidth
 
-        formatCategoryStats : Report.CategoryStats -> String
-        formatCategoryStats cat =
-            formatExprs cat.covered cat.total ++ " " ++ formatPercentage cat.percentage
-
         formatCategoryHeader : String -> String
         formatCategoryHeader name =
-            name ++ " (c/t/%)"
+            name
 
-        -- Calculate column widths for category columns
-        categoryColumnWidth : Int
-        categoryColumnWidth =
+        -- Calculate column width for hits/total part of a category
+        calculateCategoryExprsWidth : String -> (ModuleStats -> Report.CategoryStats) -> Int
+        calculateCategoryExprsWidth headerName getCategory =
+            let
+                headerWidth = String.length (formatCategoryHeader headerName)
+            in
             List.foldl
                 (\stats acc ->
-                    max acc
-                        (max (String.length (formatCategoryStats stats.declaration))
-                            (max (String.length (formatCategoryStats stats.subexpression))
-                                (max (String.length (formatCategoryStats stats.lambda))
-                                    (max (String.length (formatCategoryStats stats.ifBranch))
-                                        (String.length (formatCategoryStats stats.caseBranch))
-                                    )
-                                )
-                            )
-                        )
+                    let
+                        cat = getCategory stats
+                    in
+                    max acc (String.length (formatExprs cat.covered cat.total))
                 )
-                (String.length (formatCategoryHeader "Declaration"))
+                headerWidth
                 allStatsForWidth
+
+        -- Calculate column width for percentage part of a category
+        calculateCategoryPercentageWidth : (ModuleStats -> Report.CategoryStats) -> Int
+        calculateCategoryPercentageWidth getCategory =
+            List.foldl
+                (\stats acc ->
+                    let
+                        cat = getCategory stats
+                    in
+                    max acc (String.length (formatPercentage cat.percentage))
+                )
+                (String.length "%")
+                allStatsForWidth
+
+        declarationExprsWidth : Int
+        declarationExprsWidth =
+            calculateCategoryExprsWidth "Declaration" .declaration
+
+        declarationPercentageWidth : Int
+        declarationPercentageWidth =
+            calculateCategoryPercentageWidth .declaration
+
+        subexpressionExprsWidth : Int
+        subexpressionExprsWidth =
+            calculateCategoryExprsWidth "Subexpression" .subexpression
+
+        subexpressionPercentageWidth : Int
+        subexpressionPercentageWidth =
+            calculateCategoryPercentageWidth .subexpression
+
+        lambdaExprsWidth : Int
+        lambdaExprsWidth =
+            calculateCategoryExprsWidth "Lambda" .lambda
+
+        lambdaPercentageWidth : Int
+        lambdaPercentageWidth =
+            calculateCategoryPercentageWidth .lambda
+
+        ifBranchExprsWidth : Int
+        ifBranchExprsWidth =
+            calculateCategoryExprsWidth "If-branch" .ifBranch
+
+        ifBranchPercentageWidth : Int
+        ifBranchPercentageWidth =
+            calculateCategoryPercentageWidth .ifBranch
+
+        caseBranchExprsWidth : Int
+        caseBranchExprsWidth =
+            calculateCategoryExprsWidth "Case-branch" .caseBranch
+
+        caseBranchPercentageWidth : Int
+        caseBranchPercentageWidth =
+            calculateCategoryPercentageWidth .caseBranch
 
         padLeft : Int -> String -> String
         padLeft width str =
@@ -139,15 +185,25 @@ generate input =
                 ++ "  "
                 ++ padRight percentageColumnWidth (formatPercentage stats.coveragePercentage)
                 ++ "  "
-                ++ padRight categoryColumnWidth (formatCategoryStats stats.declaration)
+                ++ padRight declarationExprsWidth (formatExprs stats.declaration.covered stats.declaration.total)
                 ++ "  "
-                ++ padRight categoryColumnWidth (formatCategoryStats stats.subexpression)
+                ++ padRight declarationPercentageWidth (formatPercentage stats.declaration.percentage)
                 ++ "  "
-                ++ padRight categoryColumnWidth (formatCategoryStats stats.lambda)
+                ++ padRight subexpressionExprsWidth (formatExprs stats.subexpression.covered stats.subexpression.total)
                 ++ "  "
-                ++ padRight categoryColumnWidth (formatCategoryStats stats.ifBranch)
+                ++ padRight subexpressionPercentageWidth (formatPercentage stats.subexpression.percentage)
                 ++ "  "
-                ++ padRight categoryColumnWidth (formatCategoryStats stats.caseBranch)
+                ++ padRight lambdaExprsWidth (formatExprs stats.lambda.covered stats.lambda.total)
+                ++ "  "
+                ++ padRight lambdaPercentageWidth (formatPercentage stats.lambda.percentage)
+                ++ "  "
+                ++ padRight ifBranchExprsWidth (formatExprs stats.ifBranch.covered stats.ifBranch.total)
+                ++ "  "
+                ++ padRight ifBranchPercentageWidth (formatPercentage stats.ifBranch.percentage)
+                ++ "  "
+                ++ padRight caseBranchExprsWidth (formatExprs stats.caseBranch.covered stats.caseBranch.total)
+                ++ "  "
+                ++ padRight caseBranchPercentageWidth (formatPercentage stats.caseBranch.percentage)
 
         headerRow : String
         headerRow =
@@ -157,20 +213,44 @@ generate input =
                 ++ "  "
                 ++ padRight percentageColumnWidth "%"
                 ++ "  "
-                ++ padRight categoryColumnWidth (formatCategoryHeader "Declaration")
+                ++ padRight declarationExprsWidth (formatCategoryHeader "Declaration")
                 ++ "  "
-                ++ padRight categoryColumnWidth (formatCategoryHeader "Subexpression")
+                ++ padRight declarationPercentageWidth "%"
                 ++ "  "
-                ++ padRight categoryColumnWidth (formatCategoryHeader "Lambda")
+                ++ padRight subexpressionExprsWidth (formatCategoryHeader "Subexpression")
                 ++ "  "
-                ++ padRight categoryColumnWidth (formatCategoryHeader "If-branch")
+                ++ padRight subexpressionPercentageWidth "%"
                 ++ "  "
-                ++ padRight categoryColumnWidth (formatCategoryHeader "Case-branch")
+                ++ padRight lambdaExprsWidth (formatCategoryHeader "Lambda")
+                ++ "  "
+                ++ padRight lambdaPercentageWidth "%"
+                ++ "  "
+                ++ padRight ifBranchExprsWidth (formatCategoryHeader "If-branch")
+                ++ "  "
+                ++ padRight ifBranchPercentageWidth "%"
+                ++ "  "
+                ++ padRight caseBranchExprsWidth (formatCategoryHeader "Case-branch")
+                ++ "  "
+                ++ padRight caseBranchPercentageWidth "%"
 
         totalRowWidth : Int
         totalRowWidth =
-            fileColumnWidth + 2 + exprsColumnWidth + 2 + percentageColumnWidth + 2
-                + (categoryColumnWidth + 2) * 5
+            [ fileColumnWidth
+            , exprsColumnWidth
+            , percentageColumnWidth
+            , declarationExprsWidth
+            , declarationPercentageWidth
+            , subexpressionExprsWidth
+            , subexpressionPercentageWidth
+            , lambdaExprsWidth
+            , lambdaPercentageWidth
+            , ifBranchExprsWidth
+            , ifBranchPercentageWidth
+            , caseBranchExprsWidth
+            , caseBranchPercentageWidth
+            ]
+                |> List.intersperse 2
+                |> List.sum
 
         separatorRow : String
         separatorRow =

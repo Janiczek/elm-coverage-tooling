@@ -1,6 +1,6 @@
 module Report.Stdout exposing (generate)
 
-import Report exposing (Input, ModuleStats, CategoryStats, ReportFile)
+import Report exposing (CategoryStats, Input, ModuleStats, ReportFile)
 
 
 generate : Input -> { reports : List ReportFile }
@@ -13,11 +13,16 @@ generate input =
         addCategoryStats : CategoryStats -> CategoryStats -> CategoryStats
         addCategoryStats a b =
             let
-                total = a.total + b.total
-                covered = a.covered + b.covered
+                total =
+                    a.total + b.total
+
+                covered =
+                    a.covered + b.covered
+
                 percentage =
                     if total > 0 then
                         (toFloat covered / toFloat total) * 100
+
                     else
                         0
             in
@@ -36,6 +41,7 @@ generate input =
                     , coveragePercentage =
                         if acc.totalPoints + moduleStat.totalPoints > 0 then
                             (toFloat (acc.coveredPoints + moduleStat.coveredPoints) / toFloat (acc.totalPoints + moduleStat.totalPoints)) * 100
+
                         else
                             0
                     , declaration = addCategoryStats acc.declaration moduleStat.declaration
@@ -96,32 +102,78 @@ generate input =
                 (String.length "%")
                 allStatsForWidth
 
-        formatCategoryStats : CategoryStats -> String
-        formatCategoryStats cat =
-            formatExprs cat.covered cat.total ++ " " ++ formatPercentage cat.percentage
-
         formatCategoryHeader : String -> String
         formatCategoryHeader name =
-            name ++ " (c/t/%)"
+            name
 
-        -- Calculate column widths for category columns
-        categoryColumnWidth : Int
-        categoryColumnWidth =
+        -- Calculate column width for hits/total part of a category
+        calculateCategoryExprsWidth : String -> (ModuleStats -> CategoryStats) -> Int
+        calculateCategoryExprsWidth headerName getCategory =
+            let
+                headerWidth = String.length (formatCategoryHeader headerName)
+            in
             List.foldl
                 (\stats acc ->
-                    max acc
-                        (max (String.length (formatCategoryStats stats.declaration))
-                            (max (String.length (formatCategoryStats stats.subexpression))
-                                (max (String.length (formatCategoryStats stats.lambda))
-                                    (max (String.length (formatCategoryStats stats.ifBranch))
-                                        (String.length (formatCategoryStats stats.caseBranch))
-                                    )
-                                )
-                            )
-                        )
+                    let
+                        cat = getCategory stats
+                    in
+                    max acc (String.length (formatExprs cat.covered cat.total))
                 )
-                (String.length (formatCategoryHeader "Declaration"))
+                headerWidth
                 allStatsForWidth
+
+        -- Calculate column width for percentage part of a category
+        calculateCategoryPercentageWidth : (ModuleStats -> CategoryStats) -> Int
+        calculateCategoryPercentageWidth getCategory =
+            List.foldl
+                (\stats acc ->
+                    let
+                        cat = getCategory stats
+                    in
+                    max acc (String.length (formatPercentage cat.percentage))
+                )
+                (String.length "%")
+                allStatsForWidth
+
+        declarationExprsWidth : Int
+        declarationExprsWidth =
+            calculateCategoryExprsWidth "Declaration" .declaration
+
+        declarationPercentageWidth : Int
+        declarationPercentageWidth =
+            calculateCategoryPercentageWidth .declaration
+
+        subexpressionExprsWidth : Int
+        subexpressionExprsWidth =
+            calculateCategoryExprsWidth "Subexpression" .subexpression
+
+        subexpressionPercentageWidth : Int
+        subexpressionPercentageWidth =
+            calculateCategoryPercentageWidth .subexpression
+
+        lambdaExprsWidth : Int
+        lambdaExprsWidth =
+            calculateCategoryExprsWidth "Lambda" .lambda
+
+        lambdaPercentageWidth : Int
+        lambdaPercentageWidth =
+            calculateCategoryPercentageWidth .lambda
+
+        ifBranchExprsWidth : Int
+        ifBranchExprsWidth =
+            calculateCategoryExprsWidth "If-branch" .ifBranch
+
+        ifBranchPercentageWidth : Int
+        ifBranchPercentageWidth =
+            calculateCategoryPercentageWidth .ifBranch
+
+        caseBranchExprsWidth : Int
+        caseBranchExprsWidth =
+            calculateCategoryExprsWidth "Case-branch" .caseBranch
+
+        caseBranchPercentageWidth : Int
+        caseBranchPercentageWidth =
+            calculateCategoryPercentageWidth .caseBranch
 
         padLeft : Int -> String -> String
         padLeft width str =
@@ -131,30 +183,47 @@ generate input =
         padRight width str =
             String.repeat (width - String.length str) " " ++ str
 
-        -- ANSI color codes
-        ansiReset = "\u{001B}[0m"
-        ansiRedBg = "\u{001B}[101m"
-        ansiYellowBg = "\u{001B}[103m"
-        ansiGreenBg = "\u{001B}[102m"
+        -- ANSI color codes (foreground only)
+        ansiReset =
+            "\u{001B}[0m"
+
+        ansiRed =
+            "\u{001B}[31m"
+
+        ansiBrRed =
+            "\u{001B}[91m"
+
+        ansiGreen =
+            "\u{001B}[32m"
 
         -- Get ANSI color code for a percentage (only if total > 0)
         getAnsiColor : Float -> Int -> String
         getAnsiColor percentage total =
             if total == 0 then
                 ""
+
             else if percentage >= 100 then
-                ansiGreenBg
+                ansiGreen
+
             else if percentage == 0 then
-                ansiRedBg
+                ansiRed
+
             else
-                ansiYellowBg
+                ansiBrRed
 
         -- Format a cell with ANSI color
         formatColoredCell : Float -> Int -> String -> String
         formatColoredCell percentage total content =
             let
-                colorCode = getAnsiColor percentage total
-                resetCode = if colorCode == "" then "" else ansiReset
+                colorCode =
+                    getAnsiColor percentage total
+
+                resetCode =
+                    if colorCode == "" then
+                        ""
+
+                    else
+                        ansiReset
             in
             colorCode ++ content ++ resetCode
 
@@ -166,15 +235,25 @@ generate input =
                 ++ "  "
                 ++ formatColoredCell stats.coveragePercentage stats.totalPoints (padRight percentageColumnWidth (formatPercentage stats.coveragePercentage))
                 ++ "  "
-                ++ formatColoredCell stats.declaration.percentage stats.declaration.total (padRight categoryColumnWidth (formatCategoryStats stats.declaration))
+                ++ formatColoredCell stats.declaration.percentage stats.declaration.total (padRight declarationExprsWidth (formatExprs stats.declaration.covered stats.declaration.total))
                 ++ "  "
-                ++ formatColoredCell stats.subexpression.percentage stats.subexpression.total (padRight categoryColumnWidth (formatCategoryStats stats.subexpression))
+                ++ formatColoredCell stats.declaration.percentage stats.declaration.total (padRight declarationPercentageWidth (formatPercentage stats.declaration.percentage))
                 ++ "  "
-                ++ formatColoredCell stats.lambda.percentage stats.lambda.total (padRight categoryColumnWidth (formatCategoryStats stats.lambda))
+                ++ formatColoredCell stats.subexpression.percentage stats.subexpression.total (padRight subexpressionExprsWidth (formatExprs stats.subexpression.covered stats.subexpression.total))
                 ++ "  "
-                ++ formatColoredCell stats.ifBranch.percentage stats.ifBranch.total (padRight categoryColumnWidth (formatCategoryStats stats.ifBranch))
+                ++ formatColoredCell stats.subexpression.percentage stats.subexpression.total (padRight subexpressionPercentageWidth (formatPercentage stats.subexpression.percentage))
                 ++ "  "
-                ++ formatColoredCell stats.caseBranch.percentage stats.caseBranch.total (padRight categoryColumnWidth (formatCategoryStats stats.caseBranch))
+                ++ formatColoredCell stats.lambda.percentage stats.lambda.total (padRight lambdaExprsWidth (formatExprs stats.lambda.covered stats.lambda.total))
+                ++ "  "
+                ++ formatColoredCell stats.lambda.percentage stats.lambda.total (padRight lambdaPercentageWidth (formatPercentage stats.lambda.percentage))
+                ++ "  "
+                ++ formatColoredCell stats.ifBranch.percentage stats.ifBranch.total (padRight ifBranchExprsWidth (formatExprs stats.ifBranch.covered stats.ifBranch.total))
+                ++ "  "
+                ++ formatColoredCell stats.ifBranch.percentage stats.ifBranch.total (padRight ifBranchPercentageWidth (formatPercentage stats.ifBranch.percentage))
+                ++ "  "
+                ++ formatColoredCell stats.caseBranch.percentage stats.caseBranch.total (padRight caseBranchExprsWidth (formatExprs stats.caseBranch.covered stats.caseBranch.total))
+                ++ "  "
+                ++ formatColoredCell stats.caseBranch.percentage stats.caseBranch.total (padRight caseBranchPercentageWidth (formatPercentage stats.caseBranch.percentage))
 
         headerRow : String
         headerRow =
@@ -184,20 +263,44 @@ generate input =
                 ++ "  "
                 ++ padRight percentageColumnWidth "%"
                 ++ "  "
-                ++ padRight categoryColumnWidth (formatCategoryHeader "Declaration")
+                ++ padRight declarationExprsWidth (formatCategoryHeader "Declaration")
                 ++ "  "
-                ++ padRight categoryColumnWidth (formatCategoryHeader "Subexpression")
+                ++ padRight declarationPercentageWidth "%"
                 ++ "  "
-                ++ padRight categoryColumnWidth (formatCategoryHeader "Lambda")
+                ++ padRight subexpressionExprsWidth (formatCategoryHeader "Subexpression")
                 ++ "  "
-                ++ padRight categoryColumnWidth (formatCategoryHeader "If-branch")
+                ++ padRight subexpressionPercentageWidth "%"
                 ++ "  "
-                ++ padRight categoryColumnWidth (formatCategoryHeader "Case-branch")
+                ++ padRight lambdaExprsWidth (formatCategoryHeader "Lambda")
+                ++ "  "
+                ++ padRight lambdaPercentageWidth "%"
+                ++ "  "
+                ++ padRight ifBranchExprsWidth (formatCategoryHeader "If-branch")
+                ++ "  "
+                ++ padRight ifBranchPercentageWidth "%"
+                ++ "  "
+                ++ padRight caseBranchExprsWidth (formatCategoryHeader "Case-branch")
+                ++ "  "
+                ++ padRight caseBranchPercentageWidth "%"
 
         totalRowWidth : Int
         totalRowWidth =
-            fileColumnWidth + 2 + exprsColumnWidth + 2 + percentageColumnWidth + 2
-                + (categoryColumnWidth + 2) * 5
+            [ fileColumnWidth
+            , exprsColumnWidth
+            , percentageColumnWidth
+            , declarationExprsWidth
+            , declarationPercentageWidth
+            , subexpressionExprsWidth
+            , subexpressionPercentageWidth
+            , lambdaExprsWidth
+            , lambdaPercentageWidth
+            , ifBranchExprsWidth
+            , ifBranchPercentageWidth
+            , caseBranchExprsWidth
+            , caseBranchPercentageWidth
+            ]
+                |> List.intersperse 2
+                |> List.sum
 
         separatorRow : String
         separatorRow =

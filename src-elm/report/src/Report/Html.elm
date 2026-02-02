@@ -245,10 +245,12 @@ getCoverageColorWithColorMix percentage =
     if percentage <= 50 then
         -- Interpolate between red (#ffcccc) and yellow (#ffffcc)
         -- percentage goes from 0 to 50, so we need to map it to 0-100% for color-mix
+        -- At 0% coverage: 100% red, 0% yellow
+        -- At 50% coverage: 0% red, 100% yellow
         let
             mixPercentage : Float
             mixPercentage =
-                (percentage / 50) * 100
+                100 - (percentage / 50) * 100
 
             mixPercentageStr : String
             mixPercentageStr =
@@ -258,10 +260,12 @@ getCoverageColorWithColorMix percentage =
     else
         -- Interpolate between yellow (#ffffcc) and green (#ccffcc)
         -- percentage goes from 50 to 100, so we map it to 0-100% for color-mix
+        -- At 50% coverage: 100% yellow, 0% green
+        -- At 100% coverage: 0% yellow, 100% green
         let
             mixPercentage : Float
             mixPercentage =
-                ((percentage - 50) / 50) * 100
+                100 - ((percentage - 50) / 50) * 100
 
             mixPercentageStr : String
             mixPercentageStr =

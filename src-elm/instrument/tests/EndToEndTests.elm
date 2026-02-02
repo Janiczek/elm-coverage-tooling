@@ -377,6 +377,7 @@ a =
             Test.Coverage.track 154242004
     in
     42
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -467,6 +468,7 @@ a b c =
                 Test.Coverage.track 1045688889
         in
         ()
+
 """
                     , coverageMetadata =
                         Dict.fromList
