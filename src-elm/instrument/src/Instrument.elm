@@ -167,60 +167,23 @@ instrumentExprWithCategory exprNode declarationName category state =
     in
     case Elm.Syntax.Node.value exprNode of
         -- For if expressions, track branches with "if-branch" category
-        -- If category is "declaration", also track the whole if expression with "declaration" category
+        -- Don't track the whole if expression, even when category is "declaration"
+        -- Track the condition with "subexpression" category to ensure simple conditions
+        -- (like variable references) are tracked, not just complex expressions
         Elm.Syntax.Expression.IfBlock condition thenBranch elseBranch ->
             let
                 ( instCondition, state1 ) =
-                    instrumentExpr condition declarationName state
+                    instrumentExprWithCategory condition declarationName "subexpression" state
 
                 ( instThen, state2 ) =
                     instrumentExprWithCategory thenBranch declarationName "if-branch" state1
 
                 ( instElse, state3 ) =
                     instrumentExprWithCategory elseBranch declarationName "if-branch" state2
-
-                ( finalExpr, finalState ) =
-                    if category == "declaration" then
-                        let
-                            ( pointId, newSeed ) =
-                                Random.step PointId.generator state3.seed
-
-                            moduleFilePath : String
-                            moduleFilePath =
-                                (state.moduleName
-                                    |> String.split "."
-                                    |> String.join "/"
-                                )
-                                    ++ ".elm"
-
-                            metadata : PointMetadata
-                            metadata =
-                                { moduleName = state.moduleName
-                                , moduleFilePath = moduleFilePath
-                                , declarationName = declarationName
-                                , range = exprRange
-                                , category = "declaration"
-                                }
-
-                            newState : InstrumentState
-                            newState =
-                                { state3
-                                    | seed = newSeed
-                                    , metadata = Dict.insert pointId metadata state3.metadata
-                                }
-
-                            wrappedExpr : Node Elm.Syntax.Expression.Expression
-                            wrappedExpr =
-                                Node exprRange (Elm.Syntax.Expression.IfBlock instCondition instThen instElse)
-                                    |> wrapWithTracking pointId exprRange
-                        in
-                        ( wrappedExpr, newState )
-                    else
-                        ( Node exprRange (Elm.Syntax.Expression.IfBlock instCondition instThen instElse)
-                        , state3
-                        )
             in
-            ( finalExpr, finalState )
+            ( Node exprRange (Elm.Syntax.Expression.IfBlock instCondition instThen instElse)
+            , state3
+            )
 
         -- For case expressions, track branches with "case-branch" category
         -- Don't track the whole case expression, even when category is "declaration"
@@ -401,7 +364,7 @@ instrumentExprRecurse exprNode declarationName state =
         Elm.Syntax.Expression.IfBlock condition thenBranch elseBranch ->
             let
                 ( instCondition, state1 ) =
-                    instrumentExpr condition declarationName state
+                    instrumentExprWithCategory condition declarationName "subexpression" state
 
                 ( instThen, state2 ) =
                     instrumentExprWithCategory thenBranch declarationName "if-branch" state1

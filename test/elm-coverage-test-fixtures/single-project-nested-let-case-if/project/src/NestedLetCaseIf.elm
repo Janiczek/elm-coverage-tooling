@@ -1,4 +1,4 @@
-module NestedLetCaseIf exposing (nestedCaseOf, caseInLet, ifInLet, complexNested)
+module NestedLetCaseIf exposing (nestedCaseOf, caseInLet, ifInLet, complexNested, ifInIf, caseInIf, letInIf, ifInCase, letInCase, letInLet)
 
 -- Nested case..of expressions
 nestedCaseOf : Maybe (Result String Int) -> String
@@ -74,3 +74,95 @@ complexNested maybeValue flag =
                         "other without flag"
     in
     description
+
+-- if inside if
+ifInIf : Bool -> Bool -> String
+ifInIf flag1 flag2 =
+    if flag1 then
+        if flag2 then
+            "both true"
+        else
+            "first true"
+    else
+        if flag2 then
+            "second true"
+        else
+            "both false"
+
+-- case inside if
+caseInIf : Bool -> Maybe Int -> String
+caseInIf flag maybeValue =
+    if flag then
+        case maybeValue of
+            Just x ->
+                "flag true, value: " ++ String.fromInt x
+            Nothing ->
+                "flag true, no value"
+    else
+        case maybeValue of
+            Just x ->
+                "flag false, value: " ++ String.fromInt x
+            Nothing ->
+                "flag false, no value"
+
+-- let inside if
+letInIf : Bool -> Int -> Int
+letInIf flag value =
+    if flag then
+        let
+            multiplier = 2
+            offset = 10
+        in
+        value * multiplier + offset
+    else
+        let
+            multiplier = 1
+            offset = 0
+        in
+        value * multiplier + offset
+
+-- if inside case
+ifInCase : Maybe Bool -> Int -> String
+ifInCase maybeFlag value =
+    case maybeFlag of
+        Just flag ->
+            if flag then
+                "flag is true, value: " ++ String.fromInt value
+            else
+                "flag is false, value: " ++ String.fromInt value
+        Nothing ->
+            "no flag, value: " ++ String.fromInt value
+
+-- let inside case
+letInCase : Maybe Int -> Int -> Int
+letInCase maybeX y =
+    case maybeX of
+        Just x ->
+            let
+                doubled = x * 2
+                tripled = doubled + x
+            in
+            tripled + y
+        Nothing ->
+            let
+                default = 0
+                adjusted = default + 5
+            in
+            adjusted + y
+
+-- let inside let
+letInLet : Int -> Int -> Int
+letInLet x y =
+    let
+        a =
+            let
+                doubled = x * 2
+            in
+            doubled
+        b =
+            let
+                tripled = y * 3
+            in
+            tripled
+    in
+    a + b
