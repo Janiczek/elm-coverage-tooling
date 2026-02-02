@@ -3,6 +3,7 @@ export type CoverageMetadata = {
     moduleFilePath: string;
     declarationName: string;
     range: [[number, number], [number, number]];
+    category: string;
 };
 
 export type CoverageMetadataMap = Map<number, CoverageMetadata>;

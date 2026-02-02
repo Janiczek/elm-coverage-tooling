@@ -1,67 +1,7 @@
 {
-  "72245905": {
-    "moduleName": "Foo",
-    "moduleFilePath": "src/Foo.elm",
-    "declarationName": "subtract",
-    "range": [
-      [
-        13,
-        9
-      ],
-      [
-        13,
-        10
-      ]
-    ]
-  },
-  "253452108": {
-    "moduleName": "Foo",
-    "moduleFilePath": "src/Foo.elm",
-    "declarationName": "subtract",
-    "range": [
-      [
-        13,
-        5
-      ],
-      [
-        13,
-        6
-      ]
-    ]
-  },
-  "472339208": {
-    "moduleName": "Foo",
-    "moduleFilePath": "src/Foo.elm",
-    "declarationName": "multiply",
-    "range": [
-      [
-        9,
-        9
-      ],
-      [
-        9,
-        10
-      ]
-    ]
-  },
   "583025675": {
     "moduleName": "Foo",
     "moduleFilePath": "src/Foo.elm",
-    "declarationName": "add",
-    "range": [
-      [
-        5,
-        5
-      ],
-      [
-        5,
-        10
-      ]
-    ]
-  },
-  "943683072": {
-    "moduleName": "Foo",
-    "moduleFilePath": "src/Foo.elm",
     "declarationName": "subtract",
     "range": [
       [
@@ -72,37 +12,8 @@
         13,
         10
       ]
-    ]
-  },
-  "1529274156": {
-    "moduleName": "Foo",
-    "moduleFilePath": "src/Foo.elm",
-    "declarationName": "multiply",
-    "range": [
-      [
-        9,
-        5
-      ],
-      [
-        9,
-        6
-      ]
-    ]
-  },
-  "1543203695": {
-    "moduleName": "Foo",
-    "moduleFilePath": "src/Foo.elm",
-    "declarationName": "multiply",
-    "range": [
-      [
-        9,
-        5
-      ],
-      [
-        9,
-        10
-      ]
-    ]
+    ],
+    "category": "declaration"
   },
   "1568525173": {
     "moduleName": "Foo",
@@ -115,23 +26,25 @@
       ],
       [
         5,
-        6
+        10
       ]
-    ]
+    ],
+    "category": "declaration"
   },
   "2010455107": {
     "moduleName": "Foo",
     "moduleFilePath": "src/Foo.elm",
-    "declarationName": "add",
+    "declarationName": "multiply",
     "range": [
       [
-        5,
-        9
+        9,
+        5
       ],
       [
-        5,
+        9,
         10
       ]
-    ]
+    ],
+    "category": "declaration"
   }
 }

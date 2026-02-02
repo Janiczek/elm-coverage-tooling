@@ -10,6 +10,7 @@ type alias PointMetadata =
     , moduleFilePath : String
     , declarationName : String
     , range : Range
+    , category : String
     }
 
 
@@ -20,13 +21,15 @@ encode metadata =
         , ( "moduleFilePath", Json.Encode.string metadata.moduleFilePath )
         , ( "declarationName", Json.Encode.string metadata.declarationName )
         , ( "range", Range.encodeRange metadata.range )
+        , ( "category", Json.Encode.string metadata.category )
         ]
 
 
 decode : Decoder PointMetadata
 decode =
-    Decode.map4 PointMetadata
+    Decode.map5 PointMetadata
         (Decode.field "moduleName" Decode.string)
         (Decode.field "moduleFilePath" Decode.string)
         (Decode.field "declarationName" Decode.string)
         (Decode.field "range" Range.decodeRange)
+        (Decode.field "category" Decode.string)

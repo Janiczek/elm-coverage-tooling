@@ -35,6 +35,7 @@ suite =
                             , moduleFilePath = "src/A.elm"
                             , declarationName = "a"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                            , category = "declaration"
                             }
                           )
                         , ( 2
@@ -42,6 +43,7 @@ suite =
                             , moduleFilePath = "src/A.elm"
                             , declarationName = "b"
                             , range = { start = { row = 2, column = 1 }, end = { row = 2, column = 5 } }
+                            , category = "declaration"
                             }
                           )
                         ]
@@ -58,7 +60,7 @@ suite =
                                 Just report ->
                                     report.filepath == "coverage.txt"
                                         && String.contains "File" report.contents
-                                        && String.contains "Exprs" report.contents
+                                        && String.contains "Total" report.contents
                                         && String.contains "Total" report.contents
                                         && String.contains "1/2" report.contents
                                         && String.contains "50%" report.contents
@@ -77,6 +79,7 @@ suite =
                             , moduleFilePath = "src/A.elm"
                             , declarationName = "a"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                            , category = "declaration"
                             }
                           )
                         ]
@@ -107,6 +110,7 @@ suite =
                             , moduleFilePath = "src/A.elm"
                             , declarationName = "a"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                            , category = "declaration"
                             }
                           )
                         ]
@@ -137,6 +141,7 @@ suite =
                             , moduleFilePath = "src/A.elm"
                             , declarationName = "a"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                            , category = "declaration"
                             }
                           )
                         ]
@@ -170,6 +175,7 @@ a = 1""" ) ]
                             , moduleFilePath = "src/A.elm"
                             , declarationName = "a"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                            , category = "declaration"
                             }
                           )
                         , ( 2
@@ -177,6 +183,7 @@ a = 1""" ) ]
                             , moduleFilePath = "src/B.elm"
                             , declarationName = "b"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                            , category = "declaration"
                             }
                           )
                         ]
@@ -223,6 +230,7 @@ a = 1""" ) ]
                             , moduleFilePath = "src/A.elm"
                             , declarationName = "a"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                            , category = "declaration"
                             }
                           )
                         , ( 2
@@ -230,6 +238,7 @@ a = 1""" ) ]
                             , moduleFilePath = "src/A.elm"
                             , declarationName = "b"
                             , range = { start = { row = 2, column = 1 }, end = { row = 2, column = 5 } }
+                            , category = "declaration"
                             }
                           )
                         ]
@@ -270,7 +279,7 @@ a = 1""" ) ]
                         && (case List.head output.reports of
                                 Just report ->
                                     report.filepath == "coverage.csv"
-                                        && String.contains "File,Exprs covered,Exprs total,Percentage" report.contents
+                                        && String.contains "File,Total covered,Total total,Total %" report.contents
                                         && String.contains "Total,0,0,0" report.contents
 
                                 Nothing ->
@@ -286,6 +295,7 @@ a = 1""" ) ]
                             , moduleFilePath = "src/A.elm"
                             , declarationName = "a"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                            , category = "declaration"
                             }
                           )
                         , ( 2
@@ -293,6 +303,7 @@ a = 1""" ) ]
                             , moduleFilePath = "src/A.elm"
                             , declarationName = "b"
                             , range = { start = { row = 2, column = 1 }, end = { row = 2, column = 5 } }
+                            , category = "declaration"
                             }
                           )
                         , ( 3
@@ -300,6 +311,7 @@ a = 1""" ) ]
                             , moduleFilePath = "src/B.elm"
                             , declarationName = "c"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                            , category = "declaration"
                             }
                           )
                         ]
@@ -315,7 +327,7 @@ a = 1""" ) ]
                         && (case List.head output.reports of
                                 Just report ->
                                     report.filepath == "coverage.csv"
-                                        && String.contains "File,Exprs covered,Exprs total,Percentage" report.contents
+                                        && String.contains "File,Total covered,Total total,Total %" report.contents
                                         && String.contains "Total,2,3," report.contents
                                         && String.contains "src/A.elm,1,2," report.contents
                                         && String.contains "src/B.elm,1,1," report.contents
@@ -333,6 +345,7 @@ a = 1""" ) ]
                             , moduleFilePath = "src/A.elm"
                             , declarationName = "a"
                             , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                            , category = "declaration"
                             }
                           )
                         , ( 2
@@ -340,6 +353,7 @@ a = 1""" ) ]
                             , moduleFilePath = "src/A.elm"
                             , declarationName = "b"
                             , range = { start = { row = 2, column = 1 }, end = { row = 2, column = 5 } }
+                            , category = "declaration"
                             }
                           )
                         ]
@@ -356,7 +370,7 @@ a = 1""" ) ]
                                 Just report ->
                                     report.filepath == "stdout"
                                         && String.contains "File" report.contents
-                                        && String.contains "Exprs" report.contents
+                                        && String.contains "Total" report.contents
                                         && String.contains "Total" report.contents
                                         && String.contains "1/2" report.contents
                                         && String.contains "50%" report.contents

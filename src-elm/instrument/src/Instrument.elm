@@ -123,7 +123,7 @@ instrumentFnDecl fn declRange state =
             Elm.Syntax.Node.value fnImpl.name
 
         ( instrumentedExpr, newState ) =
-            instrumentExpr fnImpl.expression declarationName state
+            instrumentExprWithCategory fnImpl.expression declarationName "declaration" state
 
         newFnImpl : Elm.Syntax.Expression.FunctionImplementation
         newFnImpl =
@@ -144,7 +144,7 @@ instrumentDestructuringDecl : Node Pattern -> Node Expression -> Range -> Instru
 instrumentDestructuringDecl patternNode exprNode declRange state =
     let
         ( instrumentedExpr, newState ) =
-            instrumentExpr exprNode "_destructuring" state
+            instrumentExprWithCategory exprNode "_destructuring" "declaration" state
 
         newDecl : Node Declaration
         newDecl =
@@ -155,31 +155,34 @@ instrumentDestructuringDecl patternNode exprNode declRange state =
 
 instrumentExpr : Node Elm.Syntax.Expression.Expression -> String -> InstrumentState -> ( Node Elm.Syntax.Expression.Expression, InstrumentState )
 instrumentExpr exprNode declarationName state =
+    instrumentExprRecurse exprNode declarationName state
+
+
+instrumentExprWithCategory : Node Elm.Syntax.Expression.Expression -> String -> String -> InstrumentState -> ( Node Elm.Syntax.Expression.Expression, InstrumentState )
+instrumentExprWithCategory exprNode declarationName category state =
     let
         exprRange : Range
         exprRange =
             Elm.Syntax.Node.range exprNode
     in
     case Elm.Syntax.Node.value exprNode of
-        -- For if expressions, don't create metadata for the full expression.
-        -- Only the condition and branches will have metadata.
+        -- For if expressions, track branches with "if-branch" category
         Elm.Syntax.Expression.IfBlock condition thenBranch elseBranch ->
             let
                 ( instCondition, state1 ) =
                     instrumentExpr condition declarationName state
 
                 ( instThen, state2 ) =
-                    instrumentExpr thenBranch declarationName state1
+                    instrumentExprWithCategory thenBranch declarationName "if-branch" state1
 
                 ( instElse, state3 ) =
-                    instrumentExpr elseBranch declarationName state2
+                    instrumentExprWithCategory elseBranch declarationName "if-branch" state2
             in
             ( Node exprRange (Elm.Syntax.Expression.IfBlock instCondition instThen instElse)
             , state3
             )
 
-        -- For case expressions, don't create metadata for the full expression.
-        -- Only the subject and branch expressions will have metadata.
+        -- For case expressions, track branches with "case-branch" category
         Elm.Syntax.Expression.CaseExpression caseBlock ->
             let
                 ( instExpr, state1 ) =
@@ -190,7 +193,7 @@ instrumentExpr exprNode declarationName state =
                         (\( pattern, caseExpr ) ( acc, state_ ) ->
                             let
                                 ( instCaseExpr, newState_ ) =
-                                    instrumentExpr caseExpr declarationName state_
+                                    instrumentExprWithCategory caseExpr declarationName "case-branch" state_
                             in
                             ( ( pattern, instCaseExpr ) :: acc, newState_ )
                         )
@@ -207,7 +210,7 @@ instrumentExpr exprNode declarationName state =
             , state2
             )
 
-        -- For all other expressions, create metadata as before
+        -- For all other expressions, create metadata with the given category
         _ ->
             let
                 ( instrumentedInnerExpr, stateAfterRecurse ) =
@@ -232,6 +235,7 @@ instrumentExpr exprNode declarationName state =
                     , moduleFilePath = moduleFilePath
                     , declarationName = declarationName
                     , range = exprRange
+                    , category = category
                     }
 
                 newState : InstrumentState
@@ -309,7 +313,11 @@ instrumentExprRecurse exprNode declarationName state =
                     instrumentExpr left declarationName state
 
                 ( instRight, state2 ) =
-                    instrumentExpr right declarationName state1
+                    if op == "&&" || op == "||" then
+                        -- Track the right-hand side subexpression with "subexpression" category
+                        instrumentExprWithCategory right declarationName "subexpression" state1
+                    else
+                        instrumentExpr right declarationName state1
             in
             ( Node exprRange (Elm.Syntax.Expression.OperatorApplication op dir instLeft instRight)
             , state2
@@ -321,10 +329,10 @@ instrumentExprRecurse exprNode declarationName state =
                     instrumentExpr condition declarationName state
 
                 ( instThen, state2 ) =
-                    instrumentExpr thenBranch declarationName state1
+                    instrumentExprWithCategory thenBranch declarationName "if-branch" state1
 
                 ( instElse, state3 ) =
-                    instrumentExpr elseBranch declarationName state2
+                    instrumentExprWithCategory elseBranch declarationName "if-branch" state2
             in
             ( Node exprRange (Elm.Syntax.Expression.IfBlock instCondition instThen instElse)
             , state3
@@ -394,7 +402,7 @@ instrumentExprRecurse exprNode declarationName state =
                         (\( pattern, caseExpr ) ( acc, state_ ) ->
                             let
                                 ( instCaseExpr, newState_ ) =
-                                    instrumentExpr caseExpr declarationName state_
+                                    instrumentExprWithCategory caseExpr declarationName "case-branch" state_
                             in
                             ( ( pattern, instCaseExpr ) :: acc, newState_ )
                         )
@@ -413,12 +421,53 @@ instrumentExprRecurse exprNode declarationName state =
 
         Elm.Syntax.Expression.LambdaExpression lambda ->
             let
-                ( instExpr, newState ) =
+                -- Track lambda body with "lambda" category, but use full lambda range for metadata
+                ( instExpr, stateAfterRecurse ) =
                     instrumentExpr lambda.expression declarationName state
+
+                ( pointId, newSeed ) =
+                    Random.step PointId.generator stateAfterRecurse.seed
+
+                -- Convert module name dots to path slashes (e.g., "A.B.C" -> "A/B/C.elm")
+                -- Note: This doesn't include the source directory prefix, which will be added in TypeScript
+                moduleFilePath : String
+                moduleFilePath =
+                    (state.moduleName
+                        |> String.split "."
+                        |> String.join "/"
+                    )
+                        ++ ".elm"
+
+                -- Use the full lambda range (exprRange) instead of just the body range
+                metadata : PointMetadata
+                metadata =
+                    { moduleName = state.moduleName
+                    , moduleFilePath = moduleFilePath
+                    , declarationName = declarationName
+                    , range = exprRange
+                    , category = "lambda"
+                    }
+
+                newState : InstrumentState
+                newState =
+                    { stateAfterRecurse
+                        | seed = newSeed
+                        , metadata = Dict.insert pointId metadata stateAfterRecurse.metadata
+                    }
+
+                -- Wrap the body expression with tracking (using body range for wrapping)
+                bodyRange : Range
+                bodyRange =
+                    Elm.Syntax.Node.range lambda.expression
+
+                wrappedBody : Node Elm.Syntax.Expression.Expression
+                wrappedBody =
+                    instExpr
+                        |> wrapWithTracking pointId bodyRange
 
                 newLambda : Elm.Syntax.Expression.Lambda
                 newLambda =
-                    { lambda | expression = instExpr }
+                    { lambda | expression = wrappedBody }
             in
             ( Node exprRange (Elm.Syntax.Expression.LambdaExpression newLambda)
             , newState
@@ -562,8 +611,14 @@ instrumentLetDeclaration declNode declarationName state =
                 fnImpl =
                     Elm.Syntax.Node.value fn.declaration
 
+                -- Only track let function bodies if they have arguments (i.e., are functions)
                 ( instExpr, newState ) =
-                    instrumentExpr fnImpl.expression declarationName state
+                    if List.isEmpty fnImpl.arguments then
+                        -- Not a function, just recurse without tracking
+                        instrumentExpr fnImpl.expression declarationName state
+                    else
+                        -- It's a function, track with "declaration" category
+                        instrumentExprWithCategory fnImpl.expression declarationName "declaration" state
 
                 newFnImpl : Elm.Syntax.Expression.FunctionImplementation
                 newFnImpl =

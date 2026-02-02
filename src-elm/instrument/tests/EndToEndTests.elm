@@ -47,6 +47,7 @@ a =
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 5 }, end = { row = 5, column = 8 } }
+                                , category = "declaration"
                                 }
                               )
                             ]
@@ -84,6 +85,7 @@ a =
                                 , moduleFilePath = "A/B/C.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 5 }, end = { row = 5, column = 8 } }
+                                , category = "declaration"
                                 }
                               )
                             ]
@@ -121,6 +123,7 @@ a () =
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 5 }, end = { row = 5, column = 8 } }
+                                , category = "declaration"
                                 }
                               )
                             ]
@@ -147,42 +150,18 @@ a : Int
 a =
     let
         _ =
-            Test.Coverage.track 107558697
-    in
-    (let
-        _ =
             Test.Coverage.track 154242004
-     in
-     1
-    )
-        + (let
-            _ =
-                Test.Coverage.track 1751612961
-           in
-           2
-          )
+    in
+    1 + 2
 """
                     , coverageMetadata =
                         Dict.fromList
-                            [ ( 107558697
+                            [ ( 154242004
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 5 }, end = { row = 5, column = 10 } }
-                                }
-                              )
-                            , ( 154242004
-                              , { moduleName = "A"
-                                , moduleFilePath = "A.elm"
-                                , declarationName = "a"
-                                , range = { start = { row = 5, column = 5 }, end = { row = 5, column = 6 } }
-                                }
-                              )
-                            , ( 1751612961
-                              , { moduleName = "A"
-                                , moduleFilePath = "A.elm"
-                                , declarationName = "a"
-                                , range = { start = { row = 5, column = 9 }, end = { row = 5, column = 10 } }
+                                , category = "declaration"
                                 }
                               )
                             ]
@@ -211,33 +190,24 @@ import Test.Coverage
 a : Int
 a =
     if
-        let
-            _ =
-                Test.Coverage.track 107558697
-        in
-        (let
-            _ =
-                Test.Coverage.track 154242004
-         in
-         True
-        )
+        True
             && (let
                     _ =
-                        Test.Coverage.track 1751612961
+                        Test.Coverage.track 154242004
                 in
                 False
                )
     then
         let
             _ =
-                Test.Coverage.track 1885435985
+                Test.Coverage.track 1751612961
         in
         5
 
     else
         let
             _ =
-                Test.Coverage.track 434548591
+                Test.Coverage.track 107558697
         in
         6
 """
@@ -247,35 +217,24 @@ a =
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 5, column = 8 }, end = { row = 5, column = 21 } }
+                                , range = { start = { row = 8, column = 9 }, end = { row = 8, column = 10 } }
+                                , category = "if-branch"
                                 }
                               )
                             , ( 154242004
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 5, column = 8 }, end = { row = 5, column = 12 } }
-                                }
-                              )
-                            , ( 434548591
-                              , { moduleName = "A"
-                                , moduleFilePath = "A.elm"
-                                , declarationName = "a"
-                                , range = { start = { row = 8, column = 9 }, end = { row = 8, column = 10 } }
+                                , range = { start = { row = 5, column = 16 }, end = { row = 5, column = 21 } }
+                                , category = "subexpression"
                                 }
                               )
                             , ( 1751612961
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 5, column = 16 }, end = { row = 5, column = 21 } }
-                                }
-                              )
-                            , ( 1885435985
-                              , { moduleName = "A"
-                                , moduleFilePath = "A.elm"
-                                , declarationName = "a"
                                 , range = { start = { row = 6, column = 9 }, end = { row = 6, column = 10 } }
+                                , category = "if-branch"
                                 }
                               )
                             ]
@@ -303,29 +262,25 @@ import Test.Coverage
 
 a : Int
 a =
-    case let
-            _ =
-                Test.Coverage.track 154242004
-        in
-        2 of
+    case 2 of
         1 ->
             let
                 _ =
-                    Test.Coverage.track 1751612961
+                    Test.Coverage.track 154242004
             in
             100
 
         2 ->
             let
                 _ =
-                    Test.Coverage.track 107558697
+                    Test.Coverage.track 1751612961
             in
             200
 
         _ ->
             let
                 _ =
-                    Test.Coverage.track 1885435985
+                    Test.Coverage.track 107558697
             in
             0
 """
@@ -335,28 +290,24 @@ a =
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 7, column = 14 }, end = { row = 7, column = 17 } }
+                                , range = { start = { row = 8, column = 15 }, end = { row = 8, column = 16 } }
+                                , category = "case-branch"
                                 }
                               )
                             , ( 154242004
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 5, column = 10 }, end = { row = 5, column = 11 } }
+                                , range = { start = { row = 6, column = 14 }, end = { row = 6, column = 17 } }
+                                , category = "case-branch"
                                 }
                               )
                             , ( 1751612961
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 6, column = 14 }, end = { row = 6, column = 17 } }
-                                }
-                              )
-                            , ( 1885435985
-                              , { moduleName = "A"
-                                , moduleFilePath = "A.elm"
-                                , declarationName = "a"
-                                , range = { start = { row = 8, column = 15 }, end = { row = 8, column = 16 } }
+                                , range = { start = { row = 7, column = 14 }, end = { row = 7, column = 17 } }
+                                , category = "case-branch"
                                 }
                               )
                             ]
@@ -407,6 +358,7 @@ a =
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
                                 , range = { start = { row = 5, column = 5 }, end = { row = 5, column = 7 } }
+                                , category = "declaration"
                                 }
                               )
                             , ( 1751612961
@@ -414,6 +366,7 @@ a =
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "b"
                                 , range = { start = { row = 9, column = 5 }, end = { row = 9, column = 12 } }
+                                , category = "declaration"
                                 }
                               )
                             ]

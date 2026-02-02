@@ -1,5 +1,5 @@
-File,Exprs covered,Exprs total,Percentage
-Total,11,32,34.38
-app/Main.elm,0,13,0
-lib/Bar.elm,5,10,50
-src/Foo.elm,6,9,66.67
+File,Total covered,Total total,Total %,Declaration covered,Declaration total,Declaration %,Subexpression covered,Subexpression total,Subexpression %,Lambda covered,Lambda total,Lambda %,If-branch covered,If-branch total,If-branch %,Case-branch covered,Case-branch total,Case-branch %
+Total,3,9,33.33,3,6,50,0,0,0,0,3,0,0,0,0,0,0,0
+app/Main.elm,0,4,0,0,1,0,0,0,0,0,3,0,0,0,0,0,0,0
+lib/Bar.elm,1,2,50,1,2,50,0,0,0,0,0,0,0,0,0,0,0,0
+src/Foo.elm,2,3,66.67,2,3,66.67,0,0,0,0,0,0,0,0,0,0,0,0

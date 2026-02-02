@@ -61,6 +61,7 @@ suite =
                                  , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                                 , category = "declaration"
                                  }
                                )
                              , ( 2
@@ -68,6 +69,7 @@ suite =
                                  , moduleFilePath = "src/A.elm"
                                  , declarationName = "b"
                                  , range = { start = { row = 2, column = 1 }, end = { row = 2, column = 5 } }
+                                 , category = "declaration"
                                  }
                                )
                              ]
@@ -84,11 +86,11 @@ suite =
                      Ok
                          { reports =
                              [ { filepath = "coverage.txt"
-                               , contents = """File       Exprs    %
----------------------
-src/A.elm    1/2  50%
----------------------
-Total        1/2  50%"""
+                               , contents = """File       Total    %  Declaration (c/t/%)  Subexpression (c/t/%)       Lambda (c/t/%)    If-branch (c/t/%)  Case-branch (c/t/%)
+--------------------------------------------------------------------------------------------------------------------------------
+src/A.elm    1/2  50%              1/2 50%               0/0 0%               0/0 0%               0/0 0%               0/0 0%
+--------------------------------------------------------------------------------------------------------------------------------
+Total        1/2  50%              1/2 50%               0/0 0%               0/0 0%               0/0 0%               0/0 0%"""
                                }
                              ]
                          }
@@ -102,6 +104,7 @@ Total        1/2  50%"""
                                  , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                                 , category = "declaration"
                                  }
                                )
                              ]
@@ -134,7 +137,7 @@ a = 1""" )
         a:hover { text-decoration: underline; }
     </style>
 </head>
-<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Coverage</th></tr></thead><tbody><tr><td><a href="src/A.html">src/A.elm</a></td><td>1 / 1 (100%)</td></tr></tbody></table></div>
+<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Total</th><th>Declaration</th><th>Subexpression</th><th>Lambda</th><th>If-branch</th><th>Case-branch</th></tr></thead><tbody><tr><td><a href="src/A.html">src/A.elm</a></td><td>1 / 1 (100%)</td><td>1 / 1 (100%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td></tr></tbody></table></div>
 </html>"""
                                }
                              , { filepath = "src/A.html"
@@ -212,6 +215,7 @@ a = 1""" )
                                  , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 2, column = 1 }, end = { row = 2, column = 5 } }
+                                 , category = "declaration"
                                  }
                                )
                              , ( 2
@@ -219,6 +223,7 @@ a = 1""" )
                                  , moduleFilePath = "src/A.elm"
                                  , declarationName = "b"
                                  , range = { start = { row = 3, column = 1 }, end = { row = 3, column = 5 } }
+                                 , category = "declaration"
                                  }
                                )
                              ]
@@ -253,7 +258,7 @@ b = 2""" )
         a:hover { text-decoration: underline; }
     </style>
 </head>
-<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Coverage</th></tr></thead><tbody><tr><td><a href="src/A.html">src/A.elm</a></td><td>1 / 2 (50%)</td></tr></tbody></table></div>
+<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Total</th><th>Declaration</th><th>Subexpression</th><th>Lambda</th><th>If-branch</th><th>Case-branch</th></tr></thead><tbody><tr><td><a href="src/A.html">src/A.elm</a></td><td>1 / 2 (50%)</td><td>1 / 2 (50%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td></tr></tbody></table></div>
 </html>"""
                                }
                              , { filepath = "src/A.html"
@@ -331,6 +336,7 @@ b = 2""" )
                                  , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 4, column = 5 }, end = { row = 4, column = 16 } }
+                                 , category = "declaration"
                                  }
                                )
                              , ( 2
@@ -338,6 +344,7 @@ b = 2""" )
                                  , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 4, column = 5 }, end = { row = 4, column = 6 } }
+                                 , category = "subexpression"
                                  }
                                )
                              , ( 3
@@ -345,6 +352,7 @@ b = 2""" )
                                  , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 4, column = 10 }, end = { row = 4, column = 16 } }
+                                 , category = "subexpression"
                                  }
                                )
                              , ( 4
@@ -352,6 +360,7 @@ b = 2""" )
                                  , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 4, column = 10 }, end = { row = 4, column = 11 } }
+                                 , category = "subexpression"
                                  }
                                )
                              , ( 5
@@ -359,6 +368,7 @@ b = 2""" )
                                  , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 4, column = 15 }, end = { row = 4, column = 16 } }
+                                 , category = "subexpression"
                                  }
                                )
                              ]
@@ -403,7 +413,7 @@ a =
         a:hover { text-decoration: underline; }
     </style>
 </head>
-<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Coverage</th></tr></thead><tbody><tr><td><a href="src/A.html">src/A.elm</a></td><td>5 / 5 (100%)</td></tr></tbody></table></div>
+<div><h1>Coverage Report</h1><table><thead><tr><th>Module</th><th>Total</th><th>Declaration</th><th>Subexpression</th><th>Lambda</th><th>If-branch</th><th>Case-branch</th></tr></thead><tbody><tr><td><a href="src/A.html">src/A.elm</a></td><td>5 / 5 (100%)</td><td>1 / 1 (100%)</td><td>4 / 4 (100%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td><td>0 / 0 (0%)</td></tr></tbody></table></div>
 </html>"""
                                }
                              , { filepath = "src/A.html"
@@ -499,6 +509,7 @@ a =
                                  , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                                 , category = "declaration"
                                  }
                                )
                              , ( 2
@@ -506,6 +517,7 @@ a =
                                  , moduleFilePath = "src/A.elm"
                                  , declarationName = "b"
                                  , range = { start = { row = 2, column = 1 }, end = { row = 2, column = 5 } }
+                                 , category = "declaration"
                                  }
                                )
                              , ( 3
@@ -513,6 +525,7 @@ a =
                                  , moduleFilePath = "src/B.elm"
                                  , declarationName = "c"
                                  , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                                 , category = "declaration"
                                  }
                                )
                              ]
@@ -565,8 +578,8 @@ end_of_record"""
                 , output =
                      Ok
                          { reports =
-                             [ { filepath = "coverage.csv", contents = """File,Exprs covered,Exprs total,Percentage
-Total,0,0,0""" }
+                             [ { filepath = "coverage.csv"                                 , contents = """File,Total covered,Total total,Total %,Declaration covered,Declaration total,Declaration %,Subexpression covered,Subexpression total,Subexpression %,Lambda covered,Lambda total,Lambda %,If-branch covered,If-branch total,If-branch %,Case-branch covered,Case-branch total,Case-branch %
+Total,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0""" }
                              ]
                          }
                 }
@@ -579,6 +592,7 @@ Total,0,0,0""" }
                                  , moduleFilePath = "src/A.elm"
                                  , declarationName = "a"
                                  , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                                 , category = "declaration"
                                  }
                                )
                              , ( 2
@@ -586,6 +600,7 @@ Total,0,0,0""" }
                                  , moduleFilePath = "src/A.elm"
                                  , declarationName = "b"
                                  , range = { start = { row = 2, column = 1 }, end = { row = 2, column = 5 } }
+                                 , category = "declaration"
                                  }
                                )
                              , ( 3
@@ -593,6 +608,7 @@ Total,0,0,0""" }
                                  , moduleFilePath = "src/B.elm"
                                  , declarationName = "c"
                                  , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                                 , category = "declaration"
                                  }
                                )
                              , ( 4
@@ -600,6 +616,7 @@ Total,0,0,0""" }
                                  , moduleFilePath = "src/C.elm"
                                  , declarationName = "d"
                                  , range = { start = { row = 1, column = 1 }, end = { row = 1, column = 5 } }
+                                 , category = "declaration"
                                  }
                                )
                              ]
@@ -618,11 +635,11 @@ Total,0,0,0""" }
                      Ok
                          { reports =
                              [ { filepath = "coverage.csv"
-                               , contents = """File,Exprs covered,Exprs total,Percentage
-Total,2,4,50
-src/A.elm,1,2,50
-src/B.elm,1,1,100
-src/C.elm,0,1,0"""
+                                 , contents = """File,Total covered,Total total,Total %,Declaration covered,Declaration total,Declaration %,Subexpression covered,Subexpression total,Subexpression %,Lambda covered,Lambda total,Lambda %,If-branch covered,If-branch total,If-branch %,Case-branch covered,Case-branch total,Case-branch %
+Total,2,4,50,2,4,50,0,0,0,0,0,0,0,0,0,0,0,0
+src/A.elm,1,2,50,1,2,50,0,0,0,0,0,0,0,0,0,0,0,0
+src/B.elm,1,1,100,1,1,100,0,0,0,0,0,0,0,0,0,0,0,0
+src/C.elm,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0"""
                                }
                              ]
                          }
@@ -741,6 +758,7 @@ fuzzInput format =
                                     , moduleFilePath = moduleFilePath
                                     , declarationName = "decl" ++ String.fromInt pointId
                                     , range = range
+                                    , category = "declaration"
                                     }
                                   )
                                 , ( pointId, count )

@@ -1,70 +1,10 @@
 {
-  "33765320": {
-    "moduleName": "Bar",
-    "moduleFilePath": "lib/Bar.elm",
-    "declarationName": "farewell",
-    "range": [
-      [
-        9,
-        20
-      ],
-      [
-        9,
-        24
-      ]
-    ]
-  },
-  "72245905": {
-    "moduleName": "Foo",
-    "moduleFilePath": "src/Foo.elm",
-    "declarationName": "subtract",
-    "range": [
-      [
-        13,
-        9
-      ],
-      [
-        13,
-        10
-      ]
-    ]
-  },
-  "106420825": {
-    "moduleName": "Bar",
-    "moduleFilePath": "lib/Bar.elm",
-    "declarationName": "farewell",
-    "range": [
-      [
-        9,
-        5
-      ],
-      [
-        9,
-        31
-      ]
-    ]
-  },
   "215408563": {
     "moduleName": "Main",
     "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
     "range": [
       [
-        8,
-        25
-      ],
-      [
-        8,
-        39
-      ]
-    ]
-  },
-  "245304994": {
-    "moduleName": "Main",
-    "moduleFilePath": "app/Main.elm",
-    "declarationName": "main",
-    "range": [
-      [
         7,
         5
       ],
@@ -72,339 +12,10 @@
         11,
         10
       ]
-    ]
-  },
-  "253452108": {
-    "moduleName": "Foo",
-    "moduleFilePath": "src/Foo.elm",
-    "declarationName": "subtract",
-    "range": [
-      [
-        13,
-        5
-      ],
-      [
-        13,
-        6
-      ]
-    ]
-  },
-  "389929308": {
-    "moduleName": "Main",
-    "moduleFilePath": "app/Main.elm",
-    "declarationName": "main",
-    "range": [
-      [
-        8,
-        18
-      ],
-      [
-        8,
-        39
-      ]
-    ]
+    ],
+    "category": "declaration"
   },
   "440883689": {
-    "moduleName": "Main",
-    "moduleFilePath": "app/Main.elm",
-    "declarationName": "main",
-    "range": [
-      [
-        8,
-        30
-      ],
-      [
-        8,
-        38
-      ]
-    ]
-  },
-  "472339208": {
-    "moduleName": "Foo",
-    "moduleFilePath": "src/Foo.elm",
-    "declarationName": "multiply",
-    "range": [
-      [
-        9,
-        9
-      ],
-      [
-        9,
-        10
-      ]
-    ]
-  },
-  "473628016": {
-    "moduleName": "Bar",
-    "moduleFilePath": "lib/Bar.elm",
-    "declarationName": "farewell",
-    "range": [
-      [
-        9,
-        28
-      ],
-      [
-        9,
-        31
-      ]
-    ]
-  },
-  "474255985": {
-    "moduleName": "Main",
-    "moduleFilePath": "app/Main.elm",
-    "declarationName": "main",
-    "range": [
-      [
-        9,
-        29
-      ],
-      [
-        9,
-        31
-      ]
-    ]
-  },
-  "559053829": {
-    "moduleName": "Main",
-    "moduleFilePath": "app/Main.elm",
-    "declarationName": "main",
-    "range": [
-      [
-        9,
-        28
-      ],
-      [
-        9,
-        42
-      ]
-    ]
-  },
-  "573104768": {
-    "moduleName": "Main",
-    "moduleFilePath": "app/Main.elm",
-    "declarationName": "main",
-    "range": [
-      [
-        9,
-        20
-      ],
-      [
-        9,
-        42
-      ]
-    ]
-  },
-  "583025675": {
-    "moduleName": "Foo",
-    "moduleFilePath": "src/Foo.elm",
-    "declarationName": "add",
-    "range": [
-      [
-        5,
-        5
-      ],
-      [
-        5,
-        10
-      ]
-    ]
-  },
-  "672707492": {
-    "moduleName": "Main",
-    "moduleFilePath": "app/Main.elm",
-    "declarationName": "main",
-    "range": [
-      [
-        8,
-        9
-      ],
-      [
-        11,
-        10
-      ]
-    ]
-  },
-  "943683072": {
-    "moduleName": "Foo",
-    "moduleFilePath": "src/Foo.elm",
-    "declarationName": "subtract",
-    "range": [
-      [
-        13,
-        5
-      ],
-      [
-        13,
-        10
-      ]
-    ]
-  },
-  "1054626379": {
-    "moduleName": "Bar",
-    "moduleFilePath": "lib/Bar.elm",
-    "declarationName": "greet",
-    "range": [
-      [
-        5,
-        26
-      ],
-      [
-        5,
-        29
-      ]
-    ]
-  },
-  "1225564788": {
-    "moduleName": "Main",
-    "moduleFilePath": "app/Main.elm",
-    "declarationName": "main",
-    "range": [
-      [
-        8,
-        26
-      ],
-      [
-        8,
-        28
-      ]
-    ]
-  },
-  "1252470794": {
-    "moduleName": "Bar",
-    "moduleFilePath": "lib/Bar.elm",
-    "declarationName": "greet",
-    "range": [
-      [
-        5,
-        18
-      ],
-      [
-        5,
-        29
-      ]
-    ]
-  },
-  "1273732911": {
-    "moduleName": "Bar",
-    "moduleFilePath": "lib/Bar.elm",
-    "declarationName": "farewell",
-    "range": [
-      [
-        9,
-        5
-      ],
-      [
-        9,
-        16
-      ]
-    ]
-  },
-  "1295767476": {
-    "moduleName": "Bar",
-    "moduleFilePath": "lib/Bar.elm",
-    "declarationName": "greet",
-    "range": [
-      [
-        5,
-        18
-      ],
-      [
-        5,
-        22
-      ]
-    ]
-  },
-  "1522327402": {
-    "moduleName": "Bar",
-    "moduleFilePath": "lib/Bar.elm",
-    "declarationName": "farewell",
-    "range": [
-      [
-        9,
-        20
-      ],
-      [
-        9,
-        31
-      ]
-    ]
-  },
-  "1529274156": {
-    "moduleName": "Foo",
-    "moduleFilePath": "src/Foo.elm",
-    "declarationName": "multiply",
-    "range": [
-      [
-        9,
-        5
-      ],
-      [
-        9,
-        6
-      ]
-    ]
-  },
-  "1543203695": {
-    "moduleName": "Foo",
-    "moduleFilePath": "src/Foo.elm",
-    "declarationName": "multiply",
-    "range": [
-      [
-        9,
-        5
-      ],
-      [
-        9,
-        10
-      ]
-    ]
-  },
-  "1568525173": {
-    "moduleName": "Foo",
-    "moduleFilePath": "src/Foo.elm",
-    "declarationName": "add",
-    "range": [
-      [
-        5,
-        5
-      ],
-      [
-        5,
-        6
-      ]
-    ]
-  },
-  "1678291280": {
-    "moduleName": "Bar",
-    "moduleFilePath": "lib/Bar.elm",
-    "declarationName": "greet",
-    "range": [
-      [
-        5,
-        5
-      ],
-      [
-        5,
-        14
-      ]
-    ]
-  },
-  "1766750197": {
-    "moduleName": "Main",
-    "moduleFilePath": "app/Main.elm",
-    "declarationName": "main",
-    "range": [
-      [
-        7,
-        5
-      ],
-      [
-        7,
-        20
-      ]
-    ]
-  },
-  "1862290972": {
     "moduleName": "Main",
     "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
@@ -417,9 +28,74 @@
         10,
         41
       ]
-    ]
+    ],
+    "category": "lambda"
   },
-  "1871036766": {
+  "583025675": {
+    "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
+    "declarationName": "subtract",
+    "range": [
+      [
+        13,
+        5
+      ],
+      [
+        13,
+        10
+      ]
+    ],
+    "category": "declaration"
+  },
+  "1225564788": {
+    "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
+    "declarationName": "main",
+    "range": [
+      [
+        9,
+        20
+      ],
+      [
+        9,
+        42
+      ]
+    ],
+    "category": "lambda"
+  },
+  "1295767476": {
+    "moduleName": "Bar",
+    "moduleFilePath": "lib/Bar.elm",
+    "declarationName": "farewell",
+    "range": [
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        31
+      ]
+    ],
+    "category": "declaration"
+  },
+  "1568525173": {
+    "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
+    "declarationName": "add",
+    "range": [
+      [
+        5,
+        5
+      ],
+      [
+        5,
+        10
+      ]
+    ],
+    "category": "declaration"
+  },
+  "1678291280": {
     "moduleName": "Bar",
     "moduleFilePath": "lib/Bar.elm",
     "declarationName": "greet",
@@ -432,51 +108,39 @@
         5,
         29
       ]
-    ]
+    ],
+    "category": "declaration"
+  },
+  "1766750197": {
+    "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
+    "declarationName": "main",
+    "range": [
+      [
+        8,
+        18
+      ],
+      [
+        8,
+        39
+      ]
+    ],
+    "category": "lambda"
   },
   "2010455107": {
     "moduleName": "Foo",
     "moduleFilePath": "src/Foo.elm",
-    "declarationName": "add",
+    "declarationName": "multiply",
     "range": [
       [
-        5,
-        9
+        9,
+        5
       ],
       [
-        5,
+        9,
         10
       ]
-    ]
-  },
-  "2042476985": {
-    "moduleName": "Main",
-    "moduleFilePath": "app/Main.elm",
-    "declarationName": "main",
-    "range": [
-      [
-        10,
-        33
-      ],
-      [
-        10,
-        41
-      ]
-    ]
-  },
-  "2100962292": {
-    "moduleName": "Main",
-    "moduleFilePath": "app/Main.elm",
-    "declarationName": "main",
-    "range": [
-      [
-        9,
-        33
-      ],
-      [
-        9,
-        41
-      ]
-    ]
+    ],
+    "category": "declaration"
   }
 }

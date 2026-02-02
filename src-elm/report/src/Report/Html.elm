@@ -31,46 +31,7 @@ generate input =
 
         moduleStats : List ModuleStats
         moduleStats =
-            Dict.foldl
-                (\filepath points acc ->
-                    let
-                        ( totalPoints, coveredPoints ) =
-                            List.foldl
-                                (\( pointId, _ ) ( total, covered ) ->
-                                    let
-                                        count : Int
-                                        count =
-                                            Dict.get pointId input.coverageData
-                                                |> Maybe.withDefault 0
-                                    in
-                                    ( total + 1
-                                    , if count > 0 then
-                                        covered + 1
-
-                                      else
-                                        covered
-                                    )
-                                )
-                                ( 0, 0 )
-                                points
-
-                        coveragePercentage : Float
-                        coveragePercentage =
-                            if totalPoints > 0 then
-                                (toFloat coveredPoints / toFloat totalPoints) * 100
-
-                            else
-                                0
-                    in
-                    { moduleFilePath = filepath
-                    , totalPoints = totalPoints
-                    , coveredPoints = coveredPoints
-                    , coveragePercentage = coveragePercentage
-                    }
-                        :: acc
-                )
-                []
-                modules
+            Report.calculateModuleStats input
 
         indexPage : ReportFile
         indexPage =
@@ -160,11 +121,11 @@ generateIndexPage stats =
                             sanitizeFilePathForHtml stat.moduleFilePath
                     in
                     Html.tr []
-                        [ Html.td []
+                        ([ Html.td []
                             [ Html.a [ Attr.href (sanitizedFilePath ++ ".html") ]
                                 [ Html.text stat.moduleFilePath ]
                             ]
-                        , Html.td []
+                         , Html.td []
                             [ Html.text
                                 (String.fromInt stat.coveredPoints
                                     ++ " / "
@@ -174,7 +135,59 @@ generateIndexPage stats =
                                     ++ "%)"
                                 )
                             ]
-                        ]
+                         ]
+                            ++ [ Html.td []
+                                    [ Html.text
+                                        (String.fromInt stat.declaration.covered
+                                            ++ " / "
+                                            ++ String.fromInt stat.declaration.total
+                                            ++ " ("
+                                            ++ String.fromFloat (roundTo 2 stat.declaration.percentage)
+                                            ++ "%)"
+                                        )
+                                    ]
+                               , Html.td []
+                                    [ Html.text
+                                        (String.fromInt stat.subexpression.covered
+                                            ++ " / "
+                                            ++ String.fromInt stat.subexpression.total
+                                            ++ " ("
+                                            ++ String.fromFloat (roundTo 2 stat.subexpression.percentage)
+                                            ++ "%)"
+                                        )
+                                    ]
+                               , Html.td []
+                                    [ Html.text
+                                        (String.fromInt stat.lambda.covered
+                                            ++ " / "
+                                            ++ String.fromInt stat.lambda.total
+                                            ++ " ("
+                                            ++ String.fromFloat (roundTo 2 stat.lambda.percentage)
+                                            ++ "%)"
+                                        )
+                                    ]
+                               , Html.td []
+                                    [ Html.text
+                                        (String.fromInt stat.ifBranch.covered
+                                            ++ " / "
+                                            ++ String.fromInt stat.ifBranch.total
+                                            ++ " ("
+                                            ++ String.fromFloat (roundTo 2 stat.ifBranch.percentage)
+                                            ++ "%)"
+                                        )
+                                    ]
+                               , Html.td []
+                                    [ Html.text
+                                        (String.fromInt stat.caseBranch.covered
+                                            ++ " / "
+                                            ++ String.fromInt stat.caseBranch.total
+                                            ++ " ("
+                                            ++ String.fromFloat (roundTo 2 stat.caseBranch.percentage)
+                                            ++ "%)"
+                                        )
+                                    ]
+                               ]
+                        )
                 )
                 stats
 
@@ -185,9 +198,16 @@ generateIndexPage stats =
                 , Html.table []
                     [ Html.thead []
                         [ Html.tr []
-                            [ Html.th [] [ Html.text "Module" ]
-                            , Html.th [] [ Html.text "Coverage" ]
-                            ]
+                            ([ Html.th [] [ Html.text "Module" ]
+                             , Html.th [] [ Html.text "Total" ]
+                             ]
+                                ++ [ Html.th [] [ Html.text "Declaration" ]
+                                   , Html.th [] [ Html.text "Subexpression" ]
+                                   , Html.th [] [ Html.text "Lambda" ]
+                                   , Html.th [] [ Html.text "If-branch" ]
+                                   , Html.th [] [ Html.text "Case-branch" ]
+                                   ]
+                            )
                         ]
                     , Html.tbody [] rows
                     ]

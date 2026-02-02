@@ -1,142 +1,39 @@
 {
-  "31833927": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "nestedCase",
-    "range": [
-      [
-        39,
-        10
-      ],
-      [
-        39,
-        21
-      ]
-    ]
-  },
-  "45664826": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "nestedCase",
-    "range": [
-      [
-        45,
-        21
-      ],
-      [
-        45,
-        41
-      ]
-    ]
-  },
-  "140423761": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "nestedCase",
-    "range": [
-      [
-        45,
-        21
-      ],
-      [
-        45,
-        34
-      ]
-    ]
-  },
-  "217307923": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "partiallyCoveredCase",
-    "range": [
-      [
-        62,
-        13
-      ],
-      [
-        62,
-        19
-      ]
-    ]
-  },
-  "261017194": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "nestedCase",
-    "range": [
-      [
-        43,
-        38
-      ],
-      [
-        43,
-        52
-      ]
-    ]
-  },
   "285136691": {
     "moduleName": "CaseExprs",
     "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "threeBranches",
+    "declarationName": "fourBranches",
     "range": [
       [
-        17,
+        30,
         13
       ],
       [
-        17,
-        24
+        30,
+        18
       ]
-    ]
+    ],
+    "category": "case-branch"
   },
   "293209453": {
     "moduleName": "CaseExprs",
     "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "threeBranches",
-    "range": [
-      [
-        17,
-        28
-      ],
-      [
-        17,
-        42
-      ]
-    ]
-  },
-  "339233744": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "fourBranches",
     "range": [
       [
-        30,
+        32,
         13
       ],
       [
-        30,
+        32,
         18
       ]
-    ]
+    ],
+    "category": "case-branch"
   },
   "390890205": {
     "moduleName": "CaseExprs",
     "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "threeBranches",
-    "range": [
-      [
-        17,
-        28
-      ],
-      [
-        17,
-        48
-      ]
-    ]
-  },
-  "461394542": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "nestedCase",
     "range": [
       [
@@ -145,311 +42,60 @@
       ],
       [
         43,
-        34
-      ]
-    ]
-  },
-  "508839993": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "nestedCase",
-    "range": [
-      [
-        43,
-        38
-      ],
-      [
-        43,
         58
       ]
-    ]
+    ],
+    "category": "case-branch"
   },
   "556273188": {
     "moduleName": "CaseExprs",
     "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "threeBranches",
+    "declarationName": "partiallyCoveredCase",
     "range": [
       [
-        21,
+        54,
         13
       ],
       [
-        21,
-        28
+        54,
+        19
       ]
-    ]
+    ],
+    "category": "case-branch"
   },
   "562876422": {
     "moduleName": "CaseExprs",
     "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "threeBranches",
+    "declarationName": "fourBranches",
     "range": [
       [
-        17,
-        43
+        34,
+        13
       ],
       [
-        17,
-        48
+        34,
+        20
       ]
-    ]
-  },
-  "580816458": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "nestedCase",
-    "range": [
-      [
-        45,
-        38
-      ],
-      [
-        45,
-        41
-      ]
-    ]
+    ],
+    "category": "case-branch"
   },
   "615386194": {
     "moduleName": "CaseExprs",
     "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "threeBranches",
+    "declarationName": "fourBranches",
     "range": [
       [
-        15,
-        10
+        28,
+        13
       ],
       [
-        15,
-        16
+        28,
+        19
       ]
-    ]
-  },
-  "655176028": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "nestedCase",
-    "range": [
-      [
-        43,
-        53
-      ],
-      [
-        43,
-        58
-      ]
-    ]
+    ],
+    "category": "case-branch"
   },
   "766807862": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "twoBranches",
-    "range": [
-      [
-        8,
-        13
-      ],
-      [
-        8,
-        18
-      ]
-    ]
-  },
-  "785991995": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "twoBranches",
-    "range": [
-      [
-        8,
-        17
-      ],
-      [
-        8,
-        18
-      ]
-    ]
-  },
-  "804279791": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "partiallyCoveredCase",
-    "range": [
-      [
-        58,
-        13
-      ],
-      [
-        58,
-        18
-      ]
-    ]
-  },
-  "863056653": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "nestedCase",
-    "range": [
-      [
-        43,
-        21
-      ],
-      [
-        43,
-        58
-      ]
-    ]
-  },
-  "1040261944": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "partiallyCoveredCase",
-    "range": [
-      [
-        56,
-        13
-      ],
-      [
-        56,
-        18
-      ]
-    ]
-  },
-  "1058150396": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "partiallyCoveredCase",
-    "range": [
-      [
-        54,
-        13
-      ],
-      [
-        54,
-        19
-      ]
-    ]
-  },
-  "1074704768": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "nestedCase",
-    "range": [
-      [
-        41,
-        18
-      ],
-      [
-        41,
-        24
-      ]
-    ]
-  },
-  "1090456675": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "fourBranches",
-    "range": [
-      [
-        28,
-        13
-      ],
-      [
-        28,
-        19
-      ]
-    ]
-  },
-  "1140788623": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "twoBranches",
-    "range": [
-      [
-        6,
-        10
-      ],
-      [
-        6,
-        15
-      ]
-    ]
-  },
-  "1247320122": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "twoBranches",
-    "range": [
-      [
-        10,
-        13
-      ],
-      [
-        10,
-        14
-      ]
-    ]
-  },
-  "1387756282": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "partiallyCoveredCase",
-    "range": [
-      [
-        52,
-        10
-      ],
-      [
-        52,
-        11
-      ]
-    ]
-  },
-  "1389476683": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "fourBranches",
-    "range": [
-      [
-        26,
-        10
-      ],
-      [
-        26,
-        11
-      ]
-    ]
-  },
-  "1401696974": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "partiallyCoveredCase",
-    "range": [
-      [
-        60,
-        13
-      ],
-      [
-        60,
-        20
-      ]
-    ]
-  },
-  "1428362492": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "threeBranches",
-    "range": [
-      [
-        17,
-        13
-      ],
-      [
-        17,
-        48
-      ]
-    ]
-  },
-  "1450626265": {
     "moduleName": "CaseExprs",
     "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "threeBranches",
@@ -462,39 +108,42 @@
         19,
         29
       ]
-    ]
+    ],
+    "category": "case-branch"
   },
-  "1514252073": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "fourBranches",
-    "range": [
-      [
-        34,
-        13
-      ],
-      [
-        34,
-        20
-      ]
-    ]
-  },
-  "1681273200": {
+  "785991995": {
     "moduleName": "CaseExprs",
     "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "threeBranches",
     "range": [
       [
-        21,
-        32
+        17,
+        13
       ],
       [
-        21,
-        37
+        17,
+        48
       ]
-    ]
+    ],
+    "category": "case-branch"
   },
-  "1706182870": {
+  "1090456675": {
+    "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
+    "declarationName": "partiallyCoveredCase",
+    "range": [
+      [
+        62,
+        13
+      ],
+      [
+        62,
+        19
+      ]
+    ],
+    "category": "case-branch"
+  },
+  "1140788623": {
     "moduleName": "CaseExprs",
     "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "twoBranches",
@@ -505,11 +154,12 @@
       ],
       [
         8,
-        14
+        18
       ]
-    ]
+    ],
+    "category": "case-branch"
   },
-  "1721362682": {
+  "1247320122": {
     "moduleName": "CaseExprs",
     "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "threeBranches",
@@ -522,9 +172,42 @@
         21,
         37
       ]
-    ]
+    ],
+    "category": "case-branch"
   },
-  "1815964016": {
+  "1389476683": {
+    "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
+    "declarationName": "partiallyCoveredCase",
+    "range": [
+      [
+        60,
+        13
+      ],
+      [
+        60,
+        20
+      ]
+    ],
+    "category": "case-branch"
+  },
+  "1428362492": {
+    "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
+    "declarationName": "nestedCase",
+    "range": [
+      [
+        45,
+        21
+      ],
+      [
+        45,
+        41
+      ]
+    ],
+    "category": "case-branch"
+  },
+  "1450626265": {
     "moduleName": "CaseExprs",
     "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "nestedCase",
@@ -537,21 +220,55 @@
         47,
         24
       ]
-    ]
+    ],
+    "category": "case-branch"
   },
-  "2007663582": {
+  "1681273200": {
     "moduleName": "CaseExprs",
     "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "fourBranches",
+    "declarationName": "partiallyCoveredCase",
     "range": [
       [
-        32,
+        56,
         13
       ],
       [
-        32,
+        56,
         18
       ]
-    ]
+    ],
+    "category": "case-branch"
+  },
+  "1706182870": {
+    "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
+    "declarationName": "twoBranches",
+    "range": [
+      [
+        10,
+        13
+      ],
+      [
+        10,
+        14
+      ]
+    ],
+    "category": "case-branch"
+  },
+  "1721362682": {
+    "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
+    "declarationName": "partiallyCoveredCase",
+    "range": [
+      [
+        58,
+        13
+      ],
+      [
+        58,
+        18
+      ]
+    ],
+    "category": "case-branch"
   }
 }

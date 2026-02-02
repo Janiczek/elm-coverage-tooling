@@ -397,14 +397,15 @@ function calculateRelativeFilePath(filePath: string, projectDir: string, sourceD
     }
 }
 
-function serializeCoverageMetadata(metadata: CoverageMetadataMap): Record<string, { moduleName: string; moduleFilePath: string; declarationName: string; range: [[number, number], [number, number]] }> {
-    const result: Record<string, { moduleName: string; moduleFilePath: string; declarationName: string; range: [[number, number], [number, number]] }> = {};
+function serializeCoverageMetadata(metadata: CoverageMetadataMap): Record<string, { moduleName: string; moduleFilePath: string; declarationName: string; range: [[number, number], [number, number]]; category: string }> {
+    const result: Record<string, { moduleName: string; moduleFilePath: string; declarationName: string; range: [[number, number], [number, number]]; category: string }> = {};
     for (const [pointId, meta] of metadata.entries()) {
         result[pointId.toString()] = {
             moduleName: meta.moduleName,
             moduleFilePath: meta.moduleFilePath,
             declarationName: meta.declarationName,
             range: meta.range,
+            category: meta.category,
         };
     }
     return result;

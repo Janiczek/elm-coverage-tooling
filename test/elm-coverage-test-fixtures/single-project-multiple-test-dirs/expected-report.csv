@@ -1,5 +1,5 @@
-File,Exprs covered,Exprs total,Percentage
-Total,56,59,94.92
-src/Foo.elm,9,12,75
-tests-program/ProgramTests.elm,17,17,100
-tests-unit/UnitTests.elm,30,30,100
+File,Total covered,Total total,Total %,Declaration covered,Declaration total,Declaration %,Subexpression covered,Subexpression total,Subexpression %,Lambda covered,Lambda total,Lambda %,If-branch covered,If-branch total,If-branch %,Case-branch covered,Case-branch total,Case-branch %
+Total,8,9,88.89,5,6,83.33,0,0,0,3,3,100,0,0,0,0,0,0
+src/Foo.elm,3,4,75,3,4,75,0,0,0,0,0,0,0,0,0,0,0,0
+tests-program/ProgramTests.elm,2,2,100,1,1,100,0,0,0,1,1,100,0,0,0,0,0,0
+tests-unit/UnitTests.elm,3,3,100,1,1,100,0,0,0,2,2,100,0,0,0,0,0,0
