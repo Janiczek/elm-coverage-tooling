@@ -5,17 +5,17 @@
     "declarationName": "main",
     "range": [
       [
-        7,
-        5
+        9,
+        20
       ],
       [
-        11,
-        10
+        9,
+        42
       ]
     ],
-    "category": "declaration"
+    "category": "subexpression"
   },
-  "440883689": {
+  "389929308": {
     "moduleName": "Main",
     "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
@@ -30,6 +30,38 @@
       ]
     ],
     "category": "lambda"
+  },
+  "440883689": {
+    "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
+    "declarationName": "main",
+    "range": [
+      [
+        9,
+        20
+      ],
+      [
+        9,
+        42
+      ]
+    ],
+    "category": "lambda"
+  },
+  "474255985": {
+    "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
+    "declarationName": "main",
+    "range": [
+      [
+        10,
+        27
+      ],
+      [
+        10,
+        41
+      ]
+    ],
+    "category": "subexpression"
   },
   "583025675": {
     "moduleName": "Foo",
@@ -53,15 +85,15 @@
     "declarationName": "main",
     "range": [
       [
-        9,
-        20
+        8,
+        18
       ],
       [
-        9,
-        42
+        8,
+        39
       ]
     ],
-    "category": "lambda"
+    "category": "subexpression"
   },
   "1295767476": {
     "moduleName": "Bar",
@@ -138,6 +170,22 @@
       ],
       [
         9,
+        10
+      ]
+    ],
+    "category": "declaration"
+  },
+  "2100962292": {
+    "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
+    "declarationName": "main",
+    "range": [
+      [
+        7,
+        5
+      ],
+      [
+        11,
         10
       ]
     ],

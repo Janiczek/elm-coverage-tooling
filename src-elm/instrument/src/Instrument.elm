@@ -274,7 +274,7 @@ instrumentExprWithCategory exprNode declarationName category state =
                                     Elm.Syntax.Node.value setterNode
 
                                 ( instExpr, newState_ ) =
-                                    instrumentExpr fieldExprNode declarationName state_
+                                    instrumentExprWithCategory fieldExprNode declarationName "subexpression" state_
 
                                 newSetter : Elm.Syntax.Expression.RecordSetter
                                 newSetter =
@@ -304,7 +304,7 @@ instrumentExprWithCategory exprNode declarationName category state =
                                     Elm.Syntax.Node.value setterNode
 
                                 ( instExpr, newState_ ) =
-                                    instrumentExpr fieldExprNode declarationName state_
+                                    instrumentExprWithCategory fieldExprNode declarationName "subexpression" state_
 
                                 newSetter : Elm.Syntax.Expression.RecordSetter
                                 newSetter =
@@ -663,7 +663,7 @@ instrumentExprRecurse exprNode declarationName state =
                                     Elm.Syntax.Node.value setterNode
 
                                 ( instExpr, newState_ ) =
-                                    instrumentExpr fieldExprNode declarationName state_
+                                    instrumentExprWithCategory fieldExprNode declarationName "subexpression" state_
 
                                 newSetter : Elm.Syntax.Expression.RecordSetter
                                 newSetter =
@@ -710,7 +710,7 @@ instrumentExprRecurse exprNode declarationName state =
                                     Elm.Syntax.Node.value setterNode
 
                                 ( instExpr, newState_ ) =
-                                    instrumentExpr fieldExprNode declarationName state_
+                                    instrumentExprWithCategory fieldExprNode declarationName "subexpression" state_
 
                                 newSetter : Elm.Syntax.Expression.RecordSetter
                                 newSetter =

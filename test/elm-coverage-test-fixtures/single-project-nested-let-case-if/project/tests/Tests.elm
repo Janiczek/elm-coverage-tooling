@@ -95,6 +95,10 @@ suite =
             \_ ->
                 NestedLetCaseIf.recordUpdateWithCaseIfLet { a = 0, b = 0, c = 0 } Nothing False
                     |> Expect.equal { a = 0, b = 2, c = 1 }
+        , test "recordWithPlainFields" <|
+            \_ ->
+                NestedLetCaseIf.recordWithPlainFields 7
+                    |> Expect.equal { a = 7, b = 8 }
         , test "parenthesizedCase Just" <|
             \_ ->
                 NestedLetCaseIf.parenthesizedCase (Just 42)

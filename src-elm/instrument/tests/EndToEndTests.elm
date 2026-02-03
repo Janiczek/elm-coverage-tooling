@@ -2430,6 +2430,62 @@ recordWithCaseIfLet maybe b =
                     , contentHash = 1663106059
                     }
            }
+         , { name = "recordWithPlainFields"
+           , input = """
+module RecordPlain exposing (f)
+
+f : Int -> { a : Int, b : Int }
+f x =
+    { a = identity x
+    , b = x + 1
+    }
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module RecordPlain exposing (f)
+
+import Test.Coverage
+
+
+f : Int -> { a : Int, b : Int }
+f x =
+    { a =
+        let
+            _ =
+                Test.Coverage.track 518031371
+        in
+        identity x
+    , b =
+        let
+            _ =
+                Test.Coverage.track 121624604
+        in
+        x + 1
+    }
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 121624604
+                              , { moduleName = "RecordPlain"
+                                , moduleFilePath = "RecordPlain.elm"
+                                , declarationName = "f"
+                                , range = { start = { row = 6, column = 11 }, end = { row = 6, column = 16 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 518031371
+                              , { moduleName = "RecordPlain"
+                                , moduleFilePath = "RecordPlain.elm"
+                                , declarationName = "f"
+                                , range = { start = { row = 5, column = 11 }, end = { row = 5, column = 21 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            ]
+                    , contentHash = 1220215621
+                    }
+           }
          , { name = "recordUpdateWithCaseIfLet"
            , input = """
 module NestedLetCaseIf exposing (recordUpdateWithCaseIfLet)
