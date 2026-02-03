@@ -2,13 +2,13 @@ module Main exposing (Input, Output, main, work)
 
 import Dict exposing (Dict)
 import FNV1a
+import Format exposing (Format(..), fromString)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode
 import Platform
-import PureFunction exposing (PureMain)
-import Format exposing (Format(..), fromString)
 import PointMetadata exposing (PointMetadata)
-import Report exposing (Input, ReportFile)
+import PureFunction exposing (PureMain)
+import Report exposing (Input, PreparedInput, ReportFile)
 import Report.Csv
 import Report.Html
 import Report.Lcov
@@ -103,21 +103,26 @@ work input =
                 input.sources
     in
     if List.isEmpty hashMismatches then
+        let
+            prepared : PreparedInput
+            prepared =
+                Report.prepareInput input
+        in
         case fromString input.format of
             Just Html ->
-                Ok (Report.Html.generate input)
+                Ok (Report.Html.generate prepared)
 
             Just Stdout ->
-                Ok (Report.Stdout.generate input)
+                Ok (Report.Stdout.generate prepared)
 
             Just Plaintext ->
-                Ok (Report.Plaintext.generate input)
+                Ok (Report.Plaintext.generate prepared)
 
             Just Lcov ->
-                Ok (Report.Lcov.generate input)
+                Ok (Report.Lcov.generate prepared)
 
             Just Csv ->
-                Ok (Report.Csv.generate input)
+                Ok (Report.Csv.generate prepared)
 
             Nothing ->
                 Err ("Unsupported format: " ++ input.format)

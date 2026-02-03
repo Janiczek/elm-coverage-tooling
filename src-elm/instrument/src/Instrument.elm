@@ -10,10 +10,10 @@ import Elm.Syntax.ModuleName exposing (ModuleName)
 import Elm.Syntax.Node exposing (Node(..))
 import Elm.Syntax.Pattern exposing (Pattern)
 import Elm.Syntax.Range
-import Random
 import InstrumentState exposing (InstrumentState)
 import PointId exposing (PointId)
 import PointMetadata exposing (PointMetadata)
+import Random
 import Range exposing (Range)
 
 
@@ -38,11 +38,11 @@ instrument file =
                 (InstrumentState.init moduleName)
                 file.declarations
     in
-    ( { file 
+    ( { file
         | declarations = result.newDeclarations
         , imports = addTestCoverageImport file.imports
       }
-    , result.metadata
+    , Dict.fromList result.metadataList
     )
 
 
@@ -57,7 +57,7 @@ addTestCoverageImport imports =
         hasTestCoverageImport importNode =
             let
                 importModuleName : ModuleName
-                importModuleName = 
+                importModuleName =
                     importNode
                         |> Elm.Syntax.Node.value
                         |> .moduleName
@@ -67,6 +67,7 @@ addTestCoverageImport imports =
     in
     if List.any hasTestCoverageImport imports then
         imports
+
     else
         let
             newImportNode : Node Import
@@ -155,72 +156,157 @@ instrumentDestructuringDecl patternNode exprNode declRange state =
 
 instrumentExpr : Node Elm.Syntax.Expression.Expression -> String -> InstrumentState -> ( Node Elm.Syntax.Expression.Expression, InstrumentState )
 instrumentExpr exprNode declarationName state =
-    instrumentExprRecurse exprNode declarationName state
+    instrumentExprHelp exprNode declarationName Nothing state
 
 
 instrumentExprWithCategory : Node Elm.Syntax.Expression.Expression -> String -> String -> InstrumentState -> ( Node Elm.Syntax.Expression.Expression, InstrumentState )
 instrumentExprWithCategory exprNode declarationName category state =
+    instrumentExprHelp exprNode declarationName (Just category) state
+
+
+{-| Single traversal: Maybe category = Just cat when we may add a point at this node (with that category), Nothing = recurse only.
+-}
+instrumentExprHelp : Node Elm.Syntax.Expression.Expression -> String -> Maybe String -> InstrumentState -> ( Node Elm.Syntax.Expression.Expression, InstrumentState )
+instrumentExprHelp exprNode declarationName mode state =
     let
         exprRange : Range
         exprRange =
             Elm.Syntax.Node.range exprNode
+
+        doNothing : () -> ( Node Elm.Syntax.Expression.Expression, InstrumentState )
+        doNothing () =
+            ( exprNode, state )
+
+        maybeAddPoint : String -> ( Node Elm.Syntax.Expression.Expression, InstrumentState )
+        maybeAddPoint category =
+            let
+                ( instrumentedInnerExpr, stateAfterRecurse ) =
+                    instrumentExprHelp exprNode declarationName Nothing state
+
+                ( pointId, newSeed ) =
+                    Random.step PointId.generator stateAfterRecurse.seed
+
+                metadata : PointMetadata
+                metadata =
+                    { moduleName = state.moduleName
+                    , moduleFilePath = state.moduleFilePath
+                    , declarationName = declarationName
+                    , range = exprRange
+                    , category = category
+                    }
+
+                newState : InstrumentState
+                newState =
+                    { stateAfterRecurse
+                        | seed = newSeed
+                        , metadataList = ( pointId, metadata ) :: stateAfterRecurse.metadataList
+                    }
+
+                wrappedExpr : Node Elm.Syntax.Expression.Expression
+                wrappedExpr =
+                    instrumentedInnerExpr
+                        |> wrapWithTracking pointId exprRange
+            in
+            ( wrappedExpr, newState )
     in
     case Elm.Syntax.Node.value exprNode of
-        -- For if expressions, track branches with "if-branch" category
-        -- Don't track the whole if expression, even when category is "declaration"
-        -- Track the condition with "subexpression" category to ensure simple conditions
-        -- (like variable references) are tracked, not just complex expressions
+        Elm.Syntax.Expression.Application exprs ->
+            let
+                ( instrumentedExprs, newState ) =
+                    instrumentExprList exprs declarationName state
+            in
+            ( Node exprRange (Elm.Syntax.Expression.Application instrumentedExprs)
+            , newState
+            )
+
+        Elm.Syntax.Expression.OperatorApplication op dir left right ->
+            if op == "<|" || op == "|>" then
+                let
+                    ( instLeft, state1 ) =
+                        instrumentExprHelp left declarationName mode state
+
+                    ( instRight, state2 ) =
+                        instrumentExprHelp right declarationName mode state1
+                in
+                ( Node exprRange (Elm.Syntax.Expression.OperatorApplication op dir instLeft instRight)
+                , state2
+                )
+
+            else if op == "&&" || op == "||" then
+                let
+                    ( instLeft, state1 ) =
+                        instrumentExprHelp left declarationName (Just "subexpression") state
+
+                    ( instRight, state2 ) =
+                        instrumentExprHelp right declarationName (Just "subexpression") state1
+                in
+                ( Node exprRange (Elm.Syntax.Expression.OperatorApplication op dir instLeft instRight)
+                , state2
+                )
+
+            else
+                case mode of
+                    Just category ->
+                        maybeAddPoint category
+
+                    Nothing ->
+                        let
+                            ( instLeft, state1 ) =
+                                instrumentExprHelp left declarationName Nothing state
+
+                            ( instRight, state2 ) =
+                                instrumentExprHelp right declarationName Nothing state1
+                        in
+                        ( Node exprRange (Elm.Syntax.Expression.OperatorApplication op dir instLeft instRight)
+                        , state2
+                        )
+
         Elm.Syntax.Expression.IfBlock condition thenBranch elseBranch ->
             let
                 ( instCondition, state1 ) =
-                    instrumentExprWithCategory condition declarationName "subexpression" state
+                    instrumentExprHelp condition declarationName (Just "subexpression") state
 
                 ( instThen, state2 ) =
-                    instrumentExprWithCategory thenBranch declarationName "if-branch" state1
+                    instrumentExprHelp thenBranch declarationName (Just "if-branch") state1
 
                 ( instElse, state3 ) =
-                    instrumentExprWithCategory elseBranch declarationName "if-branch" state2
+                    instrumentExprHelp elseBranch declarationName (Just "if-branch") state2
             in
             ( Node exprRange (Elm.Syntax.Expression.IfBlock instCondition instThen instElse)
             , state3
             )
 
-        -- For case expressions, track branches with "case-branch" category
-        -- Don't track the whole case expression, even when category is "declaration"
-        Elm.Syntax.Expression.CaseExpression caseBlock ->
+        Elm.Syntax.Expression.Negation inner ->
             let
-                ( instExpr, state1 ) =
-                    instrumentExprWithCategory caseBlock.expression declarationName "subexpression" state
-
-                ( instrumentedCases, state2 ) =
-                    List.foldl
-                        (\( pattern, caseExpr ) ( acc, state_ ) ->
-                            let
-                                ( instCaseExpr, newState_ ) =
-                                    instrumentExprWithCategory caseExpr declarationName "case-branch" state_
-                            in
-                            ( ( pattern, instCaseExpr ) :: acc, newState_ )
-                        )
-                        ( [], state1 )
-                        caseBlock.cases
-
-                newCaseBlock : Elm.Syntax.Expression.CaseBlock
-                newCaseBlock =
-                    { expression = instExpr
-                    , cases = List.reverse instrumentedCases
-                    }
+                ( instInner, newState ) =
+                    instrumentExprHelp inner declarationName Nothing state
             in
-            ( Node exprRange (Elm.Syntax.Expression.CaseExpression newCaseBlock)
-            , state2
+            ( Node exprRange (Elm.Syntax.Expression.Negation instInner)
+            , newState
             )
 
-        -- For let expressions, don't track the whole expression - just recurse
-        -- The binding bodies are already tracked with "declaration" category
-        -- Track the let-in body with "declaration" category
+        Elm.Syntax.Expression.TupledExpression exprs ->
+            let
+                ( instrumentedExprs, newState ) =
+                    instrumentExprListWithCategory exprs declarationName "subexpression" state
+            in
+            ( Node exprRange (Elm.Syntax.Expression.TupledExpression instrumentedExprs)
+            , newState
+            )
+
+        Elm.Syntax.Expression.ParenthesizedExpression inner ->
+            let
+                ( instInner, newState ) =
+                    instrumentExprHelp inner declarationName mode state
+            in
+            ( Node exprRange (Elm.Syntax.Expression.ParenthesizedExpression instInner)
+            , newState
+            )
+
         Elm.Syntax.Expression.LetExpression letBlock ->
             let
                 ( instrumentedDecls, state1 ) =
-                    List.foldl
+                    List.foldr
                         (\declNode ( acc, state_ ) ->
                             let
                                 ( instDecl, newState_ ) =
@@ -232,11 +318,11 @@ instrumentExprWithCategory exprNode declarationName category state =
                         letBlock.declarations
 
                 ( instLetExpr, state2 ) =
-                    instrumentExprWithCategory letBlock.expression declarationName "declaration" state1
+                    instrumentExprHelp letBlock.expression declarationName (Just "declaration") state1
 
                 newLetBlock : Elm.Syntax.Expression.LetBlock
                 newLetBlock =
-                    { declarations = List.reverse instrumentedDecls
+                    { declarations = instrumentedDecls
                     , expression = instLetExpr
                     }
             in
@@ -244,189 +330,238 @@ instrumentExprWithCategory exprNode declarationName category state =
             , state2
             )
 
-        -- For list/tuple expressions, don't track the whole expression - only their elements
-        -- Use instrumentExprListWithCategory so bare variables (e.g. cmd in ( model, cmd )) get tracked
-        Elm.Syntax.Expression.ListExpr exprs ->
+        Elm.Syntax.Expression.CaseExpression caseBlock ->
             let
-                ( instrumentedExprs, newState ) =
-                    instrumentExprListWithCategory exprs declarationName "subexpression" state
-            in
-            ( Node exprRange (Elm.Syntax.Expression.ListExpr (List.reverse instrumentedExprs))
-            , newState
-            )
+                ( instExpr, state1 ) =
+                    instrumentExprHelp caseBlock.expression declarationName (Just "subexpression") state
 
-        Elm.Syntax.Expression.TupledExpression exprs ->
-            let
-                ( instrumentedExprs, newState ) =
-                    instrumentExprListWithCategory exprs declarationName "subexpression" state
-            in
-            ( Node exprRange (Elm.Syntax.Expression.TupledExpression (List.reverse instrumentedExprs))
-            , newState
-            )
-
-        -- For record expressions, don't track the whole expression - only field values
-        Elm.Syntax.Expression.RecordExpr setters ->
-            let
-                ( instrumentedSetters, newState ) =
-                    List.foldl
-                        (\setterNode ( acc, state_ ) ->
+                ( instrumentedCases, state2 ) =
+                    List.foldr
+                        (\( pattern, caseExpr ) ( acc, state_ ) ->
                             let
-                                ( fieldNameNode, fieldExprNode ) =
-                                    Elm.Syntax.Node.value setterNode
-
-                                ( instExpr, newState_ ) =
-                                    instrumentExprWithCategory fieldExprNode declarationName "subexpression" state_
-
-                                newSetter : Elm.Syntax.Expression.RecordSetter
-                                newSetter =
-                                    ( fieldNameNode, instExpr )
-
-                                newSetterNode : Node Elm.Syntax.Expression.RecordSetter
-                                newSetterNode =
-                                    Node (Elm.Syntax.Node.range setterNode) newSetter
+                                ( instCaseExpr, newState_ ) =
+                                    instrumentExprHelp caseExpr declarationName (Just "case-branch") state_
                             in
-                            ( newSetterNode :: acc, newState_ )
+                            ( ( pattern, instCaseExpr ) :: acc, newState_ )
                         )
-                        ( [], state )
-                        setters
+                        ( [], state1 )
+                        caseBlock.cases
+
+                newCaseBlock : Elm.Syntax.Expression.CaseBlock
+                newCaseBlock =
+                    { expression = instExpr
+                    , cases = instrumentedCases
+                    }
             in
-            ( Node exprRange (Elm.Syntax.Expression.RecordExpr (List.reverse instrumentedSetters))
-            , newState
+            ( Node exprRange (Elm.Syntax.Expression.CaseExpression newCaseBlock)
+            , state2
             )
 
-        -- For record update expressions, don't track the whole expression - only field values
-        Elm.Syntax.Expression.RecordUpdateExpression name setters ->
+        Elm.Syntax.Expression.LambdaExpression lambda ->
             let
-                ( instrumentedSetters, newState ) =
-                    List.foldl
-                        (\setterNode ( acc, state_ ) ->
-                            let
-                                ( fieldNameNode, fieldExprNode ) =
-                                    Elm.Syntax.Node.value setterNode
-
-                                ( instExpr, newState_ ) =
-                                    instrumentExprWithCategory fieldExprNode declarationName "subexpression" state_
-
-                                newSetter : Elm.Syntax.Expression.RecordSetter
-                                newSetter =
-                                    ( fieldNameNode, instExpr )
-
-                                newSetterNode : Node Elm.Syntax.Expression.RecordSetter
-                                newSetterNode =
-                                    Node (Elm.Syntax.Node.range setterNode) newSetter
-                            in
-                            ( newSetterNode :: acc, newState_ )
-                        )
-                        ( [], state )
-                        setters
-            in
-            ( Node exprRange (Elm.Syntax.Expression.RecordUpdateExpression name (List.reverse instrumentedSetters))
-            , newState
-            )
-
-        -- For parenthesized expressions, don't track the parens - pass through to inner
-        Elm.Syntax.Expression.ParenthesizedExpression inner ->
-            let
-                ( instInner, newState ) =
-                    instrumentExprWithCategory inner declarationName category state
-            in
-            ( Node exprRange (Elm.Syntax.Expression.ParenthesizedExpression instInner)
-            , newState
-            )
-
-        -- For pipe operators, don't track the whole expression - let subexprs decide
-        Elm.Syntax.Expression.OperatorApplication op dir left right ->
-            if op == "<|" || op == "|>" then
-                let
-                    ( instLeft, state1 ) =
-                        instrumentExprWithCategory left declarationName category state
-
-                    ( instRight, state2 ) =
-                        instrumentExprWithCategory right declarationName category state1
-                in
-                ( Node exprRange (Elm.Syntax.Expression.OperatorApplication op dir instLeft instRight)
-                , state2
-                )
-            else
-                let
-                    ( instrumentedInnerExpr, stateAfterRecurse ) =
-                        instrumentExprRecurse exprNode declarationName state
-
-                    ( pointId, newSeed ) =
-                        Random.step PointId.generator stateAfterRecurse.seed
-
-                    moduleFilePath : String
-                    moduleFilePath =
-                        (state.moduleName
-                            |> String.split "."
-                            |> String.join "/"
-                        )
-                            ++ ".elm"
-
-                    metadata : PointMetadata
-                    metadata =
-                        { moduleName = state.moduleName
-                        , moduleFilePath = moduleFilePath
-                        , declarationName = declarationName
-                        , range = exprRange
-                        , category = category
-                        }
-
-                    newState : InstrumentState
-                    newState =
-                        { stateAfterRecurse
-                            | seed = newSeed
-                            , metadata = Dict.insert pointId metadata stateAfterRecurse.metadata
-                        }
-
-                    wrappedExpr : Node Elm.Syntax.Expression.Expression
-                    wrappedExpr =
-                        instrumentedInnerExpr
-                            |> wrapWithTracking pointId exprRange
-                in
-                ( wrappedExpr, newState )
-
-        -- For all other expressions, create metadata with the given category
-        _ ->
-            let
-                ( instrumentedInnerExpr, stateAfterRecurse ) =
-                    instrumentExprRecurse exprNode declarationName state
+                ( instExpr, stateAfterRecurse ) =
+                    instrumentExprHelp lambda.expression declarationName Nothing state
 
                 ( pointId, newSeed ) =
                     Random.step PointId.generator stateAfterRecurse.seed
 
-                -- Convert module name dots to path slashes (e.g., "A.B.C" -> "A/B/C.elm")
-                -- Note: This doesn't include the source directory prefix, which will be added in TypeScript
-                moduleFilePath : String
-                moduleFilePath =
-                    (state.moduleName
-                        |> String.split "."
-                        |> String.join "/"
-                    )
-                        ++ ".elm"
-
                 metadata : PointMetadata
                 metadata =
                     { moduleName = state.moduleName
-                    , moduleFilePath = moduleFilePath
+                    , moduleFilePath = state.moduleFilePath
                     , declarationName = declarationName
                     , range = exprRange
-                    , category = category
+                    , category = "lambda"
                     }
 
                 newState : InstrumentState
                 newState =
                     { stateAfterRecurse
                         | seed = newSeed
-                        , metadata = Dict.insert pointId metadata stateAfterRecurse.metadata
+                        , metadataList = ( pointId, metadata ) :: stateAfterRecurse.metadataList
                     }
 
-                wrappedExpr : Node Elm.Syntax.Expression.Expression
-                wrappedExpr =
-                    instrumentedInnerExpr
-                        |> wrapWithTracking pointId exprRange
+                bodyRange : Range
+                bodyRange =
+                    Elm.Syntax.Node.range lambda.expression
+
+                wrappedBody : Node Elm.Syntax.Expression.Expression
+                wrappedBody =
+                    instExpr
+                        |> wrapWithTracking pointId bodyRange
+
+                newLambda : Elm.Syntax.Expression.Lambda
+                newLambda =
+                    { lambda | expression = wrappedBody }
             in
-            ( wrappedExpr, newState )
+            ( Node exprRange (Elm.Syntax.Expression.LambdaExpression newLambda)
+            , newState
+            )
+
+        Elm.Syntax.Expression.RecordExpr setters ->
+            let
+                ( instrumentedSetters, newState ) =
+                    List.foldr
+                        (\setterNode ( acc, state_ ) ->
+                            let
+                                ( fieldNameNode, fieldExprNode ) =
+                                    Elm.Syntax.Node.value setterNode
+
+                                ( instExpr, newState_ ) =
+                                    instrumentExprHelp fieldExprNode declarationName (Just "subexpression") state_
+
+                                newSetter : Elm.Syntax.Expression.RecordSetter
+                                newSetter =
+                                    ( fieldNameNode, instExpr )
+
+                                newSetterNode : Node Elm.Syntax.Expression.RecordSetter
+                                newSetterNode =
+                                    Node (Elm.Syntax.Node.range setterNode) newSetter
+                            in
+                            ( newSetterNode :: acc, newState_ )
+                        )
+                        ( [], state )
+                        setters
+            in
+            ( Node exprRange (Elm.Syntax.Expression.RecordExpr instrumentedSetters)
+            , newState
+            )
+
+        Elm.Syntax.Expression.ListExpr exprs ->
+            let
+                ( instrumentedExprs, newState ) =
+                    instrumentExprListWithCategory exprs declarationName "subexpression" state
+            in
+            ( Node exprRange (Elm.Syntax.Expression.ListExpr instrumentedExprs)
+            , newState
+            )
+
+        Elm.Syntax.Expression.RecordAccess record field ->
+            let
+                ( instRecord, newState ) =
+                    instrumentExprHelp record declarationName Nothing state
+            in
+            ( Node exprRange (Elm.Syntax.Expression.RecordAccess instRecord field)
+            , newState
+            )
+
+        Elm.Syntax.Expression.RecordUpdateExpression name setters ->
+            let
+                ( instrumentedSetters, newState ) =
+                    List.foldr
+                        (\setterNode ( acc, state_ ) ->
+                            let
+                                ( fieldNameNode, fieldExprNode ) =
+                                    Elm.Syntax.Node.value setterNode
+
+                                ( instExpr, newState_ ) =
+                                    instrumentExprHelp fieldExprNode declarationName (Just "subexpression") state_
+
+                                newSetter : Elm.Syntax.Expression.RecordSetter
+                                newSetter =
+                                    ( fieldNameNode, instExpr )
+
+                                newSetterNode : Node Elm.Syntax.Expression.RecordSetter
+                                newSetterNode =
+                                    Node (Elm.Syntax.Node.range setterNode) newSetter
+                            in
+                            ( newSetterNode :: acc, newState_ )
+                        )
+                        ( [], state )
+                        setters
+            in
+            ( Node exprRange (Elm.Syntax.Expression.RecordUpdateExpression name instrumentedSetters)
+            , newState
+            )
+
+        Elm.Syntax.Expression.UnitExpr ->
+            case mode of
+                Just category ->
+                    maybeAddPoint category
+
+                Nothing ->
+                    doNothing ()
+
+        Elm.Syntax.Expression.FunctionOrValue _ _ ->
+            case mode of
+                Just category ->
+                    maybeAddPoint category
+
+                Nothing ->
+                    doNothing ()
+
+        Elm.Syntax.Expression.PrefixOperator _ ->
+            case mode of
+                Just category ->
+                    maybeAddPoint category
+
+                Nothing ->
+                    doNothing ()
+
+        Elm.Syntax.Expression.Operator _ ->
+            case mode of
+                Just category ->
+                    maybeAddPoint category
+
+                Nothing ->
+                    doNothing ()
+
+        Elm.Syntax.Expression.Integer _ ->
+            case mode of
+                Just category ->
+                    maybeAddPoint category
+
+                Nothing ->
+                    doNothing ()
+
+        Elm.Syntax.Expression.Hex _ ->
+            case mode of
+                Just category ->
+                    maybeAddPoint category
+
+                Nothing ->
+                    doNothing ()
+
+        Elm.Syntax.Expression.Floatable _ ->
+            case mode of
+                Just category ->
+                    maybeAddPoint category
+
+                Nothing ->
+                    doNothing ()
+
+        Elm.Syntax.Expression.Literal _ ->
+            case mode of
+                Just category ->
+                    maybeAddPoint category
+
+                Nothing ->
+                    doNothing ()
+
+        Elm.Syntax.Expression.CharLiteral _ ->
+            case mode of
+                Just category ->
+                    maybeAddPoint category
+
+                Nothing ->
+                    doNothing ()
+
+        Elm.Syntax.Expression.RecordAccessFunction _ ->
+            case mode of
+                Just category ->
+                    maybeAddPoint category
+
+                Nothing ->
+                    doNothing ()
+
+        Elm.Syntax.Expression.GLSLExpression _ ->
+            case mode of
+                Just category ->
+                    maybeAddPoint category
+
+                Nothing ->
+                    doNothing ()
+
 
 {-|
 
@@ -458,315 +593,10 @@ wrapWithTracking pointId exprRange exprNode =
             , expression = exprNode
             }
 
-instrumentExprRecurse :
-    Node Elm.Syntax.Expression.Expression
-    -> String
-    -> InstrumentState
-    -> ( Node Elm.Syntax.Expression.Expression, InstrumentState )
-instrumentExprRecurse exprNode declarationName state =
-    let
-        exprRange : Range
-        exprRange =
-            Elm.Syntax.Node.range exprNode
-
-        doNothing : () -> ( Node Elm.Syntax.Expression.Expression, InstrumentState )
-        doNothing () =
-            ( exprNode, state )
-    in
-    case Elm.Syntax.Node.value exprNode of
-        Elm.Syntax.Expression.Application exprs ->
-            let
-                ( instrumentedExprs, newState ) =
-                    instrumentExprList exprs declarationName state
-            in
-            ( Node exprRange (Elm.Syntax.Expression.Application (List.reverse instrumentedExprs))
-            , newState
-            )
-
-        Elm.Syntax.Expression.OperatorApplication op dir left right ->
-            let
-                ( instLeft, state1 ) =
-                    if op == "&&" || op == "||" then
-                        -- Track the left-hand side subexpression with "subexpression" category
-                        instrumentExprWithCategory left declarationName "subexpression" state
-                    else
-                        instrumentExpr left declarationName state
-
-                ( instRight, state2 ) =
-                    if op == "&&" || op == "||" then
-                        -- Track the right-hand side subexpression with "subexpression" category
-                        instrumentExprWithCategory right declarationName "subexpression" state1
-                    else
-                        instrumentExpr right declarationName state1
-            in
-            ( Node exprRange (Elm.Syntax.Expression.OperatorApplication op dir instLeft instRight)
-            , state2
-            )
-
-        Elm.Syntax.Expression.IfBlock condition thenBranch elseBranch ->
-            let
-                ( instCondition, state1 ) =
-                    instrumentExprWithCategory condition declarationName "subexpression" state
-
-                ( instThen, state2 ) =
-                    instrumentExprWithCategory thenBranch declarationName "if-branch" state1
-
-                ( instElse, state3 ) =
-                    instrumentExprWithCategory elseBranch declarationName "if-branch" state2
-            in
-            ( Node exprRange (Elm.Syntax.Expression.IfBlock instCondition instThen instElse)
-            , state3
-            )
-
-        Elm.Syntax.Expression.Negation inner ->
-            let
-                ( instInner, newState ) =
-                    instrumentExpr inner declarationName state
-            in
-            ( Node exprRange (Elm.Syntax.Expression.Negation instInner)
-            , newState
-            )
-
-        Elm.Syntax.Expression.TupledExpression exprs ->
-            let
-                ( instrumentedExprs, newState ) =
-                    instrumentExprListWithCategory exprs declarationName "subexpression" state
-            in
-            ( Node exprRange (Elm.Syntax.Expression.TupledExpression (List.reverse instrumentedExprs))
-            , newState
-            )
-
-        Elm.Syntax.Expression.ParenthesizedExpression inner ->
-            let
-                ( instInner, newState ) =
-                    instrumentExpr inner declarationName state
-            in
-            ( Node exprRange (Elm.Syntax.Expression.ParenthesizedExpression instInner)
-            , newState
-            )
-
-        Elm.Syntax.Expression.LetExpression letBlock ->
-            let
-                ( instrumentedDecls, state1 ) =
-                    List.foldl
-                        (\declNode ( acc, state_ ) ->
-                            let
-                                ( instDecl, newState_ ) =
-                                    instrumentLetDeclaration declNode declarationName state_
-                            in
-                            ( instDecl :: acc, newState_ )
-                        )
-                        ( [], state )
-                        letBlock.declarations
-
-                -- Track the let-in body with "declaration" category
-                ( instLetExpr, state2 ) =
-                    instrumentExprWithCategory letBlock.expression declarationName "declaration" state1
-
-                newLetBlock : Elm.Syntax.Expression.LetBlock
-                newLetBlock =
-                    { declarations = List.reverse instrumentedDecls
-                    , expression = instLetExpr
-                    }
-            in
-            ( Node exprRange (Elm.Syntax.Expression.LetExpression newLetBlock)
-            , state2
-            )
-
-        Elm.Syntax.Expression.CaseExpression caseBlock ->
-            let
-                ( instExpr, state1 ) =
-                    instrumentExprWithCategory caseBlock.expression declarationName "subexpression" state
-
-                ( instrumentedCases, state2 ) =
-                    List.foldl
-                        (\( pattern, caseExpr ) ( acc, state_ ) ->
-                            let
-                                ( instCaseExpr, newState_ ) =
-                                    instrumentExprWithCategory caseExpr declarationName "case-branch" state_
-                            in
-                            ( ( pattern, instCaseExpr ) :: acc, newState_ )
-                        )
-                        ( [], state1 )
-                        caseBlock.cases
-
-                newCaseBlock : Elm.Syntax.Expression.CaseBlock
-                newCaseBlock =
-                    { expression = instExpr
-                    , cases = List.reverse instrumentedCases
-                    }
-            in
-            ( Node exprRange (Elm.Syntax.Expression.CaseExpression newCaseBlock)
-            , state2
-            )
-
-        Elm.Syntax.Expression.LambdaExpression lambda ->
-            let
-                -- Track lambda body with "lambda" category, but use full lambda range for metadata
-                ( instExpr, stateAfterRecurse ) =
-                    instrumentExpr lambda.expression declarationName state
-
-                ( pointId, newSeed ) =
-                    Random.step PointId.generator stateAfterRecurse.seed
-
-                -- Convert module name dots to path slashes (e.g., "A.B.C" -> "A/B/C.elm")
-                -- Note: This doesn't include the source directory prefix, which will be added in TypeScript
-                moduleFilePath : String
-                moduleFilePath =
-                    (state.moduleName
-                        |> String.split "."
-                        |> String.join "/"
-                    )
-                        ++ ".elm"
-
-                -- Use the full lambda range (exprRange) instead of just the body range
-                metadata : PointMetadata
-                metadata =
-                    { moduleName = state.moduleName
-                    , moduleFilePath = moduleFilePath
-                    , declarationName = declarationName
-                    , range = exprRange
-                    , category = "lambda"
-                    }
-
-                newState : InstrumentState
-                newState =
-                    { stateAfterRecurse
-                        | seed = newSeed
-                        , metadata = Dict.insert pointId metadata stateAfterRecurse.metadata
-                    }
-
-                -- Wrap the body expression with tracking (using body range for wrapping)
-                bodyRange : Range
-                bodyRange =
-                    Elm.Syntax.Node.range lambda.expression
-
-                wrappedBody : Node Elm.Syntax.Expression.Expression
-                wrappedBody =
-                    instExpr
-                        |> wrapWithTracking pointId bodyRange
-
-                newLambda : Elm.Syntax.Expression.Lambda
-                newLambda =
-                    { lambda | expression = wrappedBody }
-            in
-            ( Node exprRange (Elm.Syntax.Expression.LambdaExpression newLambda)
-            , newState
-            )
-
-        Elm.Syntax.Expression.RecordExpr setters ->
-            let
-                ( instrumentedSetters, newState ) =
-                    List.foldl
-                        (\setterNode ( acc, state_ ) ->
-                            let
-                                ( fieldNameNode, fieldExprNode ) =
-                                    Elm.Syntax.Node.value setterNode
-
-                                ( instExpr, newState_ ) =
-                                    instrumentExprWithCategory fieldExprNode declarationName "subexpression" state_
-
-                                newSetter : Elm.Syntax.Expression.RecordSetter
-                                newSetter =
-                                    ( fieldNameNode, instExpr )
-
-                                newSetterNode : Node Elm.Syntax.Expression.RecordSetter
-                                newSetterNode =
-                                    Node (Elm.Syntax.Node.range setterNode) newSetter
-                            in
-                            ( newSetterNode :: acc, newState_ )
-                        )
-                        ( [], state )
-                        setters
-            in
-            ( Node exprRange (Elm.Syntax.Expression.RecordExpr (List.reverse instrumentedSetters))
-            , newState
-            )
-
-        Elm.Syntax.Expression.ListExpr exprs ->
-            let
-                ( instrumentedExprs, newState ) =
-                    instrumentExprListWithCategory exprs declarationName "subexpression" state
-            in
-            ( Node exprRange (Elm.Syntax.Expression.ListExpr (List.reverse instrumentedExprs))
-            , newState
-            )
-
-        Elm.Syntax.Expression.RecordAccess record field ->
-            let
-                ( instRecord, newState ) =
-                    instrumentExpr record declarationName state
-            in
-            ( Node exprRange (Elm.Syntax.Expression.RecordAccess instRecord field)
-            , newState
-            )
-
-        Elm.Syntax.Expression.RecordUpdateExpression name setters ->
-            let
-                ( instrumentedSetters, newState ) =
-                    List.foldl
-                        (\setterNode ( acc, state_ ) ->
-                            let
-                                ( fieldNameNode, fieldExprNode ) =
-                                    Elm.Syntax.Node.value setterNode
-
-                                ( instExpr, newState_ ) =
-                                    instrumentExprWithCategory fieldExprNode declarationName "subexpression" state_
-
-                                newSetter : Elm.Syntax.Expression.RecordSetter
-                                newSetter =
-                                    ( fieldNameNode, instExpr )
-
-                                newSetterNode : Node Elm.Syntax.Expression.RecordSetter
-                                newSetterNode =
-                                    Node (Elm.Syntax.Node.range setterNode) newSetter
-                            in
-                            ( newSetterNode :: acc, newState_ )
-                        )
-                        ( [], state )
-                        setters
-            in
-            ( Node exprRange (Elm.Syntax.Expression.RecordUpdateExpression name (List.reverse instrumentedSetters))
-            , newState
-            )
-
-        Elm.Syntax.Expression.UnitExpr ->
-            doNothing ()
-
-        Elm.Syntax.Expression.FunctionOrValue _ _ ->
-            doNothing ()
-
-        Elm.Syntax.Expression.PrefixOperator _ ->
-            doNothing ()
-
-        Elm.Syntax.Expression.Operator _ ->
-            doNothing ()
-
-        Elm.Syntax.Expression.Integer _ ->
-            doNothing ()
-
-        Elm.Syntax.Expression.Hex _ ->
-            doNothing ()
-
-        Elm.Syntax.Expression.Floatable _ ->
-            doNothing ()
-
-        Elm.Syntax.Expression.Literal _ ->
-            doNothing ()
-
-        Elm.Syntax.Expression.CharLiteral _ ->
-            doNothing ()
-
-        Elm.Syntax.Expression.RecordAccessFunction _ ->
-            doNothing ()
-
-        Elm.Syntax.Expression.GLSLExpression _ ->
-            doNothing ()
-
 
 instrumentExprList : List (Node Elm.Syntax.Expression.Expression) -> String -> InstrumentState -> ( List (Node Elm.Syntax.Expression.Expression), InstrumentState )
 instrumentExprList exprs declarationName state =
-    List.foldl
+    List.foldr
         (\exprNode_ ( acc, state_ ) ->
             let
                 ( instExpr, newState_ ) =
@@ -780,7 +610,7 @@ instrumentExprList exprs declarationName state =
 
 instrumentExprListWithCategory : List (Node Elm.Syntax.Expression.Expression) -> String -> String -> InstrumentState -> ( List (Node Elm.Syntax.Expression.Expression), InstrumentState )
 instrumentExprListWithCategory exprs declarationName category state =
-    List.foldl
+    List.foldr
         (\exprNode_ ( acc, state_ ) ->
             let
                 ( instExpr, newState_ ) =

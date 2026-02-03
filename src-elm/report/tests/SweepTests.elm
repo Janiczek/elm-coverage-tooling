@@ -66,35 +66,35 @@ a =
 """
            , regions =
                 [ -- a && b && c
-                    { range =
+                  { range =
                         { start = { row = 4, column = 5 }
                         , end = { row = 4, column = 16 }
                         }
                   , count = 10
                   }
                 , -- a
-                { range =
+                  { range =
                         { start = { row = 4, column = 5 }
                         , end = { row = 4, column = 6 }
                         }
                   , count = 10
                   }
                 , -- b && c
-                { range =
+                  { range =
                         { start = { row = 4, column = 10 }
                         , end = { row = 4, column = 16 }
                         }
                   , count = 8
                   }
                 , -- b
-                { range =
+                  { range =
                         { start = { row = 4, column = 10 }
                         , end = { row = 4, column = 11 }
                         }
                   , count = 8
                   }
                 , -- c
-                { range =
+                  { range =
                         { start = { row = 4, column = 15 }
                         , end = { row = 4, column = 16 }
                         }
@@ -295,12 +295,12 @@ but we still need this to handle cases where multiple events occur at the exact 
 (which the merge function doesn't handle since it only merges consecutive annotations).
 
 TODO: revisit. We seem to be getting something like:
-    [{ column = 5, count = 10, line = 4 },
-     { column = 10, count = 8, line = 4 },
-     { column = 15, count = 5, line = 4 },
-     { column = 17, count = -1, line = 4 }, -- <----------
-     { column = 17, count = 10, line = 4 }, -- <---------- sus
-     { column = 17, count = 8, line = 4 }]  -- <---------- sus
+[{ column = 5, count = 10, line = 4 },
+{ column = 10, count = 8, line = 4 },
+{ column = 15, count = 5, line = 4 },
+{ column = 17, count = -1, line = 4 }, -- <----------
+{ column = 17, count = 10, line = 4 }, -- <---------- sus
+{ column = 17, count = 8, line = 4 }] -- <---------- sus
 
 -}
 normalizeAnnotations : List Sweep.Annotation -> List Sweep.Annotation

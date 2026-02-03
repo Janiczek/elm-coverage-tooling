@@ -8,20 +8,15 @@ import Test.Coverage
 
 suite : Test
 suite =
-    let
-        _ =
-            Test.Coverage.track
-                200966175
-    in
     describe "All tests"
         [ let
             _ =
-                Test.Coverage.track 27547078
+                Test.Coverage.track 977344
           in
           Foo.fooTest
         , let
             _ =
-                Test.Coverage.track 977344
+                Test.Coverage.track 27547078
           in
           Bar.barTest
         ]

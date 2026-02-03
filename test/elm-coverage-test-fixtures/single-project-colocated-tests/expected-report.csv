@@ -1,5 +1,5 @@
 File,Total covered,Total total,Total %,Declaration covered,Declaration total,Declaration %,Subexpression covered,Subexpression total,Subexpression %,Lambda covered,Lambda total,Lambda %,If-branch covered,If-branch total,If-branch %,Case-branch covered,Case-branch total,Case-branch %
-Total,17,19,89.47,6,8,75,8,8,100,3,3,100,0,0,0,0,0,0
-src/Bar.elm,5,6,83.33,2,3,66.67,2,2,100,1,1,100,0,0,0,0,0,0
-src/Foo.elm,9,10,90,3,4,75,4,4,100,2,2,100,0,0,0,0,0,0
-src/Tests.elm,3,3,100,1,1,100,2,2,100,0,0,0,0,0,0,0,0,0
+Total,8,10,80,3,5,60,2,2,100,3,3,100,0,0,0,0,0,0
+src/Bar.elm,2,3,66.67,1,2,50,0,0,0,1,1,100,0,0,0,0,0,0
+src/Foo.elm,4,5,80,2,3,66.67,0,0,0,2,2,100,0,0,0,0,0,0
+src/Tests.elm,2,2,100,0,0,0,2,2,100,0,0,0,0,0,0,0,0,0

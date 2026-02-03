@@ -8,29 +8,13 @@ import Test.Coverage
 
 suite : Test
 suite =
-    let
-        _ =
-            Test.Coverage.track
-                6585537
-    in
     Test.describe "Foo program tests"
-        [ (let
-            _ =
-                Test.Coverage.track 1001194990
-           in
-           test "divide works"
-          )
-          <|
-            let
-                _ =
-                    Test.Coverage.track
-                        728479469
-            in
+        [ test "divide works" <|
             \_ ->
                 let
                     _ =
                         Test.Coverage.track
-                            119922972
+                            1001194990
                 in
                 Foo.divide 6 2
                     |> Expect.equal 3

@@ -1,14 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert';
 import { resolve, join } from 'path';
-import { readdir, stat, readFile, rm } from 'fs/promises';
+import { readdir, stat, readFile } from 'fs/promises';
 import {
     runCommand,
     readExpectedFile,
     findExpectedReportFiles,
     compareDirectories,
     stripAnsiCodes,
-    copyDirectory,
     checkFileExists,
     findReportFiles,
     groupReportFilesByFormat,
@@ -89,222 +88,49 @@ test('elm-coverage-test e2e fixtures', async (t) => {
                     : ['stdout', ...Array.from(reportsByFormat.keys())])
                 : ['stdout'];
             
+            const firstFormat = formatsToTest[0];
+            
             // Read cmdline file if it exists
             const cmdlineArgs = await readCmdlineArgs(fixturePath);
             
-            // Run the tool for each format and store report content immediately after each run
-            // This ensures we capture the report before the next command run potentially overwrites it
-            const commandResults = new Map<string, { stdout: string; stderr: string; code: number | null }>();
-            const reportContents = new Map<string, { content: string | null; path: string | null; isDirectory: boolean }>();
-            const tempDirectories: string[] = []; // Track temp directories for cleanup
-            let firstFormatResult: { stdout: string; stderr: string; code: number | null } | null = null;
-            let stdoutResult: { stdout: string; stderr: string; code: number | null } | null = null;
-            let capturedCoverageJson: { content: any; exists: boolean } | null = null;
-            
-            for (const format of formatsToTest) {
-                // Build command args
-                const args = buildCommandArgs(format, flags, cmdlineArgs);
-                
-                // Run the command from the project directory
-                const result = await runCommand(binaryPath, args, { cwd: projectPath });
-                commandResults.set(format, result);
-                
-                // Store stdout result separately for return code/stderr checks (matching approval script behavior)
-                if (format === 'stdout') {
-                    stdoutResult = result;
-                }
-                
-                // Store first format result for validations that only run once
-                if (firstFormatResult === null) {
-                    firstFormatResult = result;
-                    // Capture coverage.json after first format run (before it gets overwritten)
-                    if (flags.hasExpectedCoverageJson) {
-                        const actualCoveragePath = join(projectPath, 'elm-stuff', 'coverage.json');
-                        const actualCoverageExists = await checkFileExists(actualCoveragePath);
-                        if (actualCoverageExists) {
-                            const actualCoverageContent = await readFile(actualCoveragePath, 'utf-8');
-                            capturedCoverageJson = {
-                                content: JSON.parse(actualCoverageContent),
-                                exists: true
-                            };
-                        } else {
-                            capturedCoverageJson = {
-                                content: null,
-                                exists: false
-                            };
-                        }
-                    }
-                }
-                
-                // Capture report files for this format immediately after running the command
-                const formatReportFiles = reportsByFormat.get(format) || [];
-                
-                // Skip stdout format files (will be validated separately)
-                if (format !== 'stdout') {
-                    for (const expectedReportFile of formatReportFiles) {
-                        const extension = getFormatExtension(format);
-                        
-                        if (!extension) {
-                            continue;
-                        }
-                        
-                        // Find and read the actual report file(s) immediately after command runs
-                        const elmStuffPath = join(projectPath, 'elm-stuff');
-                        const reportFiles = await findReportFiles(elmStuffPath, extension);
-                        
-                        const reportKey = `${format}:${expectedReportFile}`;
-                        if (format === 'html') {
-                            // HTML reports are directories - copy to temp location to avoid cleanup
-                            if (reportFiles.length > 0) {
-                                // Use a unique temp directory name based on the report key
-                                const tempHtmlReportPath = join(fixturePath, `.temp-${reportKey.replace(/[^a-zA-Z0-9]/g, '-')}`);
-                                try {
-                                    await rm(tempHtmlReportPath, { recursive: true, force: true });
-                                } catch {
-                                    // Doesn't exist, which is fine
-                                }
-                                await copyDirectory(reportFiles[0], tempHtmlReportPath);
-                                tempDirectories.push(tempHtmlReportPath); // Track for cleanup
-                                reportContents.set(reportKey, {
-                                    content: null,
-                                    path: tempHtmlReportPath,
-                                    isDirectory: true
-                                });
-                            } else {
-                                reportContents.set(reportKey, {
-                                    content: null,
-                                    path: null,
-                                    isDirectory: true
-                                });
-                            }
-                        } else {
-                            // Other formats are single files - read and store the content
-                            const content = reportFiles.length > 0 
-                                ? await readFile(reportFiles[0], 'utf-8')
-                                : null;
-                            reportContents.set(reportKey, {
-                                content,
-                                path: reportFiles.length > 0 ? reportFiles[0] : null,
-                                isDirectory: false
-                            });
-                        }
-                    }
-                }
-            }
-            
-            // Now create tests for all reports using the captured content
-            for (const format of formatsToTest) {
-                const formatReportFiles = reportsByFormat.get(format) || [];
-                
-                // Skip stdout format files (will be validated separately)
-                if (format !== 'stdout') {
-                    for (const expectedReportFile of formatReportFiles) {
-                        const extension = getFormatExtension(format);
-                        
-                        if (!extension) {
-                            continue;
-                        }
-                        
-                        const reportKey = `${format}:${expectedReportFile}`;
-                        const reportData = reportContents.get(reportKey);
-                        
-                        // Create a test for each report file
-                        const formatName = format.toUpperCase();
-                        const testName = formatReportFiles.length > 1 
-                            ? `report: ${formatName} (${expectedReportFile})`
-                            : `report: ${formatName}`;
-                        await fixtureTest.test(testName, async () => {
-                            if (format === 'html') {
-                                // HTML reports are directories
-                                if (!reportData || !reportData.path) {
-                                    throw new Error(`No HTML report directory found`);
-                                }
-                                const actualReportDir = reportData.path;
-                                const expectedReportPath = join(fixturePath, expectedReportFile);
-                                // For HTML, expected-report-*.html should be a directory
-                                let expectedReportDir = expectedReportPath;
-                                try {
-                                    const expectedStats = await stat(expectedReportPath);
-                                    if (expectedStats.isDirectory()) {
-                                        expectedReportDir = expectedReportPath;
-                                    } else {
-                                        // Try without .html extension
-                                        expectedReportDir = expectedReportPath.replace(/\.html$/, '');
-                                    }
-                                } catch {
-                                    // Try without .html extension
-                                    expectedReportDir = expectedReportPath.replace(/\.html$/, '');
-                                }
-                                // Check if the directory exists
-                                try {
-                                    const expectedStats = await stat(expectedReportDir);
-                                    if (expectedStats.isDirectory()) {
-                                        await compareDirectories(expectedReportDir, actualReportDir);
-                                    } else {
-                                        throw new Error(`Expected HTML report directory not found: ${expectedReportDir}`);
-                                    }
-                                } catch (error) {
-                                    throw new Error(`Expected HTML report directory not found: ${expectedReportDir}: ${error}`);
-                                }
-                            } else {
-                                // Other formats are single files
-                                if (!reportData || !reportData.content) {
-                                    throw new Error(`No ${format} report file found`);
-                                }
-                                const expectedContent = await readFile(join(fixturePath, expectedReportFile), 'utf-8');
-                                assert.strictEqual(
-                                    reportData.content,
-                                    expectedContent,
-                                    `${format} report mismatch (file: ${expectedReportFile})`
-                                );
-                            }
-                        });
-                    }
-                }
-            }
-            
-            // Get the first format's result for validations that only run once
-            if (firstFormatResult === null) {
-                throw new Error('No command results available');
-            }
-            
-            // Use stdout result for return code/stderr checks (matching approval script behavior)
-            // If stdout wasn't run, fall back to first format result
-            const resultForValidation = stdoutResult || firstFormatResult;
-            
-            // Test: return code
+            // Test: return code — run the tool and assert (duration includes the run)
             await fixtureTest.test('return code', async () => {
+                const args = buildCommandArgs(firstFormat, flags, cmdlineArgs);
+                const result = await runCommand(binaryPath, args, { cwd: projectPath });
                 const expectedReturnCode = await readExpectedFile(fixturePath, 'expected.returnCode');
                 if (expectedReturnCode !== null) {
                     const expectedCode = parseInt(expectedReturnCode.trim(), 10);
                     assert.strictEqual(
-                        resultForValidation!.code,
+                        result.code,
                         expectedCode,
-                        `return code mismatch: expected ${expectedCode}, got ${resultForValidation!.code}`
+                        `return code mismatch: expected ${expectedCode}, got ${result.code}`
                     );
                 }
             });
             
-            // Test: stderr
+            // Test: stderr — run the tool and assert
             await fixtureTest.test('stderr', async () => {
+                const args = buildCommandArgs(firstFormat, flags, cmdlineArgs);
+                const result = await runCommand(binaryPath, args, { cwd: projectPath });
                 const expectedStderr = await readExpectedFile(fixturePath, 'expected.stderr');
                 if (expectedStderr !== null) {
                     assert.strictEqual(
-                        stripAnsiCodes(resultForValidation!.stderr),
+                        stripAnsiCodes(result.stderr),
                         expectedStderr,
                         `stderr mismatch`
                     );
                 }
             });
             
-            // Test: stdout (only for stdout format)
+            // Test: stdout — run the tool with stdout format and assert
             if (formatsToTest.includes('stdout')) {
                 await fixtureTest.test('stdout', async () => {
-                    const stdoutResult = commandResults.get('stdout')!;
+                    const args = buildCommandArgs('stdout', flags, cmdlineArgs);
+                    const result = await runCommand(binaryPath, args, { cwd: projectPath });
                     const expectedStdout = await readExpectedFile(fixturePath, 'expected.stdout');
                     if (expectedStdout !== null) {
                         assert.strictEqual(
-                            stripAnsiCodes(stdoutResult.stdout),
+                            stripAnsiCodes(result.stdout),
                             expectedStdout,
                             `stdout mismatch`
                         );
@@ -312,33 +138,89 @@ test('elm-coverage-test e2e fixtures', async (t) => {
                 });
             }
             
-            // Test: instrumented project
+            // Tests for each report format — each runs the tool, captures report, then asserts
+            for (const format of formatsToTest) {
+                if (format === 'stdout') continue;
+                const formatReportFiles = reportsByFormat.get(format) || [];
+                const extension = getFormatExtension(format);
+                if (!extension) continue;
+                
+                for (const expectedReportFile of formatReportFiles) {
+                    const formatName = format.toUpperCase();
+                    const testName = formatReportFiles.length > 1 
+                        ? `report: ${formatName} (${expectedReportFile})`
+                        : `report: ${formatName}`;
+                    await fixtureTest.test(testName, async () => {
+                        const args = buildCommandArgs(format, flags, cmdlineArgs);
+                        await runCommand(binaryPath, args, { cwd: projectPath });
+                        const elmStuffPath = join(projectPath, 'elm-stuff');
+                        const reportFiles = await findReportFiles(elmStuffPath, extension);
+                        
+                        if (format === 'html') {
+                            if (reportFiles.length === 0) {
+                                throw new Error(`No HTML report directory found`);
+                            }
+                            const actualReportDir = reportFiles[0];
+                            const expectedReportPath = join(fixturePath, expectedReportFile);
+                            let expectedReportDir = expectedReportPath;
+                            try {
+                                const expectedStats = await stat(expectedReportPath);
+                                if (!expectedStats.isDirectory()) {
+                                    expectedReportDir = expectedReportPath.replace(/\.html$/, '');
+                                }
+                            } catch {
+                                expectedReportDir = expectedReportPath.replace(/\.html$/, '');
+                            }
+                            const expectedDirStats = await stat(expectedReportDir);
+                            if (!expectedDirStats.isDirectory()) {
+                                throw new Error(`Expected HTML report directory not found: ${expectedReportDir}`);
+                            }
+                            await compareDirectories(expectedReportDir, actualReportDir);
+                        } else {
+                            if (reportFiles.length === 0) {
+                                throw new Error(`No ${format} report file found`);
+                            }
+                            const actualContent = await readFile(reportFiles[0], 'utf-8');
+                            const expectedContent = await readFile(join(fixturePath, expectedReportFile), 'utf-8');
+                            assert.strictEqual(
+                                actualContent,
+                                expectedContent,
+                                `${format} report mismatch (file: ${expectedReportFile})`
+                            );
+                        }
+                    });
+                }
+            }
+            
+            // Test: instrumented project — run the tool then compare
             if (flags.hasExpectedInstrumentedProject) {
                 await fixtureTest.test('instrumented project', async () => {
+                    const args = buildCommandArgs(firstFormat, flags, cmdlineArgs);
+                    await runCommand(binaryPath, args, { cwd: projectPath });
                     const expectedInstrumentedPath = join(fixturePath, 'expected-instrumented-project');
                     const actualInstrumentedPath = join(projectPath, 'elm-stuff', 'instrumented-project');
                     await compareDirectories(expectedInstrumentedPath, actualInstrumentedPath);
                 });
             }
             
-            // Test: coverage.json (using captured content from first format run)
+            // Test: coverage.json — run the tool then read and assert
             if (flags.hasExpectedCoverageJson) {
                 await fixtureTest.test('coverage.json', async () => {
-                    if (!capturedCoverageJson) {
-                        throw new Error('coverage.json was not captured');
-                    }
-                    if (capturedCoverageJson.exists) {
-                        const expectedCoverageContent = await readFile(join(fixturePath, 'expected-coverage.json'), 'utf-8');
-                        const expectedCoverage = JSON.parse(expectedCoverageContent);
+                    const args = buildCommandArgs(firstFormat, flags, cmdlineArgs);
+                    await runCommand(binaryPath, args, { cwd: projectPath });
+                    const actualCoveragePath = join(projectPath, 'elm-stuff', 'coverage.json');
+                    const actualCoverageExists = await checkFileExists(actualCoveragePath);
+                    const expectedCoverageContent = await readFile(join(fixturePath, 'expected-coverage.json'), 'utf-8');
+                    const expectedCoverage = JSON.parse(expectedCoverageContent);
+                    if (actualCoverageExists) {
+                        const actualCoverageContent = await readFile(actualCoveragePath, 'utf-8');
+                        const actualCoverage = JSON.parse(actualCoverageContent);
                         assert.deepStrictEqual(
-                            capturedCoverageJson.content,
+                            actualCoverage,
                             expectedCoverage,
                             `coverage.json mismatch`
                         );
                     } else {
-                        // If coverage.json doesn't exist, expected should be empty {}
-                        const expectedCoverageContent = await readFile(join(fixturePath, 'expected-coverage.json'), 'utf-8');
-                        const expectedCoverage = JSON.parse(expectedCoverageContent);
                         assert.deepStrictEqual(
                             expectedCoverage,
                             {},
@@ -348,9 +230,11 @@ test('elm-coverage-test e2e fixtures', async (t) => {
                 });
             }
             
-            // Test: metadata.json
+            // Test: metadata.json — run the tool then read and assert
             if (flags.hasExpectedMetadataJson) {
                 await fixtureTest.test('metadata.json', async () => {
+                    const args = buildCommandArgs(firstFormat, flags, cmdlineArgs);
+                    await runCommand(binaryPath, args, { cwd: projectPath });
                     const actualMetadataPath = join(projectPath, 'elm-stuff', 'coverage-metadata.json');
                     const actualMetadataExists = await checkFileExists(actualMetadataPath);
                     if (actualMetadataExists) {
@@ -365,14 +249,6 @@ test('elm-coverage-test e2e fixtures', async (t) => {
                         );
                     }
                 });
-            }
-            
-            for (const tempDir of tempDirectories) {
-                try {
-                    await rm(tempDir, { recursive: true, force: true });
-                } catch {
-                    // Ignore errors during cleanup
-                }
             }
         });
     }

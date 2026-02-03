@@ -6,11 +6,11 @@
     "range": [
       [
         11,
-        10
+        15
       ],
       [
         11,
-        11
+        16
       ]
     ],
     "category": "subexpression"
@@ -18,15 +18,15 @@
   "130830751": {
     "moduleName": "AndExprs",
     "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "fourAnd",
+    "declarationName": "nestedAnd",
     "range": [
       [
-        16,
-        10
+        21,
+        6
       ],
       [
-        16,
-        11
+        21,
+        7
       ]
     ],
     "category": "subexpression"
@@ -34,15 +34,15 @@
   "166758503": {
     "moduleName": "AndExprs",
     "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "fourAnd",
+    "declarationName": "partiallyCoveredAnd",
     "range": [
       [
-        16,
-        10
+        26,
+        5
       ],
       [
-        16,
-        21
+        26,
+        6
       ]
     ],
     "category": "subexpression"
@@ -54,11 +54,11 @@
     "range": [
       [
         11,
-        5
+        10
       ],
       [
         11,
-        6
+        11
       ]
     ],
     "category": "subexpression"
@@ -66,79 +66,31 @@
   "264149502": {
     "moduleName": "AndExprs",
     "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "threeAnd",
+    "declarationName": "fourAnd",
     "range": [
       [
-        11,
-        15
-      ],
-      [
-        11,
-        16
-      ]
-    ],
-    "category": "subexpression"
-  },
-  "276167681": {
-    "moduleName": "AndExprs",
-    "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "nestedAnd",
-    "range": [
-      [
-        21,
+        16,
         5
       ],
       [
-        21,
-        25
+        16,
+        6
       ]
     ],
-    "category": "declaration"
+    "category": "subexpression"
   },
   "293159333": {
     "moduleName": "AndExprs",
     "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "threeAnd",
+    "declarationName": "fourAnd",
     "range": [
       [
-        11,
-        5
+        16,
+        15
       ],
       [
-        11,
+        16,
         16
-      ]
-    ],
-    "category": "declaration"
-  },
-  "363207446": {
-    "moduleName": "AndExprs",
-    "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "nestedAnd",
-    "range": [
-      [
-        21,
-        6
-      ],
-      [
-        21,
-        12
-      ]
-    ],
-    "category": "subexpression"
-  },
-  "433560039": {
-    "moduleName": "AndExprs",
-    "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "nestedAnd",
-    "range": [
-      [
-        21,
-        18
-      ],
-      [
-        21,
-        24
       ]
     ],
     "category": "subexpression"
@@ -166,22 +118,6 @@
     "range": [
       [
         16,
-        5
-      ],
-      [
-        16,
-        6
-      ]
-    ],
-    "category": "subexpression"
-  },
-  "1125738572": {
-    "moduleName": "AndExprs",
-    "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "fourAnd",
-    "range": [
-      [
-        16,
         20
       ],
       [
@@ -191,37 +127,37 @@
     ],
     "category": "subexpression"
   },
-  "1126650764": {
+  "1125738572": {
     "moduleName": "AndExprs",
     "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "fourAnd",
+    "declarationName": "nestedAnd",
     "range": [
       [
-        16,
-        5
+        21,
+        18
       ],
       [
-        16,
-        21
+        21,
+        19
       ]
     ],
-    "category": "declaration"
+    "category": "subexpression"
   },
-  "1210511552": {
+  "1126650764": {
     "moduleName": "AndExprs",
     "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "partiallyCoveredAnd",
     "range": [
       [
         26,
-        5
+        10
       ],
       [
         26,
-        16
+        11
       ]
     ],
-    "category": "declaration"
+    "category": "subexpression"
   },
   "1251956874": {
     "moduleName": "AndExprs",
@@ -242,63 +178,15 @@
   "1329744125": {
     "moduleName": "AndExprs",
     "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "fourAnd",
+    "declarationName": "nestedAnd",
     "range": [
       [
-        16,
-        15
+        21,
+        23
       ],
       [
-        16,
-        21
-      ]
-    ],
-    "category": "subexpression"
-  },
-  "1354194418": {
-    "moduleName": "AndExprs",
-    "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "partiallyCoveredAnd",
-    "range": [
-      [
-        26,
-        10
-      ],
-      [
-        26,
-        11
-      ]
-    ],
-    "category": "subexpression"
-  },
-  "1439603479": {
-    "moduleName": "AndExprs",
-    "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "partiallyCoveredAnd",
-    "range": [
-      [
-        26,
-        5
-      ],
-      [
-        26,
-        6
-      ]
-    ],
-    "category": "subexpression"
-  },
-  "1445186520": {
-    "moduleName": "AndExprs",
-    "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "partiallyCoveredAnd",
-    "range": [
-      [
-        26,
-        10
-      ],
-      [
-        26,
-        16
+        21,
+        24
       ]
     ],
     "category": "subexpression"
@@ -306,20 +194,36 @@
   "1478858240": {
     "moduleName": "AndExprs",
     "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "twoAnd",
+    "declarationName": "threeAnd",
     "range": [
       [
-        6,
+        11,
         5
       ],
       [
-        6,
+        11,
+        6
+      ]
+    ],
+    "category": "subexpression"
+  },
+  "1725827995": {
+    "moduleName": "AndExprs",
+    "moduleFilePath": "src/AndExprs.elm",
+    "declarationName": "fourAnd",
+    "range": [
+      [
+        16,
+        10
+      ],
+      [
+        16,
         11
       ]
     ],
-    "category": "declaration"
+    "category": "subexpression"
   },
-  "1638831174": {
+  "1871913534": {
     "moduleName": "AndExprs",
     "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "nestedAnd",
@@ -335,87 +239,7 @@
     ],
     "category": "subexpression"
   },
-  "1725827995": {
-    "moduleName": "AndExprs",
-    "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "threeAnd",
-    "range": [
-      [
-        11,
-        10
-      ],
-      [
-        11,
-        16
-      ]
-    ],
-    "category": "subexpression"
-  },
-  "1808057903": {
-    "moduleName": "AndExprs",
-    "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "nestedAnd",
-    "range": [
-      [
-        21,
-        23
-      ],
-      [
-        21,
-        24
-      ]
-    ],
-    "category": "subexpression"
-  },
-  "1835917685": {
-    "moduleName": "AndExprs",
-    "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "nestedAnd",
-    "range": [
-      [
-        21,
-        18
-      ],
-      [
-        21,
-        19
-      ]
-    ],
-    "category": "subexpression"
-  },
-  "1871913534": {
-    "moduleName": "AndExprs",
-    "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "fourAnd",
-    "range": [
-      [
-        16,
-        15
-      ],
-      [
-        16,
-        16
-      ]
-    ],
-    "category": "subexpression"
-  },
   "1901138949": {
-    "moduleName": "AndExprs",
-    "moduleFilePath": "src/AndExprs.elm",
-    "declarationName": "nestedAnd",
-    "range": [
-      [
-        21,
-        6
-      ],
-      [
-        21,
-        7
-      ]
-    ],
-    "category": "subexpression"
-  },
-  "1936701389": {
     "moduleName": "AndExprs",
     "moduleFilePath": "src/AndExprs.elm",
     "declarationName": "partiallyCoveredAnd",

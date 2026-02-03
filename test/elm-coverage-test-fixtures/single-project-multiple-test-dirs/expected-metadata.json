@@ -1,63 +1,15 @@
 {
-  "6585537": {
-    "moduleName": "ProgramTests",
-    "moduleFilePath": "tests-program/ProgramTests.elm",
-    "declarationName": "suite",
-    "range": [
-      [
-        9,
-        5
-      ],
-      [
-        14,
-        10
-      ]
-    ],
-    "category": "declaration"
-  },
   "64100879": {
     "moduleName": "UnitTests",
     "moduleFilePath": "tests-unit/UnitTests.elm",
     "declarationName": "suite",
     "range": [
       [
-        10,
-        11
-      ],
-      [
-        10,
-        27
-      ]
-    ],
-    "category": "subexpression"
-  },
-  "90767125": {
-    "moduleName": "UnitTests",
-    "moduleFilePath": "tests-unit/UnitTests.elm",
-    "declarationName": "suite",
-    "range": [
-      [
-        11,
+        15,
         13
       ],
       [
-        13,
-        38
-      ]
-    ],
-    "category": "subexpression"
-  },
-  "119922972": {
-    "moduleName": "ProgramTests",
-    "moduleFilePath": "tests-program/ProgramTests.elm",
-    "declarationName": "suite",
-    "range": [
-      [
-        11,
-        13
-      ],
-      [
-        13,
+        17,
         38
       ]
     ],
@@ -79,22 +31,6 @@
     ],
     "category": "lambda"
   },
-  "500012567": {
-    "moduleName": "UnitTests",
-    "moduleFilePath": "tests-unit/UnitTests.elm",
-    "declarationName": "suite",
-    "range": [
-      [
-        14,
-        11
-      ],
-      [
-        14,
-        32
-      ]
-    ],
-    "category": "subexpression"
-  },
   "583025675": {
     "moduleName": "Foo",
     "moduleFilePath": "src/Foo.elm",
@@ -111,7 +47,7 @@
     ],
     "category": "declaration"
   },
-  "728479469": {
+  "1001194990": {
     "moduleName": "ProgramTests",
     "moduleFilePath": "tests-program/ProgramTests.elm",
     "declarationName": "suite",
@@ -125,71 +61,7 @@
         38
       ]
     ],
-    "category": "subexpression"
-  },
-  "743576369": {
-    "moduleName": "UnitTests",
-    "moduleFilePath": "tests-unit/UnitTests.elm",
-    "declarationName": "suite",
-    "range": [
-      [
-        9,
-        5
-      ],
-      [
-        18,
-        10
-      ]
-    ],
-    "category": "declaration"
-  },
-  "872865296": {
-    "moduleName": "UnitTests",
-    "moduleFilePath": "tests-unit/UnitTests.elm",
-    "declarationName": "suite",
-    "range": [
-      [
-        15,
-        13
-      ],
-      [
-        17,
-        38
-      ]
-    ],
     "category": "lambda"
-  },
-  "1001194990": {
-    "moduleName": "ProgramTests",
-    "moduleFilePath": "tests-program/ProgramTests.elm",
-    "declarationName": "suite",
-    "range": [
-      [
-        10,
-        11
-      ],
-      [
-        10,
-        30
-      ]
-    ],
-    "category": "subexpression"
-  },
-  "1014602865": {
-    "moduleName": "UnitTests",
-    "moduleFilePath": "tests-unit/UnitTests.elm",
-    "declarationName": "suite",
-    "range": [
-      [
-        15,
-        13
-      ],
-      [
-        17,
-        38
-      ]
-    ],
-    "category": "subexpression"
   },
   "1529274156": {
     "moduleName": "Foo",

@@ -21,12 +21,12 @@
     "declarationName": "threeBranches",
     "range": [
       [
-        21,
+        17,
         13
       ],
       [
-        21,
-        37
+        17,
+        48
       ]
     ],
     "category": "case-branch"
@@ -69,11 +69,11 @@
     "declarationName": "fourBranches",
     "range": [
       [
-        30,
+        32,
         13
       ],
       [
-        30,
+        32,
         18
       ]
     ],
@@ -85,11 +85,11 @@
     "declarationName": "partiallyCoveredCase",
     "range": [
       [
-        62,
+        54,
         13
       ],
       [
-        62,
+        54,
         19
       ]
     ],
@@ -117,12 +117,12 @@
     "declarationName": "fourBranches",
     "range": [
       [
-        28,
+        34,
         13
       ],
       [
-        28,
-        19
+        34,
+        20
       ]
     ],
     "category": "case-branch"
@@ -165,12 +165,12 @@
     "declarationName": "twoBranches",
     "range": [
       [
-        10,
+        8,
         13
       ],
       [
-        10,
-        14
+        8,
+        18
       ]
     ],
     "category": "case-branch"
@@ -181,12 +181,12 @@
     "declarationName": "partiallyCoveredCase",
     "range": [
       [
-        60,
+        56,
         13
       ],
       [
-        60,
-        20
+        56,
+        18
       ]
     ],
     "category": "case-branch"
@@ -197,12 +197,12 @@
     "declarationName": "nestedCase",
     "range": [
       [
-        47,
-        13
+        43,
+        21
       ],
       [
-        47,
-        24
+        43,
+        58
       ]
     ],
     "category": "case-branch"
@@ -229,12 +229,12 @@
     "declarationName": "threeBranches",
     "range": [
       [
-        17,
+        21,
         13
       ],
       [
-        17,
-        48
+        21,
+        37
       ]
     ],
     "category": "case-branch"
@@ -261,11 +261,11 @@
     "declarationName": "fourBranches",
     "range": [
       [
-        32,
+        30,
         13
       ],
       [
-        32,
+        30,
         18
       ]
     ],
@@ -277,12 +277,12 @@
     "declarationName": "fourBranches",
     "range": [
       [
-        34,
+        28,
         13
       ],
       [
-        34,
-        20
+        28,
+        19
       ]
     ],
     "category": "case-branch"
@@ -293,17 +293,49 @@
     "declarationName": "partiallyCoveredCase",
     "range": [
       [
-        56,
+        60,
         13
       ],
       [
-        56,
-        18
+        60,
+        20
       ]
     ],
     "category": "case-branch"
   },
   "1681273200": {
+    "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
+    "declarationName": "nestedCase",
+    "range": [
+      [
+        47,
+        13
+      ],
+      [
+        47,
+        24
+      ]
+    ],
+    "category": "case-branch"
+  },
+  "1706182870": {
+    "moduleName": "CaseExprs",
+    "moduleFilePath": "src/CaseExprs.elm",
+    "declarationName": "twoBranches",
+    "range": [
+      [
+        10,
+        13
+      ],
+      [
+        10,
+        14
+      ]
+    ],
+    "category": "case-branch"
+  },
+  "1721362682": {
     "moduleName": "CaseExprs",
     "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "nestedCase",
@@ -319,49 +351,17 @@
     ],
     "category": "subexpression"
   },
-  "1706182870": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "twoBranches",
-    "range": [
-      [
-        8,
-        13
-      ],
-      [
-        8,
-        18
-      ]
-    ],
-    "category": "case-branch"
-  },
-  "1721362682": {
-    "moduleName": "CaseExprs",
-    "moduleFilePath": "src/CaseExprs.elm",
-    "declarationName": "nestedCase",
-    "range": [
-      [
-        43,
-        21
-      ],
-      [
-        43,
-        58
-      ]
-    ],
-    "category": "case-branch"
-  },
   "2007663582": {
     "moduleName": "CaseExprs",
     "moduleFilePath": "src/CaseExprs.elm",
     "declarationName": "partiallyCoveredCase",
     "range": [
       [
-        54,
+        62,
         13
       ],
       [
-        54,
+        62,
         19
       ]
     ],

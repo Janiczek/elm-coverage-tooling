@@ -5,38 +5,6 @@
     "declarationName": "suite",
     "range": [
       [
-        11,
-        11
-      ],
-      [
-        11,
-        27
-      ]
-    ],
-    "category": "subexpression"
-  },
-  "90767125": {
-    "moduleName": "UnitTests",
-    "moduleFilePath": "tests-unit/UnitTests.elm",
-    "declarationName": "suite",
-    "range": [
-      [
-        12,
-        13
-      ],
-      [
-        14,
-        38
-      ]
-    ],
-    "category": "subexpression"
-  },
-  "200864303": {
-    "moduleName": "UnitTests",
-    "moduleFilePath": "tests-unit/UnitTests.elm",
-    "declarationName": "suite",
-    "range": [
-      [
         12,
         13
       ],
@@ -47,53 +15,21 @@
     ],
     "category": "lambda"
   },
-  "500012567": {
-    "moduleName": "UnitTests",
-    "moduleFilePath": "tests-unit/UnitTests.elm",
-    "declarationName": "suite",
-    "range": [
-      [
-        10,
-        5
-      ],
-      [
-        15,
-        10
-      ]
-    ],
-    "category": "declaration"
-  },
-  "651850139": {
-    "moduleName": "IntegrationTests",
-    "moduleFilePath": "tests-integration/IntegrationTests.elm",
-    "declarationName": "suite",
-    "range": [
-      [
-        10,
-        5
-      ],
-      [
-        15,
-        10
-      ]
-    ],
-    "category": "declaration"
-  },
   "731565934": {
     "moduleName": "IntegrationTests",
     "moduleFilePath": "tests-integration/IntegrationTests.elm",
     "declarationName": "suite",
     "range": [
       [
-        11,
-        11
+        12,
+        13
       ],
       [
-        11,
-        29
+        14,
+        52
       ]
     ],
-    "category": "subexpression"
+    "category": "lambda"
   },
   "1295767476": {
     "moduleName": "Bar",
@@ -110,22 +46,6 @@
       ]
     ],
     "category": "declaration"
-  },
-  "1323402811": {
-    "moduleName": "IntegrationTests",
-    "moduleFilePath": "tests-integration/IntegrationTests.elm",
-    "declarationName": "suite",
-    "range": [
-      [
-        12,
-        13
-      ],
-      [
-        14,
-        52
-      ]
-    ],
-    "category": "subexpression"
   },
   "1568525173": {
     "moduleName": "Foo",
@@ -158,22 +78,6 @@
       ]
     ],
     "category": "declaration"
-  },
-  "1977586647": {
-    "moduleName": "IntegrationTests",
-    "moduleFilePath": "tests-integration/IntegrationTests.elm",
-    "declarationName": "suite",
-    "range": [
-      [
-        12,
-        13
-      ],
-      [
-        14,
-        52
-      ]
-    ],
-    "category": "lambda"
   },
   "2010455107": {
     "moduleName": "Foo",

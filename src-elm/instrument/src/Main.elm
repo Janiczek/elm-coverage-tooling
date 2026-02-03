@@ -37,8 +37,6 @@ type alias SuccessOutput =
     }
 
 
-
-
 main : PureMain Input
 main =
     PureFunction.pureFunction

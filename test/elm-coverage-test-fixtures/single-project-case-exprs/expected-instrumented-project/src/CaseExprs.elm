@@ -23,14 +23,14 @@ partiallyCoveredCase x =
         0 ->
             let
                 _ =
-                    Test.Coverage.track 2007663582
+                    Test.Coverage.track 461394542
             in
             "zero"
 
         1 ->
             let
                 _ =
-                    Test.Coverage.track 1514252073
+                    Test.Coverage.track 1074704768
             in
             "one"
 
@@ -44,14 +44,14 @@ partiallyCoveredCase x =
         3 ->
             let
                 _ =
-                    Test.Coverage.track 1074704768
+                    Test.Coverage.track 1514252073
             in
             "three"
 
         _ ->
             let
                 _ =
-                    Test.Coverage.track 461394542
+                    Test.Coverage.track 2007663582
             in
             "many"
 
@@ -69,14 +69,14 @@ nestedCase maybeResult =
             case
                 let
                     _ =
-                        Test.Coverage.track 1681273200
+                        Test.Coverage.track 1721362682
                 in
                 result
             of
                 Ok value ->
                     let
                         _ =
-                            Test.Coverage.track 1721362682
+                            Test.Coverage.track 1090456675
                     in
                     "Got value: " ++ String.fromInt value
 
@@ -90,7 +90,7 @@ nestedCase maybeResult =
         Nothing ->
             let
                 _ =
-                    Test.Coverage.track 1090456675
+                    Test.Coverage.track 1681273200
             in
             "No result"
 
@@ -107,28 +107,28 @@ fourBranches x =
         0 ->
             let
                 _ =
-                    Test.Coverage.track 562876422
+                    Test.Coverage.track 1450626265
             in
             "zero"
 
         1 ->
             let
                 _ =
-                    Test.Coverage.track 390890205
+                    Test.Coverage.track 1428362492
             in
             "one"
 
         2 ->
             let
                 _ =
-                    Test.Coverage.track 1428362492
+                    Test.Coverage.track 390890205
             in
             "two"
 
         _ ->
             let
                 _ =
-                    Test.Coverage.track 1450626265
+                    Test.Coverage.track 562876422
             in
             "other"
 
@@ -145,7 +145,7 @@ threeBranches result =
         Ok value ->
             let
                 _ =
-                    Test.Coverage.track 1247320122
+                    Test.Coverage.track 285136691
             in
             "Success: " ++ String.fromInt value
 
@@ -159,7 +159,7 @@ threeBranches result =
         Err other ->
             let
                 _ =
-                    Test.Coverage.track 285136691
+                    Test.Coverage.track 1247320122
             in
             "Other error: " ++ other
 
@@ -176,14 +176,14 @@ twoBranches maybe =
         Just x ->
             let
                 _ =
-                    Test.Coverage.track 1706182870
+                    Test.Coverage.track 785991995
             in
             x * 2
 
         Nothing ->
             let
                 _ =
-                    Test.Coverage.track 785991995
+                    Test.Coverage.track 1706182870
             in
             0
 

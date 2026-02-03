@@ -1,9 +1,9 @@
 module Report.Stdout exposing (generate)
 
-import Report exposing (CategoryStats, Input, ModuleStats, ReportFile)
+import Report exposing (CategoryStats, ModuleStats, PreparedInput, ReportFile)
 
 
-generate : Input -> { reports : List ReportFile }
+generate : PreparedInput -> { reports : List ReportFile }
 generate input =
     let
         moduleStats : List ModuleStats
@@ -110,12 +110,14 @@ generate input =
         calculateCategoryExprsWidth : String -> (ModuleStats -> CategoryStats) -> Int
         calculateCategoryExprsWidth headerName getCategory =
             let
-                headerWidth = String.length (formatCategoryHeader headerName)
+                headerWidth =
+                    String.length (formatCategoryHeader headerName)
             in
             List.foldl
                 (\stats acc ->
                     let
-                        cat = getCategory stats
+                        cat =
+                            getCategory stats
                     in
                     max acc (String.length (formatExprs cat.covered cat.total))
                 )
@@ -128,7 +130,8 @@ generate input =
             List.foldl
                 (\stats acc ->
                     let
-                        cat = getCategory stats
+                        cat =
+                            getCategory stats
                     in
                     max acc (String.length (formatPercentage cat.percentage))
                 )

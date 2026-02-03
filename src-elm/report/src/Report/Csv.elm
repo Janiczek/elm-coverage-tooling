@@ -1,9 +1,9 @@
 module Report.Csv exposing (generate)
 
-import Report exposing (Input, ModuleStats, CategoryStats, ReportFile)
+import Report exposing (CategoryStats, ModuleStats, PreparedInput, ReportFile)
 
 
-generate : Input -> { reports : List ReportFile }
+generate : PreparedInput -> { reports : List ReportFile }
 generate input =
     let
         moduleStats : List ModuleStats
@@ -13,11 +13,16 @@ generate input =
         addCategoryStats : Report.CategoryStats -> Report.CategoryStats -> Report.CategoryStats
         addCategoryStats a b =
             let
-                total = a.total + b.total
-                covered = a.covered + b.covered
+                total =
+                    a.total + b.total
+
+                covered =
+                    a.covered + b.covered
+
                 percentage =
                     if total > 0 then
                         (toFloat covered / toFloat total) * 100
+
                     else
                         0
             in
@@ -36,6 +41,7 @@ generate input =
                     , coveragePercentage =
                         if acc.totalPoints + moduleStat.totalPoints > 0 then
                             (toFloat (acc.coveredPoints + moduleStat.coveredPoints) / toFloat (acc.totalPoints + moduleStat.totalPoints)) * 100
+
                         else
                             0
                     , declaration = addCategoryStats acc.declaration moduleStat.declaration

@@ -7,24 +7,8 @@ import Test.Coverage
 
 fooTest : Test
 fooTest =
-    let
-        _ =
-            Test.Coverage.track
-                1326150844
-    in
     Test.describe "Foo"
-        [ (let
-            _ =
-                Test.Coverage.track 1529274156
-           in
-           test "add works"
-          )
-          <|
-            let
-                _ =
-                    Test.Coverage.track
-                        1543203695
-            in
+        [ test "add works" <|
             \_ ->
                 let
                     _ =
@@ -33,23 +17,12 @@ fooTest =
                 in
                 add 2 3
                     |> Expect.equal 5
-        , (let
-            _ =
-                Test.Coverage.track 253452108
-           in
-           test "multiply works"
-          )
-          <|
-            let
-                _ =
-                    Test.Coverage.track
-                        943683072
-            in
+        , test "multiply works" <|
             \_ ->
                 let
                     _ =
                         Test.Coverage.track
-                            72245905
+                            1529274156
                 in
                 multiply 2 3
                     |> Expect.equal 6

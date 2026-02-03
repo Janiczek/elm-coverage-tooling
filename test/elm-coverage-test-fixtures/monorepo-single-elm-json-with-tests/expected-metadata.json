@@ -5,17 +5,33 @@
     "declarationName": "main",
     "range": [
       [
+        9,
+        20
+      ],
+      [
+        9,
+        42
+      ]
+    ],
+    "category": "lambda"
+  },
+  "389929308": {
+    "moduleName": "Main",
+    "moduleFilePath": "app/Main.elm",
+    "declarationName": "main",
+    "range": [
+      [
         8,
-        18
+        30
       ],
       [
         8,
-        39
+        38
       ]
     ],
     "category": "subexpression"
   },
-  "389929308": {
+  "440883689": {
     "moduleName": "Main",
     "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
@@ -31,69 +47,21 @@
     ],
     "category": "subexpression"
   },
-  "440883689": {
-    "moduleName": "Main",
-    "moduleFilePath": "app/Main.elm",
-    "declarationName": "main",
-    "range": [
-      [
-        8,
-        18
-      ],
-      [
-        8,
-        39
-      ]
-    ],
-    "category": "lambda"
-  },
   "474255985": {
     "moduleName": "Main",
     "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
     "range": [
       [
-        9,
-        33
+        8,
+        26
       ],
       [
-        9,
-        41
+        8,
+        28
       ]
     ],
     "category": "subexpression"
-  },
-  "559053829": {
-    "moduleName": "Main",
-    "moduleFilePath": "app/Main.elm",
-    "declarationName": "main",
-    "range": [
-      [
-        9,
-        20
-      ],
-      [
-        9,
-        42
-      ]
-    ],
-    "category": "subexpression"
-  },
-  "573104768": {
-    "moduleName": "Main",
-    "moduleFilePath": "app/Main.elm",
-    "declarationName": "main",
-    "range": [
-      [
-        10,
-        27
-      ],
-      [
-        10,
-        41
-      ]
-    ],
-    "category": "lambda"
   },
   "583025675": {
     "moduleName": "Foo",
@@ -117,12 +85,12 @@
     "declarationName": "main",
     "range": [
       [
-        8,
-        30
+        9,
+        33
       ],
       [
-        8,
-        38
+        9,
+        41
       ]
     ],
     "category": "subexpression"
@@ -181,31 +149,15 @@
     "declarationName": "main",
     "range": [
       [
-        8,
-        26
+        10,
+        27
       ],
       [
-        8,
-        28
+        10,
+        41
       ]
     ],
-    "category": "subexpression"
-  },
-  "1862290972": {
-    "moduleName": "Main",
-    "moduleFilePath": "app/Main.elm",
-    "declarationName": "main",
-    "range": [
-      [
-        7,
-        5
-      ],
-      [
-        11,
-        10
-      ]
-    ],
-    "category": "declaration"
+    "category": "lambda"
   },
   "2010455107": {
     "moduleName": "Foo",
@@ -223,34 +175,18 @@
     ],
     "category": "declaration"
   },
-  "2042476985": {
-    "moduleName": "Main",
-    "moduleFilePath": "app/Main.elm",
-    "declarationName": "main",
-    "range": [
-      [
-        10,
-        27
-      ],
-      [
-        10,
-        41
-      ]
-    ],
-    "category": "subexpression"
-  },
   "2100962292": {
     "moduleName": "Main",
     "moduleFilePath": "app/Main.elm",
     "declarationName": "main",
     "range": [
       [
-        9,
-        20
+        8,
+        18
       ],
       [
-        9,
-        42
+        8,
+        39
       ]
     ],
     "category": "lambda"

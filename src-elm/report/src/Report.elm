@@ -1,6 +1,7 @@
-module Report exposing (CategoryStats, Input, ModuleStats, ReportFile, calculateModuleStats)
+module Report exposing (CategoryStats, Input, ModuleStats, PreparedInput, ReportFile, calculateModuleStats, prepareInput)
 
 import Dict exposing (Dict)
+import Dict.Extra
 import PointId exposing (PointId)
 import PointMetadata exposing (PointMetadata)
 import Range exposing (Range)
@@ -36,6 +37,44 @@ type alias Input =
     }
 
 
+{-| Input plus precomputed modules/points by filepath, so we do the groupBy once.
+-}
+type alias PreparedInput =
+    { coverageMetadata : Dict PointId PointMetadata
+    , coverageData : Dict PointId ExecutionCount
+    , sources : Dict Filepath SourceCode
+    , moduleHashes : Dict Filepath ContentHash
+    , moduleNames : Dict Filepath ModuleName
+    , format : String
+    , modulesByFilepath : Dict Filepath (List ( PointId, PointMetadata ))
+    , pointsByFilepath : Dict Filepath (List PointId)
+    }
+
+
+prepareInput : Input -> PreparedInput
+prepareInput input =
+    let
+        modulesByFilepath : Dict Filepath (List ( PointId, PointMetadata ))
+        modulesByFilepath =
+            input.coverageMetadata
+                |> Dict.toList
+                |> Dict.Extra.groupBy (\( _, metadata ) -> metadata.moduleFilePath)
+
+        pointsByFilepath : Dict Filepath (List PointId)
+        pointsByFilepath =
+            Dict.map (\_ pairs -> List.map Tuple.first pairs) modulesByFilepath
+    in
+    { coverageMetadata = input.coverageMetadata
+    , coverageData = input.coverageData
+    , sources = input.sources
+    , moduleHashes = input.moduleHashes
+    , moduleNames = input.moduleNames
+    , format = input.format
+    , modulesByFilepath = modulesByFilepath
+    , pointsByFilepath = pointsByFilepath
+    }
+
+
 type alias ReportFile =
     { filepath : String
     , contents : String
@@ -62,30 +101,13 @@ type alias ModuleStats =
     }
 
 
-calculateModuleStats : Input -> List ModuleStats
+calculateModuleStats : PreparedInput -> List ModuleStats
 calculateModuleStats input =
     let
-        pointsByFilepath : Dict Filepath (List PointId)
-        pointsByFilepath =
-            Dict.foldl
-                (\pointId metadata acc ->
-                    Dict.update metadata.moduleFilePath
-                        (\maybePoints ->
-                            case maybePoints of
-                                Nothing ->
-                                    Just [ pointId ]
-
-                                Just points ->
-                                    Just (pointId :: points)
-                        )
-                        acc
-                )
-                Dict.empty
-                input.coverageMetadata
-
         moduleStatsList : List ModuleStats
         moduleStatsList =
-            Dict.toList pointsByFilepath
+            input.pointsByFilepath
+                |> Dict.toList
                 |> List.map
                     (\( filepath, pointIds ) ->
                         let

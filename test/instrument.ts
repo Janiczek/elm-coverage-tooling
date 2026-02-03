@@ -24,7 +24,8 @@ a =
                     declarationName: 'a',
                     moduleName: 'A',
                     moduleFilePath: 'A.elm',
-                    range: [[5, 5], [5, 8]]
+                    range: [[5, 5], [5, 8]],
+                    category: 'declaration'
                 }]
             ]),
             instrumentedElmSourceCode: `
@@ -59,7 +60,8 @@ a =
                     declarationName: 'a',
                     moduleName: 'A.B.C',
                     moduleFilePath: 'A/B/C.elm',
-                    range: [[5, 5], [5, 8]]
+                    range: [[5, 5], [5, 8]],
+                    category: 'declaration'
                 }]
             ]),
             instrumentedElmSourceCode: `
@@ -107,7 +109,8 @@ a =
                     declarationName: 'a',
                     moduleName: 'A',
                     moduleFilePath: 'A.elm',
-                    range: [[5, 5], [5, 8]]
+                    range: [[5, 5], [5, 8]],
+                    category: 'declaration'
                 }]
             ]),
             instrumentedElmSourceCode: `
@@ -144,7 +147,8 @@ a =
                     declarationName: 'a',
                     moduleName: 'A',
                     moduleFilePath: 'A.elm',
-                    range: [[7, 5], [7, 8]]
+                    range: [[7, 5], [7, 8]],
+                    category: 'declaration'
                 }]
             ]),
             instrumentedElmSourceCode: `

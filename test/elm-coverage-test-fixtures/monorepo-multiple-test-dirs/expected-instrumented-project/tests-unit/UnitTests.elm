@@ -8,29 +8,13 @@ import Test.Coverage
 
 suite : Test
 suite =
-    let
-        _ =
-            Test.Coverage.track
-                500012567
-    in
     Test.describe "Foo unit tests"
-        [ (let
-            _ =
-                Test.Coverage.track 64100879
-           in
-           test "add works"
-          )
-          <|
-            let
-                _ =
-                    Test.Coverage.track
-                        90767125
-            in
+        [ test "add works" <|
             \_ ->
                 let
                     _ =
                         Test.Coverage.track
-                            200864303
+                            64100879
                 in
                 Foo.add 2 3
                     |> Expect.equal 5

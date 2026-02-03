@@ -14,8 +14,6 @@ import Report.Stdout
 import Test exposing (Test)
 
 
-
-
 type alias TestCase =
     { name : String
     , input : Input
@@ -55,10 +53,12 @@ suite =
                 }
            , checkOutput =
                 \output ->
-                    List.length output.reports == 1
+                    List.length output.reports
+                        == 1
                         && (case List.head output.reports of
                                 Just report ->
-                                    report.filepath == "coverage.txt"
+                                    report.filepath
+                                        == "coverage.txt"
                                         && String.contains "File" report.contents
                                         && String.contains "Total" report.contents
                                         && String.contains "1/2" report.contents
@@ -153,7 +153,8 @@ a = 1""" ) ]
                 }
            , checkOutput =
                 \output ->
-                    List.length output.reports >= 2
+                    List.length output.reports
+                        >= 2
                         && List.any (\r -> r.filepath == "index.html") output.reports
                         && List.any (\r -> r.filepath == "src/A.html") output.reports
                         && (case List.filter (\r -> r.filepath == "index.html") output.reports of
@@ -194,7 +195,8 @@ a = 1""" ) ]
                 }
            , checkOutput =
                 \output ->
-                    List.length output.reports >= 3
+                    List.length output.reports
+                        >= 3
                         && List.any (\r -> r.filepath == "index.html") output.reports
                         && List.any (\r -> r.filepath == "src/A.html") output.reports
                         && List.any (\r -> r.filepath == "src/B.html") output.reports
@@ -210,11 +212,14 @@ a = 1""" ) ]
                 }
            , checkOutput =
                 \output ->
-                    List.length output.reports == 1
+                    List.length output.reports
+                        == 1
                         && (case List.head output.reports of
                                 Just report ->
-                                    report.filepath == "coverage.lcov"
-                                        && report.contents == ""
+                                    report.filepath
+                                        == "coverage.lcov"
+                                        && report.contents
+                                        == ""
 
                                 Nothing ->
                                     False
@@ -249,10 +254,12 @@ a = 1""" ) ]
                 }
            , checkOutput =
                 \output ->
-                    List.length output.reports == 1
+                    List.length output.reports
+                        == 1
                         && (case List.head output.reports of
                                 Just report ->
-                                    report.filepath == "coverage.lcov"
+                                    report.filepath
+                                        == "coverage.lcov"
                                         && String.contains "SF:src/A.elm" report.contents
                                         && String.contains "DA:" report.contents
                                         && String.contains "LF:" report.contents
@@ -274,10 +281,12 @@ a = 1""" ) ]
                 }
            , checkOutput =
                 \output ->
-                    List.length output.reports == 1
+                    List.length output.reports
+                        == 1
                         && (case List.head output.reports of
                                 Just report ->
-                                    report.filepath == "coverage.csv"
+                                    report.filepath
+                                        == "coverage.csv"
                                         && String.contains "File,Total covered,Total total,Total %" report.contents
                                         && String.contains "Total,0,0,0" report.contents
 
@@ -322,10 +331,12 @@ a = 1""" ) ]
                 }
            , checkOutput =
                 \output ->
-                    List.length output.reports == 1
+                    List.length output.reports
+                        == 1
                         && (case List.head output.reports of
                                 Just report ->
-                                    report.filepath == "coverage.csv"
+                                    report.filepath
+                                        == "coverage.csv"
                                         && String.contains "File,Total covered,Total total,Total %" report.contents
                                         && String.contains "Total,2,3," report.contents
                                         && String.contains "src/A.elm,1,2," report.contents
@@ -364,10 +375,12 @@ a = 1""" ) ]
                 }
            , checkOutput =
                 \output ->
-                    List.length output.reports == 1
+                    List.length output.reports
+                        == 1
                         && (case List.head output.reports of
                                 Just report ->
-                                    report.filepath == "stdout"
+                                    report.filepath
+                                        == "stdout"
                                         && String.contains "File" report.contents
                                         && String.contains "Total" report.contents
                                         && String.contains "1/2" report.contents
@@ -388,22 +401,25 @@ testCase tc =
     Test.test tc.name <|
         \() ->
             let
+                prepared =
+                    Report.prepareInput tc.input
+
                 result =
                     case fromString tc.input.format of
                         Just Html ->
-                            Report.Html.generate tc.input
+                            Report.Html.generate prepared
 
                         Just Plaintext ->
-                            Report.Plaintext.generate tc.input
+                            Report.Plaintext.generate prepared
 
                         Just Stdout ->
-                            Report.Stdout.generate tc.input
+                            Report.Stdout.generate prepared
 
                         Just Lcov ->
-                            Report.Lcov.generate tc.input
+                            Report.Lcov.generate prepared
 
                         Just Csv ->
-                            Report.Csv.generate tc.input
+                            Report.Csv.generate prepared
 
                         Nothing ->
                             { reports = [] }

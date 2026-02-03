@@ -39,6 +39,7 @@ a =
             Test.Coverage.track 154242004
     in
     123
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -54,7 +55,7 @@ a =
                     , contentHash = 4167962317
                     }
            }
-        ,  { name = "compound module name"
+         , { name = "compound module name"
            , input = """
 module A.B.C exposing (a)
 
@@ -77,6 +78,7 @@ a =
             Test.Coverage.track 1762450980
     in
     123
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -115,6 +117,7 @@ a () =
             Test.Coverage.track 154242004
     in
     123
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -153,6 +156,7 @@ a =
             Test.Coverage.track 154242004
     in
     1 + 2
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -190,10 +194,6 @@ import Test.Coverage
 a : Int
 a =
     if
-        let
-            _ =
-                Test.Coverage.track 107558697
-        in
         (let
             _ =
                 Test.Coverage.track 154242004
@@ -209,16 +209,17 @@ a =
     then
         let
             _ =
-                Test.Coverage.track 1885435985
+                Test.Coverage.track 107558697
         in
         5
 
     else
         let
             _ =
-                Test.Coverage.track 434548591
+                Test.Coverage.track 1885435985
         in
         6
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -226,8 +227,8 @@ a =
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 5, column = 8 }, end = { row = 5, column = 21 } }
-                                , category = "subexpression"
+                                , range = { start = { row = 6, column = 9 }, end = { row = 6, column = 10 } }
+                                , category = "if-branch"
                                 }
                               )
                             , ( 154242004
@@ -247,14 +248,6 @@ a =
                                 }
                               )
                             , ( 1885435985
-                              , { moduleName = "A"
-                                , moduleFilePath = "A.elm"
-                                , declarationName = "a"
-                                , range = { start = { row = 6, column = 9 }, end = { row = 6, column = 10 } }
-                                , category = "if-branch"
-                                }
-                              )
-                            , ( 434548591
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
@@ -297,7 +290,7 @@ a =
         1 ->
             let
                 _ =
-                    Test.Coverage.track 1751612961
+                    Test.Coverage.track 1885435985
             in
             100
 
@@ -311,9 +304,10 @@ a =
         _ ->
             let
                 _ =
-                    Test.Coverage.track 1885435985
+                    Test.Coverage.track 1751612961
             in
             0
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -337,7 +331,7 @@ a =
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 6, column = 14 }, end = { row = 6, column = 17 } }
+                                , range = { start = { row = 8, column = 15 }, end = { row = 8, column = 16 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -345,7 +339,7 @@ a =
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 8, column = 15 }, end = { row = 8, column = 16 } }
+                                , range = { start = { row = 6, column = 14 }, end = { row = 6, column = 17 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -435,10 +429,6 @@ import Test.Coverage
 
 a b c =
     if
-        let
-            _ =
-                Test.Coverage.track 107558697
-        in
         (let
             _ =
                 Test.Coverage.track 154242004
@@ -454,38 +444,34 @@ a b c =
     then
         let
             _ =
-                Test.Coverage.track 1885435985
+                Test.Coverage.track 107558697
         in
         ()
 
     else if
-        let
-            _ =
-                Test.Coverage.track 1045688889
-        in
         (let
             _ =
-                Test.Coverage.track 434548591
+                Test.Coverage.track 1885435985
          in
          b == 2
         )
             || (let
                     _ =
-                        Test.Coverage.track 1004572879
+                        Test.Coverage.track 434548591
                 in
                 c == 2
                )
     then
         let
             _ =
-                Test.Coverage.track 1642697927
+                Test.Coverage.track 1004572879
         in
         ()
 
     else
         let
             _ =
-                Test.Coverage.track 1405027598
+                Test.Coverage.track 1045688889
         in
         ()
 
@@ -496,8 +482,8 @@ a b c =
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 4, column = 8 }, end = { row = 4, column = 24 } }
-                                , category = "subexpression"
+                                , range = { start = { row = 5, column = 9 }, end = { row = 5, column = 11 } }
+                                , category = "if-branch"
                                 }
                               )
                             , ( 154242004
@@ -512,7 +498,7 @@ a b c =
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 6, column = 13 }, end = { row = 6, column = 19 } }
+                                , range = { start = { row = 6, column = 23 }, end = { row = 6, column = 29 } }
                                 , category = "subexpression"
                                 }
                               )
@@ -520,16 +506,16 @@ a b c =
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 6, column = 23 }, end = { row = 6, column = 29 } }
-                                , category = "subexpression"
+                                , range = { start = { row = 7, column = 9 }, end = { row = 7, column = 11 } }
+                                , category = "if-branch"
                                 }
                               )
                             , ( 1045688889
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 6, column = 13 }, end = { row = 6, column = 29 } }
-                                , category = "subexpression"
+                                , range = { start = { row = 9, column = 9 }, end = { row = 9, column = 11 } }
+                                , category = "if-branch"
                                 }
                               )
                             , ( 1751612961
@@ -544,32 +530,8 @@ a b c =
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "a"
-                                , range = { start = { row = 5, column = 9 }, end = { row = 5, column = 11 } }
-                                , category = "if-branch"
-                                }
-                              )
-                            , ( 1642697927
-                              , { moduleName = "A"
-                                , moduleFilePath = "A.elm"
-                                , declarationName = "a"
-                                , range = { start = { row = 7, column = 9 }, end = { row = 7, column = 11 } }
-                                , category = "if-branch"
-                                }
-                              )
-                            , ( 1885435985
-                              , { moduleName = "A"
-                                , moduleFilePath = "A.elm"
-                                , declarationName = "a"
-                                , range = { start = { row = 5, column = 9 }, end = { row = 5, column = 11 } }
-                                , category = "if-branch"
-                                }
-                              )
-                            , ( 1405027598
-                              , { moduleName = "A"
-                                , moduleFilePath = "A.elm"
-                                , declarationName = "a"
-                                , range = { start = { row = 9, column = 9 }, end = { row = 9, column = 11 } }
-                                , category = "if-branch"
+                                , range = { start = { row = 6, column = 13 }, end = { row = 6, column = 19 } }
+                                , category = "subexpression"
                                 }
                               )
                             ]
@@ -630,7 +592,7 @@ nestedCaseOf maybeResult =
             case
                 let
                     _ =
-                        Test.Coverage.track 1615377089
+                        Test.Coverage.track 353199476
                 in
                 result
             of
@@ -638,21 +600,21 @@ nestedCaseOf maybeResult =
                     case
                         let
                             _ =
-                                Test.Coverage.track 353199476
+                                Test.Coverage.track 1161055252
                         in
                         value
                     of
                         0 ->
                             let
                                 _ =
-                                    Test.Coverage.track 2069063037
+                                    Test.Coverage.track 960691989
                             in
                             "zero"
 
                         1 ->
                             let
                                 _ =
-                                    Test.Coverage.track 1161055252
+                                    Test.Coverage.track 2130358651
                             in
                             "one"
 
@@ -666,16 +628,17 @@ nestedCaseOf maybeResult =
                 Err msg ->
                     let
                         _ =
-                            Test.Coverage.track 2130358651
+                            Test.Coverage.track 2069063037
                     in
                     "error: " ++ msg
 
         Nothing ->
             let
                 _ =
-                    Test.Coverage.track 960691989
+                    Test.Coverage.track 1615377089
             in
             "nothing"
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -683,7 +646,7 @@ nestedCaseOf maybeResult =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "nestedCaseOf"
-                                , range = { start = { row = 9, column = 26 }, end = { row = 9, column = 31 } }
+                                , range = { start = { row = 7, column = 18 }, end = { row = 7, column = 24 } }
                                 , category = "subexpression"
                                 }
                               )
@@ -699,7 +662,7 @@ nestedCaseOf maybeResult =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "nestedCaseOf"
-                                , range = { start = { row = 19, column = 13 }, end = { row = 19, column = 22 } }
+                                , range = { start = { row = 11, column = 29 }, end = { row = 11, column = 35 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -707,8 +670,8 @@ nestedCaseOf maybeResult =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "nestedCaseOf"
-                                , range = { start = { row = 13, column = 29 }, end = { row = 13, column = 34 } }
-                                , category = "case-branch"
+                                , range = { start = { row = 9, column = 26 }, end = { row = 9, column = 31 } }
+                                , category = "subexpression"
                                 }
                               )
                             , ( 1337164990
@@ -723,15 +686,15 @@ nestedCaseOf maybeResult =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "nestedCaseOf"
-                                , range = { start = { row = 7, column = 18 }, end = { row = 7, column = 24 } }
-                                , category = "subexpression"
+                                , range = { start = { row = 19, column = 13 }, end = { row = 19, column = 22 } }
+                                , category = "case-branch"
                                 }
                               )
                             , ( 2069063037
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "nestedCaseOf"
-                                , range = { start = { row = 11, column = 29 }, end = { row = 11, column = 35 } }
+                                , range = { start = { row = 17, column = 21 }, end = { row = 17, column = 37 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -739,7 +702,7 @@ nestedCaseOf maybeResult =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "nestedCaseOf"
-                                , range = { start = { row = 17, column = 21 }, end = { row = 17, column = 37 } }
+                                , range = { start = { row = 13, column = 29 }, end = { row = 13, column = 34 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -785,14 +748,14 @@ caseInLet maybeX y =
                 Just val ->
                     let
                         _ =
-                            Test.Coverage.track 1615377089
+                            Test.Coverage.track 353199476
                     in
                     val
 
                 Nothing ->
                     let
                         _ =
-                            Test.Coverage.track 353199476
+                            Test.Coverage.track 1615377089
                     in
                     0
     in
@@ -801,6 +764,7 @@ caseInLet maybeX y =
             Test.Coverage.track 2069063037
     in
     x + y
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -808,7 +772,7 @@ caseInLet maybeX y =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "caseInLet"
-                                , range = { start = { row = 11, column = 21 }, end = { row = 11, column = 22 } }
+                                , range = { start = { row = 9, column = 21 }, end = { row = 9, column = 24 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -824,7 +788,7 @@ caseInLet maybeX y =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "caseInLet"
-                                , range = { start = { row = 9, column = 21 }, end = { row = 9, column = 24 } }
+                                , range = { start = { row = 11, column = 21 }, end = { row = 11, column = 22 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -892,6 +856,7 @@ ifInLet flag value =
             Test.Coverage.track 2069063037
     in
     value * multiplier
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -980,21 +945,21 @@ complexNested maybeValue flag =
             case
                 let
                     _ =
-                        Test.Coverage.track 357133973
+                        Test.Coverage.track 182652811
                 in
                 maybeValue
             of
                 Just x ->
                     let
                         _ =
-                            Test.Coverage.track 1615377089
+                            Test.Coverage.track 798163806
                     in
                     x
 
                 Nothing ->
                     let
                         _ =
-                            Test.Coverage.track 353199476
+                            Test.Coverage.track 431196966
                     in
                     0
 
@@ -1002,35 +967,35 @@ complexNested maybeValue flag =
             if
                 let
                     _ =
-                        Test.Coverage.track 2069063037
+                        Test.Coverage.track 357133973
                 in
                 flag
             then
                 case
                     let
                         _ =
-                            Test.Coverage.track 1161055252
+                            Test.Coverage.track 1615377089
                     in
                     value
                 of
                     0 ->
                         let
                             _ =
-                                Test.Coverage.track 1337164990
+                                Test.Coverage.track 1161055252
                         in
                         "zero with flag"
 
                     1 ->
                         let
                             _ =
-                                Test.Coverage.track 2130358651
+                                Test.Coverage.track 2069063037
                         in
                         "one with flag"
 
                     _ ->
                         let
                             _ =
-                                Test.Coverage.track 960691989
+                                Test.Coverage.track 353199476
                         in
                         "other with flag"
 
@@ -1038,28 +1003,28 @@ complexNested maybeValue flag =
                 case
                     let
                         _ =
-                            Test.Coverage.track 1221367523
+                            Test.Coverage.track 1337164990
                     in
                     value
                 of
                     0 ->
                         let
                             _ =
-                                Test.Coverage.track 182652811
+                                Test.Coverage.track 1221367523
                         in
                         "zero without flag"
 
                     1 ->
                         let
                             _ =
-                                Test.Coverage.track 431196966
+                                Test.Coverage.track 960691989
                         in
                         "one without flag"
 
                     _ ->
                         let
                             _ =
-                                Test.Coverage.track 798163806
+                                Test.Coverage.track 2130358651
                         in
                         "other without flag"
     in
@@ -1068,18 +1033,11 @@ complexNested maybeValue flag =
             Test.Coverage.track 421798468
     in
     description
+
 """
                     , coverageMetadata =
                         Dict.fromList
-                            [ ( 353199476
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "complexNested"
-                                , range = { start = { row = 11, column = 21 }, end = { row = 11, column = 22 } }
-                                , category = "case-branch"
-                                }
-                              )
-                            , ( 357133973
+                            [ ( 182652811
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "complexNested"
@@ -1087,20 +1045,20 @@ complexNested maybeValue flag =
                                 , category = "subexpression"
                                 }
                               )
-                            , ( 431196966
+                            , ( 353199476
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "complexNested"
-                                , range = { start = { row = 27, column = 25 }, end = { row = 27, column = 43 } }
+                                , range = { start = { row = 21, column = 25 }, end = { row = 21, column = 42 } }
                                 , category = "case-branch"
                                 }
                               )
-                            , ( 798163806
+                            , ( 357133973
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "complexNested"
-                                , range = { start = { row = 29, column = 25 }, end = { row = 29, column = 45 } }
-                                , category = "case-branch"
+                                , range = { start = { row = 14, column = 16 }, end = { row = 14, column = 20 } }
+                                , category = "subexpression"
                                 }
                               )
                             , ( 421798468
@@ -1111,39 +1069,15 @@ complexNested maybeValue flag =
                                 , category = "declaration"
                                 }
                               )
-                            , ( 960691989
+                            , ( 431196966
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "complexNested"
-                                , range = { start = { row = 21, column = 25 }, end = { row = 21, column = 42 } }
+                                , range = { start = { row = 11, column = 21 }, end = { row = 11, column = 22 } }
                                 , category = "case-branch"
                                 }
                               )
-                            , ( 1161055252
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "complexNested"
-                                , range = { start = { row = 15, column = 22 }, end = { row = 15, column = 27 } }
-                                , category = "subexpression"
-                                }
-                              )
-                            , ( 1221367523
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "complexNested"
-                                , range = { start = { row = 23, column = 22 }, end = { row = 23, column = 27 } }
-                                , category = "subexpression"
-                                }
-                              )
-                            , ( 1337164990
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "complexNested"
-                                , range = { start = { row = 17, column = 25 }, end = { row = 17, column = 41 } }
-                                , category = "case-branch"
-                                }
-                              )
-                            , ( 1615377089
+                            , ( 798163806
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "complexNested"
@@ -1151,15 +1085,47 @@ complexNested maybeValue flag =
                                 , category = "case-branch"
                                 }
                               )
-                            , ( 2069063037
+                            , ( 960691989
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "complexNested"
-                                , range = { start = { row = 14, column = 16 }, end = { row = 14, column = 20 } }
+                                , range = { start = { row = 27, column = 25 }, end = { row = 27, column = 43 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 1161055252
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 17, column = 25 }, end = { row = 17, column = 41 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 1221367523
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 25, column = 25 }, end = { row = 25, column = 44 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 1337164990
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 23, column = 22 }, end = { row = 23, column = 27 } }
                                 , category = "subexpression"
                                 }
                               )
-                            , ( 2130358651
+                            , ( 1615377089
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "complexNested"
+                                , range = { start = { row = 15, column = 22 }, end = { row = 15, column = 27 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 2069063037
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "complexNested"
@@ -1167,11 +1133,11 @@ complexNested maybeValue flag =
                                 , category = "case-branch"
                                 }
                               )
-                            , ( 182652811
+                            , ( 2130358651
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "complexNested"
-                                , range = { start = { row = 25, column = 25 }, end = { row = 25, column = 44 } }
+                                , range = { start = { row = 29, column = 25 }, end = { row = 29, column = 45 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -1252,6 +1218,7 @@ ifInIf flag1 flag2 =
                 Test.Coverage.track 2130358651
         in
         "both false"
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -1271,22 +1238,6 @@ ifInIf flag1 flag2 =
                                 , category = "subexpression"
                                 }
                               )
-                            , ( 1615377089
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "ifInIf"
-                                , range = { start = { row = 6, column = 12 }, end = { row = 6, column = 17 } }
-                                , category = "subexpression"
-                                }
-                              )
-                            , ( 2069063037
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "ifInIf"
-                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 25 } }
-                                , category = "if-branch"
-                                }
-                              )
                             , ( 1161055252
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
@@ -1300,6 +1251,22 @@ ifInIf flag1 flag2 =
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "ifInIf"
                                 , range = { start = { row = 12, column = 13 }, end = { row = 12, column = 26 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1615377089
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "ifInIf"
+                                , range = { start = { row = 6, column = 12 }, end = { row = 6, column = 17 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 2069063037
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "ifInIf"
+                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 25 } }
                                 , category = "if-branch"
                                 }
                               )
@@ -1361,14 +1328,14 @@ caseInIf flag maybeValue =
             Just x ->
                 let
                     _ =
-                        Test.Coverage.track 353199476
+                        Test.Coverage.track 2069063037
                 in
                 "flag true, value: " ++ String.fromInt x
 
             Nothing ->
                 let
                     _ =
-                        Test.Coverage.track 2069063037
+                        Test.Coverage.track 353199476
                 in
                 "flag true, no value"
 
@@ -1383,16 +1350,17 @@ caseInIf flag maybeValue =
             Just x ->
                 let
                     _ =
-                        Test.Coverage.track 1337164990
+                        Test.Coverage.track 2130358651
                 in
                 "flag false, value: " ++ String.fromInt x
 
             Nothing ->
                 let
                     _ =
-                        Test.Coverage.track 2130358651
+                        Test.Coverage.track 1337164990
                 in
                 "flag false, no value"
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -1400,7 +1368,7 @@ caseInIf flag maybeValue =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "caseInIf"
-                                , range = { start = { row = 8, column = 17 }, end = { row = 8, column = 57 } }
+                                , range = { start = { row = 10, column = 17 }, end = { row = 10, column = 38 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -1424,7 +1392,7 @@ caseInIf flag maybeValue =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "caseInIf"
-                                , range = { start = { row = 14, column = 17 }, end = { row = 14, column = 58 } }
+                                , range = { start = { row = 16, column = 17 }, end = { row = 16, column = 39 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -1440,7 +1408,7 @@ caseInIf flag maybeValue =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "caseInIf"
-                                , range = { start = { row = 10, column = 17 }, end = { row = 10, column = 38 } }
+                                , range = { start = { row = 8, column = 17 }, end = { row = 8, column = 57 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -1448,7 +1416,7 @@ caseInIf flag maybeValue =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "caseInIf"
-                                , range = { start = { row = 16, column = 17 }, end = { row = 16, column = 39 } }
+                                , range = { start = { row = 14, column = 17 }, end = { row = 14, column = 58 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -1496,14 +1464,14 @@ letInIf flag value =
             multiplier =
                 let
                     _ =
-                        Test.Coverage.track 1615377089
+                        Test.Coverage.track 353199476
                 in
                 2
 
             offset =
                 let
                     _ =
-                        Test.Coverage.track 353199476
+                        Test.Coverage.track 1615377089
                 in
                 10
         in
@@ -1518,14 +1486,14 @@ letInIf flag value =
             multiplier =
                 let
                     _ =
-                        Test.Coverage.track 1161055252
+                        Test.Coverage.track 1337164990
                 in
                 1
 
             offset =
                 let
                     _ =
-                        Test.Coverage.track 1337164990
+                        Test.Coverage.track 1161055252
                 in
                 0
         in
@@ -1534,6 +1502,7 @@ letInIf flag value =
                 Test.Coverage.track 2130358651
         in
         value * multiplier + offset
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -1541,7 +1510,7 @@ letInIf flag value =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "letInIf"
-                                , range = { start = { row = 8, column = 22 }, end = { row = 8, column = 24 } }
+                                , range = { start = { row = 7, column = 26 }, end = { row = 7, column = 27 } }
                                 , category = "declaration"
                                 }
                               )
@@ -1557,7 +1526,7 @@ letInIf flag value =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "letInIf"
-                                , range = { start = { row = 13, column = 26 }, end = { row = 13, column = 27 } }
+                                , range = { start = { row = 14, column = 22 }, end = { row = 14, column = 23 } }
                                 , category = "declaration"
                                 }
                               )
@@ -1565,7 +1534,7 @@ letInIf flag value =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "letInIf"
-                                , range = { start = { row = 14, column = 22 }, end = { row = 14, column = 23 } }
+                                , range = { start = { row = 13, column = 26 }, end = { row = 13, column = 27 } }
                                 , category = "declaration"
                                 }
                               )
@@ -1573,7 +1542,7 @@ letInIf flag value =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "letInIf"
-                                , range = { start = { row = 7, column = 26 }, end = { row = 7, column = 27 } }
+                                , range = { start = { row = 8, column = 22 }, end = { row = 8, column = 24 } }
                                 , category = "declaration"
                                 }
                               )
@@ -1633,29 +1602,30 @@ ifInCase maybeFlag value =
             if
                 let
                     _ =
-                        Test.Coverage.track 1615377089
+                        Test.Coverage.track 353199476
                 in
                 flag
             then
                 let
                     _ =
-                        Test.Coverage.track 353199476
+                        Test.Coverage.track 2069063037
                 in
                 "flag is true, value: " ++ String.fromInt value
 
             else
                 let
                     _ =
-                        Test.Coverage.track 2069063037
+                        Test.Coverage.track 1161055252
                 in
                 "flag is false, value: " ++ String.fromInt value
 
         Nothing ->
             let
                 _ =
-                    Test.Coverage.track 1161055252
+                    Test.Coverage.track 1615377089
             in
             "no flag, value: " ++ String.fromInt value
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -1663,8 +1633,8 @@ ifInCase maybeFlag value =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "ifInCase"
-                                , range = { start = { row = 8, column = 17 }, end = { row = 8, column = 64 } }
-                                , category = "if-branch"
+                                , range = { start = { row = 7, column = 16 }, end = { row = 7, column = 20 } }
+                                , category = "subexpression"
                                 }
                               )
                             , ( 357133973
@@ -1675,15 +1645,7 @@ ifInCase maybeFlag value =
                                 , category = "subexpression"
                                 }
                               )
-                            , ( 1615377089
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "ifInCase"
-                                , range = { start = { row = 7, column = 16 }, end = { row = 7, column = 20 } }
-                                , category = "subexpression"
-                                }
-                              )
-                            , ( 2069063037
+                            , ( 1161055252
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "ifInCase"
@@ -1691,12 +1653,20 @@ ifInCase maybeFlag value =
                                 , category = "if-branch"
                                 }
                               )
-                            , ( 1161055252
+                            , ( 1615377089
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "ifInCase"
                                 , range = { start = { row = 12, column = 13 }, end = { row = 12, column = 55 } }
                                 , category = "case-branch"
+                                }
+                              )
+                            , ( 2069063037
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "ifInCase"
+                                , range = { start = { row = 8, column = 17 }, end = { row = 8, column = 64 } }
+                                , category = "if-branch"
                                 }
                               )
                             ]
@@ -1745,20 +1715,20 @@ letInCase maybeX y =
                 doubled =
                     let
                         _ =
-                            Test.Coverage.track 1615377089
+                            Test.Coverage.track 1337164990
                     in
                     x * 2
 
                 tripled =
                     let
                         _ =
-                            Test.Coverage.track 353199476
+                            Test.Coverage.track 1161055252
                     in
                     doubled + x
             in
             let
                 _ =
-                    Test.Coverage.track 2069063037
+                    Test.Coverage.track 2130358651
             in
             tripled + y
 
@@ -1767,22 +1737,23 @@ letInCase maybeX y =
                 default =
                     let
                         _ =
-                            Test.Coverage.track 1161055252
+                            Test.Coverage.track 353199476
                     in
                     0
 
                 adjusted =
                     let
                         _ =
-                            Test.Coverage.track 1337164990
+                            Test.Coverage.track 1615377089
                     in
                     default + 5
             in
             let
                 _ =
-                    Test.Coverage.track 2130358651
+                    Test.Coverage.track 2069063037
             in
             adjusted + y
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -1790,7 +1761,7 @@ letInCase maybeX y =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "letInCase"
-                                , range = { start = { row = 9, column = 27 }, end = { row = 9, column = 38 } }
+                                , range = { start = { row = 14, column = 27 }, end = { row = 14, column = 28 } }
                                 , category = "declaration"
                                 }
                               )
@@ -1806,7 +1777,7 @@ letInCase maybeX y =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "letInCase"
-                                , range = { start = { row = 14, column = 27 }, end = { row = 14, column = 28 } }
+                                , range = { start = { row = 9, column = 27 }, end = { row = 9, column = 38 } }
                                 , category = "declaration"
                                 }
                               )
@@ -1814,7 +1785,7 @@ letInCase maybeX y =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "letInCase"
-                                , range = { start = { row = 15, column = 28 }, end = { row = 15, column = 39 } }
+                                , range = { start = { row = 8, column = 27 }, end = { row = 8, column = 32 } }
                                 , category = "declaration"
                                 }
                               )
@@ -1822,7 +1793,7 @@ letInCase maybeX y =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "letInCase"
-                                , range = { start = { row = 8, column = 27 }, end = { row = 8, column = 32 } }
+                                , range = { start = { row = 15, column = 28 }, end = { row = 15, column = 39 } }
                                 , category = "declaration"
                                 }
                               )
@@ -1830,7 +1801,7 @@ letInCase maybeX y =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "letInCase"
-                                , range = { start = { row = 11, column = 13 }, end = { row = 11, column = 24 } }
+                                , range = { start = { row = 17, column = 13 }, end = { row = 17, column = 25 } }
                                 , category = "declaration"
                                 }
                               )
@@ -1838,7 +1809,7 @@ letInCase maybeX y =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "letInCase"
-                                , range = { start = { row = 17, column = 13 }, end = { row = 17, column = 25 } }
+                                , range = { start = { row = 11, column = 13 }, end = { row = 11, column = 24 } }
                                 , category = "declaration"
                                 }
                               )
@@ -1882,13 +1853,13 @@ letInLet x y =
                 doubled =
                     let
                         _ =
-                            Test.Coverage.track 357133973
+                            Test.Coverage.track 353199476
                     in
                     x * 2
             in
             let
                 _ =
-                    Test.Coverage.track 1615377089
+                    Test.Coverage.track 2069063037
             in
             doubled
 
@@ -1897,13 +1868,13 @@ letInLet x y =
                 tripled =
                     let
                         _ =
-                            Test.Coverage.track 353199476
+                            Test.Coverage.track 357133973
                     in
                     y * 3
             in
             let
                 _ =
-                    Test.Coverage.track 2069063037
+                    Test.Coverage.track 1615377089
             in
             tripled
     in
@@ -1912,6 +1883,7 @@ letInLet x y =
             Test.Coverage.track 1161055252
     in
     a + b
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -1919,7 +1891,7 @@ letInLet x y =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "letInLet"
-                                , range = { start = { row = 13, column = 27 }, end = { row = 13, column = 32 } }
+                                , range = { start = { row = 8, column = 27 }, end = { row = 8, column = 32 } }
                                 , category = "declaration"
                                 }
                               )
@@ -1927,7 +1899,7 @@ letInLet x y =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "letInLet"
-                                , range = { start = { row = 8, column = 27 }, end = { row = 8, column = 32 } }
+                                , range = { start = { row = 13, column = 27 }, end = { row = 13, column = 32 } }
                                 , category = "declaration"
                                 }
                               )
@@ -1943,7 +1915,7 @@ letInLet x y =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "letInLet"
-                                , range = { start = { row = 10, column = 13 }, end = { row = 10, column = 20 } }
+                                , range = { start = { row = 15, column = 13 }, end = { row = 15, column = 20 } }
                                 , category = "declaration"
                                 }
                               )
@@ -1951,7 +1923,7 @@ letInLet x y =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "letInLet"
-                                , range = { start = { row = 15, column = 13 }, end = { row = 15, column = 20 } }
+                                , range = { start = { row = 10, column = 13 }, end = { row = 10, column = 20 } }
                                 , category = "declaration"
                                 }
                               )
@@ -1993,56 +1965,57 @@ listWithCaseIfLet maybe b =
     [ case
         let
             _ =
-                Test.Coverage.track 357133973
+                Test.Coverage.track 1337164990
         in
         maybe
       of
         Just v ->
             let
                 _ =
-                    Test.Coverage.track 1615377089
+                    Test.Coverage.track 960691989
             in
             v
 
         Nothing ->
             let
                 _ =
-                    Test.Coverage.track 353199476
+                    Test.Coverage.track 2130358651
             in
             0
     , if
         let
             _ =
-                Test.Coverage.track 2069063037
+                Test.Coverage.track 353199476
         in
         b
       then
         let
             _ =
-                Test.Coverage.track 1161055252
+                Test.Coverage.track 2069063037
         in
         1
 
       else
         let
             _ =
-                Test.Coverage.track 1337164990
+                Test.Coverage.track 1161055252
         in
         2
     , let
         z =
             let
                 _ =
-                    Test.Coverage.track 2130358651
+                    Test.Coverage.track 357133973
             in
             1
       in
       let
         _ =
-            Test.Coverage.track 960691989
+            Test.Coverage.track 1615377089
       in
       z
     ]
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -2050,43 +2023,19 @@ listWithCaseIfLet maybe b =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "listWithCaseIfLet"
-                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 14 } }
-                                , category = "case-branch"
+                                , range = { start = { row = 10, column = 10 }, end = { row = 10, column = 11 } }
+                                , category = "subexpression"
                                 }
                               )
                             , ( 357133973
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "listWithCaseIfLet"
-                                , range = { start = { row = 5, column = 12 }, end = { row = 5, column = 17 } }
-                                , category = "subexpression"
-                                }
-                              )
-                            , ( 960691989
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "listWithCaseIfLet"
-                                , range = { start = { row = 17, column = 9 }, end = { row = 17, column = 10 } }
+                                , range = { start = { row = 15, column = 13 }, end = { row = 15, column = 14 } }
                                 , category = "declaration"
                                 }
                               )
-                            , ( 1161055252
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "listWithCaseIfLet"
-                                , range = { start = { row = 11, column = 9 }, end = { row = 11, column = 10 } }
-                                , category = "if-branch"
-                                }
-                              )
-                            , ( 1337164990
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "listWithCaseIfLet"
-                                , range = { start = { row = 13, column = 9 }, end = { row = 13, column = 10 } }
-                                , category = "if-branch"
-                                }
-                              )
-                            , ( 1615377089
+                            , ( 960691989
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "listWithCaseIfLet"
@@ -2094,20 +2043,44 @@ listWithCaseIfLet maybe b =
                                 , category = "case-branch"
                                 }
                               )
+                            , ( 1161055252
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "listWithCaseIfLet"
+                                , range = { start = { row = 13, column = 9 }, end = { row = 13, column = 10 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1337164990
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "listWithCaseIfLet"
+                                , range = { start = { row = 5, column = 12 }, end = { row = 5, column = 17 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1615377089
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "listWithCaseIfLet"
+                                , range = { start = { row = 17, column = 9 }, end = { row = 17, column = 10 } }
+                                , category = "declaration"
+                                }
+                              )
                             , ( 2069063037
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "listWithCaseIfLet"
-                                , range = { start = { row = 10, column = 10 }, end = { row = 10, column = 11 } }
-                                , category = "subexpression"
+                                , range = { start = { row = 11, column = 9 }, end = { row = 11, column = 10 } }
+                                , category = "if-branch"
                                 }
                               )
                             , ( 2130358651
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "listWithCaseIfLet"
-                                , range = { start = { row = 15, column = 13 }, end = { row = 15, column = 14 } }
-                                , category = "declaration"
+                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 14 } }
+                                , category = "case-branch"
                                 }
                               )
                             ]
@@ -2148,56 +2121,57 @@ tuple3WithCaseIfLet maybe b =
     ( case
         let
             _ =
-                Test.Coverage.track 357133973
+                Test.Coverage.track 1337164990
         in
         maybe
       of
         Just v ->
             let
                 _ =
-                    Test.Coverage.track 1615377089
+                    Test.Coverage.track 960691989
             in
             v
 
         Nothing ->
             let
                 _ =
-                    Test.Coverage.track 353199476
+                    Test.Coverage.track 2130358651
             in
             0
     , if
         let
             _ =
-                Test.Coverage.track 2069063037
+                Test.Coverage.track 353199476
         in
         b
       then
         let
             _ =
-                Test.Coverage.track 1161055252
+                Test.Coverage.track 2069063037
         in
         1
 
       else
         let
             _ =
-                Test.Coverage.track 1337164990
+                Test.Coverage.track 1161055252
         in
         2
     , let
         z =
             let
                 _ =
-                    Test.Coverage.track 2130358651
+                    Test.Coverage.track 357133973
             in
             1
       in
       let
         _ =
-            Test.Coverage.track 960691989
+            Test.Coverage.track 1615377089
       in
       z
     )
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -2205,43 +2179,19 @@ tuple3WithCaseIfLet maybe b =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "tuple3WithCaseIfLet"
-                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 14 } }
-                                , category = "case-branch"
+                                , range = { start = { row = 10, column = 10 }, end = { row = 10, column = 11 } }
+                                , category = "subexpression"
                                 }
                               )
                             , ( 357133973
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "tuple3WithCaseIfLet"
-                                , range = { start = { row = 5, column = 12 }, end = { row = 5, column = 17 } }
-                                , category = "subexpression"
-                                }
-                              )
-                            , ( 960691989
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "tuple3WithCaseIfLet"
-                                , range = { start = { row = 17, column = 9 }, end = { row = 17, column = 10 } }
+                                , range = { start = { row = 15, column = 13 }, end = { row = 15, column = 14 } }
                                 , category = "declaration"
                                 }
                               )
-                            , ( 1161055252
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "tuple3WithCaseIfLet"
-                                , range = { start = { row = 11, column = 9 }, end = { row = 11, column = 10 } }
-                                , category = "if-branch"
-                                }
-                              )
-                            , ( 1337164990
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "tuple3WithCaseIfLet"
-                                , range = { start = { row = 13, column = 9 }, end = { row = 13, column = 10 } }
-                                , category = "if-branch"
-                                }
-                              )
-                            , ( 1615377089
+                            , ( 960691989
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "tuple3WithCaseIfLet"
@@ -2249,20 +2199,44 @@ tuple3WithCaseIfLet maybe b =
                                 , category = "case-branch"
                                 }
                               )
+                            , ( 1161055252
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "tuple3WithCaseIfLet"
+                                , range = { start = { row = 13, column = 9 }, end = { row = 13, column = 10 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1337164990
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "tuple3WithCaseIfLet"
+                                , range = { start = { row = 5, column = 12 }, end = { row = 5, column = 17 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1615377089
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "tuple3WithCaseIfLet"
+                                , range = { start = { row = 17, column = 9 }, end = { row = 17, column = 10 } }
+                                , category = "declaration"
+                                }
+                              )
                             , ( 2069063037
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "tuple3WithCaseIfLet"
-                                , range = { start = { row = 10, column = 10 }, end = { row = 10, column = 11 } }
-                                , category = "subexpression"
+                                , range = { start = { row = 11, column = 9 }, end = { row = 11, column = 10 } }
+                                , category = "if-branch"
                                 }
                               )
                             , ( 2130358651
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "tuple3WithCaseIfLet"
-                                , range = { start = { row = 15, column = 13 }, end = { row = 15, column = 14 } }
-                                , category = "declaration"
+                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 14 } }
+                                , category = "case-branch"
                                 }
                               )
                             ]
@@ -2307,41 +2281,41 @@ recordWithCaseIfLet maybe b =
         case
             let
                 _ =
-                    Test.Coverage.track 357133973
+                    Test.Coverage.track 1337164990
             in
             maybe
         of
             Just v ->
                 let
                     _ =
-                        Test.Coverage.track 1615377089
+                        Test.Coverage.track 960691989
                 in
                 v
 
             Nothing ->
                 let
                     _ =
-                        Test.Coverage.track 353199476
+                        Test.Coverage.track 2130358651
                 in
                 0
     , b =
         if
             let
                 _ =
-                    Test.Coverage.track 2069063037
+                    Test.Coverage.track 353199476
             in
             b
         then
             let
                 _ =
-                    Test.Coverage.track 1161055252
+                    Test.Coverage.track 2069063037
             in
             1
 
         else
             let
                 _ =
-                    Test.Coverage.track 1337164990
+                    Test.Coverage.track 1161055252
             in
             2
     , c =
@@ -2349,16 +2323,17 @@ recordWithCaseIfLet maybe b =
             z =
                 let
                     _ =
-                        Test.Coverage.track 2130358651
+                        Test.Coverage.track 357133973
                 in
                 1
         in
         let
             _ =
-                Test.Coverage.track 960691989
+                Test.Coverage.track 1615377089
         in
         z
     }
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -2366,43 +2341,19 @@ recordWithCaseIfLet maybe b =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "recordWithCaseIfLet"
-                                , range = { start = { row = 10, column = 17 }, end = { row = 10, column = 18 } }
-                                , category = "case-branch"
+                                , range = { start = { row = 12, column = 12 }, end = { row = 12, column = 13 } }
+                                , category = "subexpression"
                                 }
                               )
                             , ( 357133973
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "recordWithCaseIfLet"
-                                , range = { start = { row = 6, column = 14 }, end = { row = 6, column = 19 } }
-                                , category = "subexpression"
-                                }
-                              )
-                            , ( 960691989
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "recordWithCaseIfLet"
-                                , range = { start = { row = 20, column = 13 }, end = { row = 20, column = 14 } }
+                                , range = { start = { row = 18, column = 17 }, end = { row = 18, column = 18 } }
                                 , category = "declaration"
                                 }
                               )
-                            , ( 1161055252
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "recordWithCaseIfLet"
-                                , range = { start = { row = 13, column = 13 }, end = { row = 13, column = 14 } }
-                                , category = "if-branch"
-                                }
-                              )
-                            , ( 1337164990
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "recordWithCaseIfLet"
-                                , range = { start = { row = 15, column = 13 }, end = { row = 15, column = 14 } }
-                                , category = "if-branch"
-                                }
-                              )
-                            , ( 1615377089
+                            , ( 960691989
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "recordWithCaseIfLet"
@@ -2410,20 +2361,44 @@ recordWithCaseIfLet maybe b =
                                 , category = "case-branch"
                                 }
                               )
+                            , ( 1161055252
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordWithCaseIfLet"
+                                , range = { start = { row = 15, column = 13 }, end = { row = 15, column = 14 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1337164990
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordWithCaseIfLet"
+                                , range = { start = { row = 6, column = 14 }, end = { row = 6, column = 19 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1615377089
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordWithCaseIfLet"
+                                , range = { start = { row = 20, column = 13 }, end = { row = 20, column = 14 } }
+                                , category = "declaration"
+                                }
+                              )
                             , ( 2069063037
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "recordWithCaseIfLet"
-                                , range = { start = { row = 12, column = 12 }, end = { row = 12, column = 13 } }
-                                , category = "subexpression"
+                                , range = { start = { row = 13, column = 13 }, end = { row = 13, column = 14 } }
+                                , category = "if-branch"
                                 }
                               )
                             , ( 2130358651
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "recordWithCaseIfLet"
-                                , range = { start = { row = 18, column = 17 }, end = { row = 18, column = 18 } }
-                                , category = "declaration"
+                                , range = { start = { row = 10, column = 17 }, end = { row = 10, column = 18 } }
+                                , category = "case-branch"
                                 }
                               )
                             ]
@@ -2450,35 +2425,23 @@ import Test.Coverage
 
 f : Int -> { a : Int, b : Int }
 f x =
-    { a =
+    { a = identity x
+    , b =
         let
             _ =
                 Test.Coverage.track 518031371
         in
-        identity x
-    , b =
-        let
-            _ =
-                Test.Coverage.track 121624604
-        in
         x + 1
     }
+
 """
                     , coverageMetadata =
                         Dict.fromList
-                            [ ( 121624604
+                            [ ( 518031371
                               , { moduleName = "RecordPlain"
                                 , moduleFilePath = "RecordPlain.elm"
                                 , declarationName = "f"
                                 , range = { start = { row = 6, column = 11 }, end = { row = 6, column = 16 } }
-                                , category = "subexpression"
-                                }
-                              )
-                            , ( 518031371
-                              , { moduleName = "RecordPlain"
-                                , moduleFilePath = "RecordPlain.elm"
-                                , declarationName = "f"
-                                , range = { start = { row = 5, column = 11 }, end = { row = 5, column = 21 } }
                                 , category = "subexpression"
                                 }
                               )
@@ -2526,41 +2489,41 @@ recordUpdateWithCaseIfLet r maybe b =
             case
                 let
                     _ =
-                        Test.Coverage.track 357133973
+                        Test.Coverage.track 1337164990
                 in
                 maybe
             of
                 Just v ->
                     let
                         _ =
-                            Test.Coverage.track 1615377089
+                            Test.Coverage.track 960691989
                     in
                     v
 
                 Nothing ->
                     let
                         _ =
-                            Test.Coverage.track 353199476
+                            Test.Coverage.track 2130358651
                     in
                     0
         , b =
             if
                 let
                     _ =
-                        Test.Coverage.track 2069063037
+                        Test.Coverage.track 353199476
                 in
                 b
             then
                 let
                     _ =
-                        Test.Coverage.track 1161055252
+                        Test.Coverage.track 2069063037
                 in
                 1
 
             else
                 let
                     _ =
-                        Test.Coverage.track 1337164990
+                        Test.Coverage.track 1161055252
                 in
                 2
         , c =
@@ -2568,16 +2531,17 @@ recordUpdateWithCaseIfLet r maybe b =
                 z =
                     let
                         _ =
-                            Test.Coverage.track 2130358651
+                            Test.Coverage.track 357133973
                     in
                     1
             in
             let
                 _ =
-                    Test.Coverage.track 960691989
+                    Test.Coverage.track 1615377089
             in
             z
     }
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -2585,43 +2549,19 @@ recordUpdateWithCaseIfLet r maybe b =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "recordUpdateWithCaseIfLet"
-                                , range = { start = { row = 11, column = 21 }, end = { row = 11, column = 22 } }
-                                , category = "case-branch"
+                                , range = { start = { row = 13, column = 16 }, end = { row = 13, column = 17 } }
+                                , category = "subexpression"
                                 }
                               )
                             , ( 357133973
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "recordUpdateWithCaseIfLet"
-                                , range = { start = { row = 7, column = 18 }, end = { row = 7, column = 23 } }
-                                , category = "subexpression"
-                                }
-                              )
-                            , ( 960691989
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "recordUpdateWithCaseIfLet"
-                                , range = { start = { row = 21, column = 17 }, end = { row = 21, column = 18 } }
+                                , range = { start = { row = 19, column = 21 }, end = { row = 19, column = 22 } }
                                 , category = "declaration"
                                 }
                               )
-                            , ( 1161055252
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "recordUpdateWithCaseIfLet"
-                                , range = { start = { row = 14, column = 17 }, end = { row = 14, column = 18 } }
-                                , category = "if-branch"
-                                }
-                              )
-                            , ( 1337164990
-                              , { moduleName = "NestedLetCaseIf"
-                                , moduleFilePath = "NestedLetCaseIf.elm"
-                                , declarationName = "recordUpdateWithCaseIfLet"
-                                , range = { start = { row = 16, column = 17 }, end = { row = 16, column = 18 } }
-                                , category = "if-branch"
-                                }
-                              )
-                            , ( 1615377089
+                            , ( 960691989
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "recordUpdateWithCaseIfLet"
@@ -2629,20 +2569,44 @@ recordUpdateWithCaseIfLet r maybe b =
                                 , category = "case-branch"
                                 }
                               )
+                            , ( 1161055252
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordUpdateWithCaseIfLet"
+                                , range = { start = { row = 16, column = 17 }, end = { row = 16, column = 18 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1337164990
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordUpdateWithCaseIfLet"
+                                , range = { start = { row = 7, column = 18 }, end = { row = 7, column = 23 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1615377089
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordUpdateWithCaseIfLet"
+                                , range = { start = { row = 21, column = 17 }, end = { row = 21, column = 18 } }
+                                , category = "declaration"
+                                }
+                              )
                             , ( 2069063037
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "recordUpdateWithCaseIfLet"
-                                , range = { start = { row = 13, column = 16 }, end = { row = 13, column = 17 } }
-                                , category = "subexpression"
+                                , range = { start = { row = 14, column = 17 }, end = { row = 14, column = 18 } }
+                                , category = "if-branch"
                                 }
                               )
                             , ( 2130358651
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "recordUpdateWithCaseIfLet"
-                                , range = { start = { row = 19, column = 21 }, end = { row = 19, column = 22 } }
-                                , category = "declaration"
+                                , range = { start = { row = 11, column = 21 }, end = { row = 11, column = 22 } }
+                                , category = "case-branch"
                                 }
                               )
                             ]
@@ -2682,16 +2646,17 @@ parenthesizedCase maybe =
         Just v ->
             let
                 _ =
-                    Test.Coverage.track 1615377089
+                    Test.Coverage.track 353199476
             in
             v
 
         Nothing ->
             let
                 _ =
-                    Test.Coverage.track 353199476
+                    Test.Coverage.track 1615377089
             in
             0
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -2699,7 +2664,7 @@ parenthesizedCase maybe =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "parenthesizedCase"
-                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 14 } }
+                                , range = { start = { row = 7, column = 13 }, end = { row = 7, column = 14 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -2715,7 +2680,7 @@ parenthesizedCase maybe =
                               , { moduleName = "NestedLetCaseIf"
                                 , moduleFilePath = "NestedLetCaseIf.elm"
                                 , declarationName = "parenthesizedCase"
-                                , range = { start = { row = 7, column = 13 }, end = { row = 7, column = 14 } }
+                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 14 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -2763,14 +2728,14 @@ caseBack b maybe =
         True ->
             let
                 _ =
-                    Test.Coverage.track 739936688
+                    Test.Coverage.track 1276886640
             in
             identity
 
         False ->
             let
                 _ =
-                    Test.Coverage.track 1276886640
+                    Test.Coverage.track 739936688
             in
             identity
     )
@@ -2785,14 +2750,14 @@ caseBack b maybe =
             Just v ->
                 let
                     _ =
-                        Test.Coverage.track 1241319463
+                        Test.Coverage.track 551250307
                 in
                 v
 
             Nothing ->
                 let
                     _ =
-                        Test.Coverage.track 551250307
+                        Test.Coverage.track 1241319463
                 in
                 0
 
@@ -2803,7 +2768,7 @@ caseBack b maybe =
                               , { moduleName = "PipeCaseBack"
                                 , moduleFilePath = "PipeCaseBack.elm"
                                 , declarationName = "caseBack"
-                                , range = { start = { row = 16, column = 13 }, end = { row = 16, column = 14 } }
+                                , range = { start = { row = 14, column = 13 }, end = { row = 14, column = 14 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -2811,7 +2776,7 @@ caseBack b maybe =
                               , { moduleName = "PipeCaseBack"
                                 , moduleFilePath = "PipeCaseBack.elm"
                                 , declarationName = "caseBack"
-                                , range = { start = { row = 7, column = 13 }, end = { row = 7, column = 21 } }
+                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 21 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -2827,7 +2792,7 @@ caseBack b maybe =
                               , { moduleName = "PipeCaseBack"
                                 , moduleFilePath = "PipeCaseBack.elm"
                                 , declarationName = "caseBack"
-                                , range = { start = { row = 14, column = 13 }, end = { row = 14, column = 14 } }
+                                , range = { start = { row = 16, column = 13 }, end = { row = 16, column = 14 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -2835,7 +2800,7 @@ caseBack b maybe =
                               , { moduleName = "PipeCaseBack"
                                 , moduleFilePath = "PipeCaseBack.elm"
                                 , declarationName = "caseBack"
-                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 21 } }
+                                , range = { start = { row = 7, column = 13 }, end = { row = 7, column = 21 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -2851,7 +2816,6 @@ caseBack b maybe =
                     , contentHash = 1874857240
                     }
            }
-
          , { name = "pipeCaseForward"
            , input = """
 module PipeCaseForward exposing (caseForward)
@@ -2892,14 +2856,14 @@ caseForward maybe b =
         Just v ->
             let
                 _ =
-                    Test.Coverage.track 1699498773
+                    Test.Coverage.track 475321681
             in
             v
 
         Nothing ->
             let
                 _ =
-                    Test.Coverage.track 475321681
+                    Test.Coverage.track 1699498773
             in
             0
     )
@@ -2913,14 +2877,14 @@ caseForward maybe b =
                 True ->
                     let
                         _ =
-                            Test.Coverage.track 137389808
+                            Test.Coverage.track 802548351
                     in
                     identity
 
                 False ->
                     let
                         _ =
-                            Test.Coverage.track 802548351
+                            Test.Coverage.track 137389808
                     in
                     identity
            )
@@ -2932,7 +2896,7 @@ caseForward maybe b =
                               , { moduleName = "PipeCaseForward"
                                 , moduleFilePath = "PipeCaseForward.elm"
                                 , declarationName = "caseForward"
-                                , range = { start = { row = 14, column = 13 }, end = { row = 14, column = 21 } }
+                                , range = { start = { row = 16, column = 13 }, end = { row = 16, column = 21 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -2948,7 +2912,7 @@ caseForward maybe b =
                               , { moduleName = "PipeCaseForward"
                                 , moduleFilePath = "PipeCaseForward.elm"
                                 , declarationName = "caseForward"
-                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 14 } }
+                                , range = { start = { row = 7, column = 13 }, end = { row = 7, column = 14 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -2956,7 +2920,7 @@ caseForward maybe b =
                               , { moduleName = "PipeCaseForward"
                                 , moduleFilePath = "PipeCaseForward.elm"
                                 , declarationName = "caseForward"
-                                , range = { start = { row = 16, column = 13 }, end = { row = 16, column = 21 } }
+                                , range = { start = { row = 14, column = 13 }, end = { row = 14, column = 21 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -2972,7 +2936,7 @@ caseForward maybe b =
                               , { moduleName = "PipeCaseForward"
                                 , moduleFilePath = "PipeCaseForward.elm"
                                 , declarationName = "caseForward"
-                                , range = { start = { row = 7, column = 13 }, end = { row = 7, column = 14 } }
+                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 14 } }
                                 , category = "case-branch"
                                 }
                               )
@@ -2980,7 +2944,6 @@ caseForward maybe b =
                     , contentHash = 2575270262
                     }
            }
-
          , { name = "pipeIfBack"
            , input = """
 module PipeIfBack exposing (ifBack)
@@ -3105,7 +3068,6 @@ ifBack b1 b2 =
                     , contentHash = 282854936
                     }
            }
-
          , { name = "pipeIfForward"
            , input = """
 module PipeIfForward exposing (ifForward)
@@ -3230,7 +3192,6 @@ ifForward b1 b2 =
                     , contentHash = 699154076
                     }
            }
-
          , { name = "pipeLetBack"
            , input = """
 module PipeLetBack exposing (letBack)
@@ -3327,7 +3288,6 @@ letBack =
                     , contentHash = 3319814615
                     }
            }
-
          , { name = "pipeLetForward"
            , input = """
 module PipeLetForward exposing (letForward)
@@ -3444,15 +3404,16 @@ f : Int -> ( Int, Int )
 f x =
     ( let
         _ =
-            Test.Coverage.track 154242004
+            Test.Coverage.track 1751612961
       in
       42
     , let
         _ =
-            Test.Coverage.track 1751612961
+            Test.Coverage.track 154242004
       in
       x
     )
+
 """
                     , coverageMetadata =
                         Dict.fromList
@@ -3460,7 +3421,7 @@ f x =
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "f"
-                                , range = { start = { row = 5, column = 7 }, end = { row = 5, column = 9 } }
+                                , range = { start = { row = 5, column = 11 }, end = { row = 5, column = 12 } }
                                 , category = "subexpression"
                                 }
                               )
@@ -3468,7 +3429,7 @@ f x =
                               , { moduleName = "A"
                                 , moduleFilePath = "A.elm"
                                 , declarationName = "f"
-                                , range = { start = { row = 5, column = 11 }, end = { row = 5, column = 12 } }
+                                , range = { start = { row = 5, column = 7 }, end = { row = 5, column = 9 } }
                                 , category = "subexpression"
                                 }
                               )
@@ -3476,7 +3437,6 @@ f x =
                     , contentHash = 609533605
                     }
            }
-
          ]
             |> List.map testCase
         )

@@ -1,33 +1,22 @@
 module Report.Html exposing (generate)
 
 import Dict exposing (Dict)
+import Dict.Extra
 import Html.String as Html
 import Html.String.Attributes as Attr
 import PointMetadata exposing (PointMetadata)
-import Report exposing (Input, ModuleStats, CategoryStats, ReportFile)
+import Report exposing (CategoryStats, ModuleStats, PreparedInput, ReportFile)
+import String.Extra
 import Sweep exposing (Annotation, Region)
 
 
-generate : Input -> { reports : List ReportFile }
+generate : PreparedInput -> { reports : List ReportFile }
 generate input =
     let
-        modules : Dict String (List ( Int, PointMetadata ))
-        modules =
-            Dict.foldl
-                (\pointId metadata acc ->
-                    Dict.update metadata.moduleFilePath
-                        (\maybeList ->
-                            case maybeList of
-                                Nothing ->
-                                    Just [ ( pointId, metadata ) ]
-
-                                Just list ->
-                                    Just (( pointId, metadata ) :: list)
-                        )
-                        acc
-                )
-                Dict.empty
-                input.coverageMetadata
+        sourcesByLine : Dict String ( List String, Dict Int String )
+        sourcesByLine =
+            input.sources
+                |> Dict.map (\_ src -> sourceToLines src)
 
         moduleStats : List ModuleStats
         moduleStats =
@@ -35,12 +24,9 @@ generate input =
 
         moduleStatsDict : Dict String ModuleStats
         moduleStatsDict =
-            List.foldl
-                (\stat acc ->
-                    Dict.insert stat.moduleFilePath stat acc
-                )
-                Dict.empty
-                moduleStats
+            moduleStats
+                |> List.map (\stat -> ( stat.moduleFilePath, stat ))
+                |> Dict.fromList
 
         totalStats : ModuleStats
         totalStats =
@@ -54,51 +40,68 @@ generate input =
 
         modulePages : List ReportFile
         modulePages =
-                input.sources
-                |>
-            Dict.foldl
-                (\filepath sourceCode acc ->
-                    let
-                        modulePoints : List ( Int, PointMetadata )
-                        modulePoints =
-                            Dict.get filepath modules
-                                |> Maybe.withDefault []
+            input.sources
+                |> Dict.foldl
+                    (\filepath _ acc ->
+                        let
+                            ( sourceCodeList, sourceCodeDict ) =
+                                Dict.get filepath sourcesByLine
+                                    |> Maybe.withDefault ( [], Dict.empty )
 
-                        regions : List Region
-                        regions =
-                            List.map
-                                (\( pointId, metadata ) ->
-                                    let
-                                        count : Int
-                                        count =
-                                            Dict.get pointId input.coverageData
-                                                |> Maybe.withDefault 0
-                                    in
-                                    { range = metadata.range
-                                    , count = count
-                                    }
-                                )
-                                modulePoints
+                            modulePoints : List ( Int, PointMetadata )
+                            modulePoints =
+                                Dict.get filepath input.modulesByFilepath
+                                    |> Maybe.withDefault []
 
-                        sanitizedFilePath : String
-                        sanitizedFilePath =
-                            sanitizeFilePathForHtml filepath
+                            regions : List Region
+                            regions =
+                                List.map
+                                    (\( pointId, metadata ) ->
+                                        let
+                                            count : Int
+                                            count =
+                                                Dict.get pointId input.coverageData
+                                                    |> Maybe.withDefault 0
+                                        in
+                                        { range = metadata.range
+                                        , count = count
+                                        }
+                                    )
+                                    modulePoints
 
-                        moduleStat : Maybe ModuleStats
-                        moduleStat =
-                            Dict.get filepath moduleStatsDict
+                            sanitizedFilePath : String
+                            sanitizedFilePath =
+                                sanitizeFilePathForHtml filepath
 
-                        page : ReportFile
-                        page =
-                            { filepath = sanitizedFilePath ++ ".html"
-                            , contents = generateModulePage filepath sourceCode regions moduleStat
-                            }
-                    in
-                    page :: acc
-                )
-                []
+                            moduleStat : Maybe ModuleStats
+                            moduleStat =
+                                Dict.get filepath moduleStatsDict
+
+                            page : ReportFile
+                            page =
+                                { filepath = sanitizedFilePath ++ ".html"
+                                , contents = generateModulePage filepath sourceCodeList sourceCodeDict regions moduleStat
+                                }
+                        in
+                        page :: acc
+                    )
+                    []
     in
     { reports = indexPage :: modulePages }
+
+
+sourceToLines : String -> ( List String, Dict Int String )
+sourceToLines sourceCode =
+    let
+        lines =
+            sourceCode
+                |> String.split "\n"
+    in
+    ( lines
+    , lines
+        |> List.indexedMap (\index line -> ( index + 1, line ))
+        |> Dict.fromList
+    )
 
 
 sanitizeFilePathForHtml : String -> String
@@ -113,11 +116,16 @@ calculateTotalStats stats =
         addCategoryStats : CategoryStats -> CategoryStats -> CategoryStats
         addCategoryStats a b =
             let
-                total = a.total + b.total
-                covered = a.covered + b.covered
+                total =
+                    a.total + b.total
+
+                covered =
+                    a.covered + b.covered
+
                 percentage =
                     if total > 0 then
                         (toFloat covered / toFloat total) * 100
+
                     else
                         0
             in
@@ -134,6 +142,7 @@ calculateTotalStats stats =
             , coveragePercentage =
                 if acc.totalPoints + moduleStat.totalPoints > 0 then
                     (toFloat (acc.coveredPoints + moduleStat.coveredPoints) / toFloat (acc.totalPoints + moduleStat.totalPoints)) * 100
+
                 else
                     0
             , declaration = addCategoryStats acc.declaration moduleStat.declaration
@@ -160,17 +169,32 @@ interpolateCoverageColor : Float -> String
 interpolateCoverageColor percentage =
     let
         -- Color endpoints: red (0%), yellow (50%), green (100%)
-        redR = 255
-        redG = 204
-        redB = 204
+        redR =
+            255
 
-        yellowR = 255
-        yellowG = 255
-        yellowB = 204
+        redG =
+            204
 
-        greenR = 124
-        greenG = 252
-        greenB = 0
+        redB =
+            204
+
+        yellowR =
+            255
+
+        yellowG =
+            255
+
+        yellowB =
+            204
+
+        greenR =
+            124
+
+        greenG =
+            252
+
+        greenB =
+            0
 
         lerp : Float -> Int -> Int -> Int
         lerp t start end =
@@ -180,16 +204,19 @@ interpolateCoverageColor percentage =
             if percentage <= 50 then
                 -- Interpolate between red and yellow
                 let
-                    t = percentage / 50
+                    t =
+                        percentage / 50
                 in
                 ( lerp t redR yellowR
                 , lerp t redG yellowG
                 , lerp t redB yellowB
                 )
+
             else
                 -- Interpolate between yellow and green
                 let
-                    t = (percentage - 50) / 50
+                    t =
+                        (percentage - 50) / 50
                 in
                 ( lerp t yellowR greenR
                 , lerp t yellowG greenG
@@ -199,8 +226,11 @@ interpolateCoverageColor percentage =
         toHex : Int -> String
         toHex n =
             let
-                high = n // 16
-                low = remainderBy 16 n
+                high =
+                    n // 16
+
+                low =
+                    remainderBy 16 n
             in
             toHexDigit high ++ toHexDigit low
     in
@@ -211,15 +241,29 @@ toHexDigit : Int -> String
 toHexDigit n =
     if n < 10 then
         String.fromInt n
+
     else
         case n of
-            10 -> "A"
-            11 -> "B"
-            12 -> "C"
-            13 -> "D"
-            14 -> "E"
-            15 -> "F"
-            _ -> "0"
+            10 ->
+                "A"
+
+            11 ->
+                "B"
+
+            12 ->
+                "C"
+
+            13 ->
+                "D"
+
+            14 ->
+                "E"
+
+            15 ->
+                "F"
+
+            _ ->
+                "0"
 
 
 relativePathToIndex : String -> String
@@ -227,10 +271,7 @@ relativePathToIndex sanitizedFilePath =
     let
         directoryLevels : Int
         directoryLevels =
-            sanitizedFilePath
-                |> String.split "/"
-                |> List.length
-                |> (\count -> count - 1)
+            String.Extra.countOccurrences "/" sanitizedFilePath
     in
     if directoryLevels == 0 then
         "index.html"
@@ -257,6 +298,7 @@ getCoverageColorWithColorMix percentage =
                 String.fromFloat (roundTo 2 mixPercentage)
         in
         "color-mix(in srgb, #ffcccc " ++ mixPercentageStr ++ "%, #ffffcc)"
+
     else
         -- Interpolate between yellow (#ffffcc) and green (#ccffcc)
         -- percentage goes from 50 to 100, so we map it to 0-100% for color-mix
@@ -283,6 +325,7 @@ generateIndexPage stats totalStats =
                 attrs =
                     if total > 0 then
                         [ Attr.style "background-color" (getCoverageColorWithColorMix percentage) ]
+
                     else
                         []
             in
@@ -301,7 +344,8 @@ generateIndexPage stats totalStats =
                     [ Html.a [ Attr.href (sanitizedFilePath ++ ".html") ]
                         [ Html.text stat.moduleFilePath ]
                     ]
-                 , makeCell stat.coveragePercentage stat.totalPoints
+                 , makeCell stat.coveragePercentage
+                    stat.totalPoints
                     (String.fromInt stat.coveredPoints
                         ++ " / "
                         ++ String.fromInt stat.totalPoints
@@ -310,7 +354,8 @@ generateIndexPage stats totalStats =
                         ++ "%)"
                     )
                  ]
-                    ++ [ makeCell stat.declaration.percentage stat.declaration.total
+                    ++ [ makeCell stat.declaration.percentage
+                            stat.declaration.total
                             (String.fromInt stat.declaration.covered
                                 ++ " / "
                                 ++ String.fromInt stat.declaration.total
@@ -318,7 +363,8 @@ generateIndexPage stats totalStats =
                                 ++ String.fromFloat (roundTo 2 stat.declaration.percentage)
                                 ++ "%)"
                             )
-                       , makeCell stat.subexpression.percentage stat.subexpression.total
+                       , makeCell stat.subexpression.percentage
+                            stat.subexpression.total
                             (String.fromInt stat.subexpression.covered
                                 ++ " / "
                                 ++ String.fromInt stat.subexpression.total
@@ -326,7 +372,8 @@ generateIndexPage stats totalStats =
                                 ++ String.fromFloat (roundTo 2 stat.subexpression.percentage)
                                 ++ "%)"
                             )
-                       , makeCell stat.lambda.percentage stat.lambda.total
+                       , makeCell stat.lambda.percentage
+                            stat.lambda.total
                             (String.fromInt stat.lambda.covered
                                 ++ " / "
                                 ++ String.fromInt stat.lambda.total
@@ -334,7 +381,8 @@ generateIndexPage stats totalStats =
                                 ++ String.fromFloat (roundTo 2 stat.lambda.percentage)
                                 ++ "%)"
                             )
-                       , makeCell stat.ifBranch.percentage stat.ifBranch.total
+                       , makeCell stat.ifBranch.percentage
+                            stat.ifBranch.total
                             (String.fromInt stat.ifBranch.covered
                                 ++ " / "
                                 ++ String.fromInt stat.ifBranch.total
@@ -342,7 +390,8 @@ generateIndexPage stats totalStats =
                                 ++ String.fromFloat (roundTo 2 stat.ifBranch.percentage)
                                 ++ "%)"
                             )
-                       , makeCell stat.caseBranch.percentage stat.caseBranch.total
+                       , makeCell stat.caseBranch.percentage
+                            stat.caseBranch.total
                             (String.fromInt stat.caseBranch.covered
                                 ++ " / "
                                 ++ String.fromInt stat.caseBranch.total
@@ -351,14 +400,15 @@ generateIndexPage stats totalStats =
                                 ++ "%)"
                             )
                        ]
-            )
+                )
 
         makeTotalRow : ModuleStats -> Html.Html msg
         makeTotalRow stat =
             Html.tr []
                 ([ Html.td [ Attr.style "font-weight" "bold" ]
                     [ Html.text stat.moduleFilePath ]
-                 , makeCell stat.coveragePercentage stat.totalPoints
+                 , makeCell stat.coveragePercentage
+                    stat.totalPoints
                     (String.fromInt stat.coveredPoints
                         ++ " / "
                         ++ String.fromInt stat.totalPoints
@@ -367,7 +417,8 @@ generateIndexPage stats totalStats =
                         ++ "%)"
                     )
                  ]
-                    ++ [ makeCell stat.declaration.percentage stat.declaration.total
+                    ++ [ makeCell stat.declaration.percentage
+                            stat.declaration.total
                             (String.fromInt stat.declaration.covered
                                 ++ " / "
                                 ++ String.fromInt stat.declaration.total
@@ -375,7 +426,8 @@ generateIndexPage stats totalStats =
                                 ++ String.fromFloat (roundTo 2 stat.declaration.percentage)
                                 ++ "%)"
                             )
-                       , makeCell stat.subexpression.percentage stat.subexpression.total
+                       , makeCell stat.subexpression.percentage
+                            stat.subexpression.total
                             (String.fromInt stat.subexpression.covered
                                 ++ " / "
                                 ++ String.fromInt stat.subexpression.total
@@ -383,7 +435,8 @@ generateIndexPage stats totalStats =
                                 ++ String.fromFloat (roundTo 2 stat.subexpression.percentage)
                                 ++ "%)"
                             )
-                       , makeCell stat.lambda.percentage stat.lambda.total
+                       , makeCell stat.lambda.percentage
+                            stat.lambda.total
                             (String.fromInt stat.lambda.covered
                                 ++ " / "
                                 ++ String.fromInt stat.lambda.total
@@ -391,7 +444,8 @@ generateIndexPage stats totalStats =
                                 ++ String.fromFloat (roundTo 2 stat.lambda.percentage)
                                 ++ "%)"
                             )
-                       , makeCell stat.ifBranch.percentage stat.ifBranch.total
+                       , makeCell stat.ifBranch.percentage
+                            stat.ifBranch.total
                             (String.fromInt stat.ifBranch.covered
                                 ++ " / "
                                 ++ String.fromInt stat.ifBranch.total
@@ -399,7 +453,8 @@ generateIndexPage stats totalStats =
                                 ++ String.fromFloat (roundTo 2 stat.ifBranch.percentage)
                                 ++ "%)"
                             )
-                       , makeCell stat.caseBranch.percentage stat.caseBranch.total
+                       , makeCell stat.caseBranch.percentage
+                            stat.caseBranch.total
                             (String.fromInt stat.caseBranch.covered
                                 ++ " / "
                                 ++ String.fromInt stat.caseBranch.total
@@ -408,7 +463,7 @@ generateIndexPage stats totalStats =
                                 ++ "%)"
                             )
                        ]
-            )
+                )
 
         rows : List (Html.Html msg)
         rows =
@@ -478,6 +533,7 @@ calculateMinMaxCounts regions =
         minNonZero =
             if List.isEmpty nonZeroCounts then
                 Nothing
+
             else
                 Just (List.minimum nonZeroCounts |> Maybe.withDefault 0)
 
@@ -488,8 +544,8 @@ calculateMinMaxCounts regions =
     ( minNonZero, maxCount )
 
 
-generateModulePage : String -> String -> List Region -> Maybe ModuleStats -> String
-generateModulePage moduleFilePath sourceCode regions maybeStats =
+generateModulePage : String -> List String -> Dict Int String -> List Region -> Maybe ModuleStats -> String
+generateModulePage moduleFilePath sourceCodeList sourceCodeDict regions maybeStats =
     let
         sanitizedFilePath : String
         sanitizedFilePath =
@@ -502,16 +558,6 @@ generateModulePage moduleFilePath sourceCode regions maybeStats =
         ( minCount, maxCount ) =
             calculateMinMaxCounts regions
 
-        lines : List String
-        lines =
-            String.split "\n" sourceCode
-
-        sourceCodeDict : Dict Int String
-        sourceCodeDict =
-            lines
-                |> List.indexedMap (\index line -> ( index + 1, line ))
-                |> Dict.fromList
-
         annotations : List Annotation
         annotations =
             Sweep.annotate sourceCodeDict regions
@@ -519,51 +565,38 @@ generateModulePage moduleFilePath sourceCode regions maybeStats =
         -- Group annotations by line
         annotationsByLine : Dict Int (List Annotation)
         annotationsByLine =
-            List.foldl
-                (\annotation acc ->
-                    Dict.update annotation.line
-                        (\maybeList ->
-                            case maybeList of
-                                Nothing ->
-                                    Just [ annotation ]
-
-                                Just list ->
-                                    Just (annotation :: list)
-                        )
-                        acc
-                )
-                Dict.empty
-                annotations
+            annotations
+                |> Dict.Extra.groupBy (\a -> a.line)
 
         -- Render each line with annotations
         renderedLines : List (Html.Html msg)
         renderedLines =
-            List.indexedMap
-                (\lineNum lineText ->
-                    let
-                        lineIndex : Int
-                        lineIndex =
-                            lineNum + 1
+            sourceCodeList
+                |> List.indexedMap
+                    (\lineNum lineText ->
+                        let
+                            lineIndex : Int
+                            lineIndex =
+                                lineNum + 1
 
-                        lineAnnotations : List Annotation
-                        lineAnnotations =
-                            Dict.get lineIndex annotationsByLine
-                                |> Maybe.withDefault []
+                            lineAnnotations : List Annotation
+                            lineAnnotations =
+                                Dict.get lineIndex annotationsByLine
+                                    |> Maybe.withDefault []
 
-                        renderedLine : Html.Html msg
-                        renderedLine =
-                            if List.isEmpty lineAnnotations then
-                                Html.text lineText
+                            renderedLine : Html.Html msg
+                            renderedLine =
+                                if List.isEmpty lineAnnotations then
+                                    Html.text lineText
 
-                            else
-                                renderAnnotatedLine lineIndex lineText lineAnnotations minCount maxCount
-                    in
-                    Html.tr []
-                        [ Html.td [] [ Html.text (String.fromInt lineIndex) ]
-                        , Html.td [] [ Html.pre [ ] [ renderedLine ] ]
-                        ]
-                )
-                lines
+                                else
+                                    renderAnnotatedLine lineIndex lineText lineAnnotations minCount maxCount
+                        in
+                        Html.tr []
+                            [ Html.td [] [ Html.text (String.fromInt lineIndex) ]
+                            , Html.td [] [ Html.pre [] [ renderedLine ] ]
+                            ]
+                    )
 
         summaryTable : Html.Html msg
         summaryTable =
@@ -576,6 +609,7 @@ generateModulePage moduleFilePath sourceCode regions maybeStats =
                                 attrs =
                                     if total > 0 then
                                         [ Attr.style "background-color" (getCoverageColorWithColorMix percentage) ]
+
                                     else
                                         []
                             in
@@ -586,7 +620,8 @@ generateModulePage moduleFilePath sourceCode regions maybeStats =
                         summaryRows =
                             [ Html.tr []
                                 [ Html.td [] []
-                                , makeCell stats.coveragePercentage stats.totalPoints
+                                , makeCell stats.coveragePercentage
+                                    stats.totalPoints
                                     (String.fromInt stats.coveredPoints
                                         ++ " / "
                                         ++ String.fromInt stats.totalPoints
@@ -594,7 +629,8 @@ generateModulePage moduleFilePath sourceCode regions maybeStats =
                                         ++ String.fromFloat (roundTo 2 stats.coveragePercentage)
                                         ++ "%)"
                                     )
-                                , makeCell stats.declaration.percentage stats.declaration.total
+                                , makeCell stats.declaration.percentage
+                                    stats.declaration.total
                                     (String.fromInt stats.declaration.covered
                                         ++ " / "
                                         ++ String.fromInt stats.declaration.total
@@ -602,7 +638,8 @@ generateModulePage moduleFilePath sourceCode regions maybeStats =
                                         ++ String.fromFloat (roundTo 2 stats.declaration.percentage)
                                         ++ "%)"
                                     )
-                                , makeCell stats.subexpression.percentage stats.subexpression.total
+                                , makeCell stats.subexpression.percentage
+                                    stats.subexpression.total
                                     (String.fromInt stats.subexpression.covered
                                         ++ " / "
                                         ++ String.fromInt stats.subexpression.total
@@ -610,7 +647,8 @@ generateModulePage moduleFilePath sourceCode regions maybeStats =
                                         ++ String.fromFloat (roundTo 2 stats.subexpression.percentage)
                                         ++ "%)"
                                     )
-                                , makeCell stats.lambda.percentage stats.lambda.total
+                                , makeCell stats.lambda.percentage
+                                    stats.lambda.total
                                     (String.fromInt stats.lambda.covered
                                         ++ " / "
                                         ++ String.fromInt stats.lambda.total
@@ -618,7 +656,8 @@ generateModulePage moduleFilePath sourceCode regions maybeStats =
                                         ++ String.fromFloat (roundTo 2 stats.lambda.percentage)
                                         ++ "%)"
                                     )
-                                , makeCell stats.ifBranch.percentage stats.ifBranch.total
+                                , makeCell stats.ifBranch.percentage
+                                    stats.ifBranch.total
                                     (String.fromInt stats.ifBranch.covered
                                         ++ " / "
                                         ++ String.fromInt stats.ifBranch.total
@@ -626,7 +665,8 @@ generateModulePage moduleFilePath sourceCode regions maybeStats =
                                         ++ String.fromFloat (roundTo 2 stats.ifBranch.percentage)
                                         ++ "%)"
                                     )
-                                , makeCell stats.caseBranch.percentage stats.caseBranch.total
+                                , makeCell stats.caseBranch.percentage
+                                    stats.caseBranch.total
                                     (String.fromInt stats.caseBranch.covered
                                         ++ " / "
                                         ++ String.fromInt stats.caseBranch.total
@@ -754,9 +794,11 @@ getCoveredBackgroundColor minCount maxCount count =
             if min == maxCount then
                 -- All covered regions have same count, use CSS class only
                 Nothing
+
             else if count <= 0 then
                 -- Shouldn't happen for covered, but fallback to CSS class
                 Nothing
+
             else
                 -- Calculate percentage: (count - min) / (max - min) * 100
                 let
@@ -764,6 +806,7 @@ getCoveredBackgroundColor minCount maxCount count =
                     percentage =
                         if maxCount == min then
                             0
+
                         else
                             (toFloat (count - min) / toFloat (maxCount - min)) * 100
 
@@ -840,6 +883,7 @@ renderAnnotatedLine lineNum lineText annotations minCount maxCount =
                                                     [ Attr.class previousClassName
                                                     , Attr.style "background-color" colorValue
                                                     ]
+
                                         else
                                             [ Attr.class previousClassName
                                             ]
@@ -914,6 +958,7 @@ renderAnnotatedLine lineNum lineText annotations minCount maxCount =
                                                         [ Attr.class lastClassName
                                                         , Attr.style "background-color" colorValue
                                                         ]
+
                                             else
                                                 [ Attr.class lastClassName
                                                 ]

@@ -1,11 +1,15 @@
-port module PureFunction exposing (pureFunction, PureMain)
+port module PureFunction exposing (PureMain, pureFunction)
 
 import Json.Encode
 import Platform
 
+
 port sendOutput : Json.Encode.Value -> Cmd msg
 
-type alias PureMain input = Program input () ()
+
+type alias PureMain input =
+    Program input () ()
+
 
 {-| Creates a Platform.worker program for a pure function that takes input via flags
 and sends output via a port.
@@ -33,6 +37,7 @@ Usage:
 
     encodeOutput : Output -> Json.Encode.Value
     encodeOutput output = ...
+
 -}
 pureFunction :
     { work : input -> output

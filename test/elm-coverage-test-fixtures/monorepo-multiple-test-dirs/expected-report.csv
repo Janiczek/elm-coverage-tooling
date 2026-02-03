@@ -1,6 +1,6 @@
 File,Total covered,Total total,Total %,Declaration covered,Declaration total,Declaration %,Subexpression covered,Subexpression total,Subexpression %,Lambda covered,Lambda total,Lambda %,If-branch covered,If-branch total,If-branch %,Case-branch covered,Case-branch total,Case-branch %
-Total,10,12,83.33,4,6,66.67,4,4,100,2,2,100,0,0,0,0,0,0
+Total,4,6,66.67,2,4,50,0,0,0,2,2,100,0,0,0,0,0,0
 lib/Bar.elm,1,2,50,1,2,50,0,0,0,0,0,0,0,0,0,0,0,0
 src/Foo.elm,1,2,50,1,2,50,0,0,0,0,0,0,0,0,0,0,0,0
-tests-integration/IntegrationTests.elm,4,4,100,1,1,100,2,2,100,1,1,100,0,0,0,0,0,0
-tests-unit/UnitTests.elm,4,4,100,1,1,100,2,2,100,1,1,100,0,0,0,0,0,0
+tests-integration/IntegrationTests.elm,1,1,100,0,0,0,0,0,0,1,1,100,0,0,0,0,0,0
+tests-unit/UnitTests.elm,1,1,100,0,0,0,0,0,0,1,1,100,0,0,0,0,0,0

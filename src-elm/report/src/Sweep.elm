@@ -1,6 +1,7 @@
-module Sweep exposing (annotate, Annotation, Region)
+module Sweep exposing (Annotation, Region, annotate)
 
 import Dict exposing (Dict)
+import Dict.Extra
 import Range exposing (Position, Range)
 
 
@@ -38,62 +39,53 @@ type Event
 to handle overlapping regions. Returns a list of annotations (line, column, count).
 
 The algorithm:
-1. Sort regions by start position (line, then column)
-2. For each line, maintain active regions stack
-3. Process columns left-to-right, adding/removing regions as they start/end
-4. At each position, use the most specific (innermost/smallest) region's count
+
+1.  Sort regions by start position (line, then column)
+2.  For each line, maintain active regions stack
+3.  Process columns left-to-right, adding/removing regions as they start/end
+4.  At each position, use the most specific (innermost/smallest) region's count
 
 The sourceCode parameter should be a Dict mapping line numbers (1-indexed) to line content.
+
 -}
+fastConcat : List (List a) -> List a
+fastConcat =
+    List.foldr (++) []
+
+
 annotate : Dict Int String -> List Region -> List Annotation
 annotate sourceCode regions =
     let
         -- Group regions by line
+        pairs : List ( Int, Region )
+        pairs =
+            regions
+                |> List.concatMap
+                    (\region ->
+                        List.range region.range.start.row region.range.end.row
+                            |> List.map (\line -> ( line, region ))
+                    )
+                |> List.sortBy Tuple.first
+
         regionsByLine : Dict Int (List Region)
         regionsByLine =
-            List.foldl
-                (\region acc ->
-                    let
-                        startLine : Int
-                        startLine =
-                            region.range.start.row
-
-                        endLine : Int
-                        endLine =
-                            region.range.end.row
-                    in
-                    List.range startLine endLine
-                        |> List.foldl
-                            (\line dict ->
-                                Dict.update line
-                                    (\maybeRegions ->
-                                        case maybeRegions of
-                                            Nothing ->
-                                                Just [ region ]
-
-                                            Just existing ->
-                                                Just (region :: existing)
-                                    )
-                                    dict
-                            )
-                            acc
-                )
-                Dict.empty
-                regions
+            pairs
+                |> Dict.Extra.groupBy (\( line, _ ) -> line)
+                |> Dict.map (\_ listOfPairs -> List.map Tuple.second listOfPairs)
     in
-    Dict.foldl
-        (\line lineRegions acc ->
-            let
-                lineContent : String
-                lineContent =
-                    Dict.get line sourceCode
-                        |> Maybe.withDefault ""
-            in
-            annotateLine line lineContent lineRegions ++ acc
-        )
-        []
-        regionsByLine
-        |> List.reverse
+    regionsByLine
+        |> Dict.foldr
+            (\line lineRegions acc ->
+                let
+                    lineContent : String
+                    lineContent =
+                        Dict.get line sourceCode
+                            |> Maybe.withDefault ""
+                in
+                annotateLine line lineContent lineRegions :: acc
+            )
+            []
+        |> fastConcat
 
 
 annotateLine : Int -> String -> List Region -> List Annotation
@@ -143,8 +135,8 @@ annotateLine line lineContent regions =
                 findLastNonWhitespace : Int -> Int
                 findLastNonWhitespace currentCol =
                     if currentCol < startCol then
-                        -- No non-whitespace found, return startCol - 1
-                        startCol - 1
+                        -- No non-whitespace found
+                        startIdx
 
                     else
                         let
@@ -157,7 +149,7 @@ annotateLine line lineContent regions =
                             char =
                                 String.slice charIdx (charIdx + 1) lineContent
                         in
-                        if char /= " " && char /= "\t" && char /= "\n" && char /= "\r" then
+                        if char /= " " && char /= "\t" && char /= "\n" && char /= "\u{000D}" then
                             -- Found non-whitespace at currentCol
                             currentCol
 
@@ -196,8 +188,10 @@ annotateLine line lineContent regions =
                         -- AND the region actually starts/ends on this line (not continuing through)
                         isFullyWhitespace : Bool
                         isFullyWhitespace =
-                            startCol < firstNonWhitespaceCol
-                                && endCol < firstNonWhitespaceCol
+                            startCol
+                                < firstNonWhitespaceCol
+                                && endCol
+                                < firstNonWhitespaceCol
                                 && (region.range.start.row == line || region.range.end.row == line)
                     in
                     -- Include region if it's not fully within whitespace
@@ -371,8 +365,8 @@ annotateLine line lineContent regions =
                             case Dict.values newActiveRegions of
                                 [] ->
                                     -1
-                                    -- -1 means no coverage info
 
+                                -- -1 means no coverage info
                                 first :: rest ->
                                     List.foldl (\r acc2 -> Basics.min r.count acc2) first.count rest
 

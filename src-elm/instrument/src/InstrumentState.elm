@@ -1,19 +1,19 @@
-module InstrumentState exposing (init, InstrumentState)
+module InstrumentState exposing (InstrumentState, init)
 
-
-import Elm.Syntax.Node exposing (Node)
 import Elm.Syntax.Declaration exposing (Declaration)
-import Dict exposing (Dict)
+import Elm.Syntax.Node exposing (Node)
+import FNV1a
+import PointId exposing (PointId)
 import PointMetadata exposing (PointMetadata)
 import Random exposing (Seed)
-import PointId exposing (PointId)
-import FNV1a
+
 
 type alias InstrumentState =
     { newDeclarations : List (Node Declaration)
-    , metadata : Dict PointId PointMetadata
+    , metadataList : List ( PointId, PointMetadata )
     , seed : Random.Seed
     , moduleName : String
+    , moduleFilePath : String
     }
 
 
@@ -27,9 +27,14 @@ init moduleName =
         randomSeed : Random.Seed
         randomSeed =
             Random.initialSeed moduleHash
+
+        moduleFilePath : String
+        moduleFilePath =
+            (moduleName |> String.split "." |> String.join "/") ++ ".elm"
     in
     { newDeclarations = []
-    , metadata = Dict.empty
+    , metadataList = []
     , seed = randomSeed
     , moduleName = moduleName
+    , moduleFilePath = moduleFilePath
     }
