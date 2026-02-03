@@ -333,6 +333,58 @@ instrumentExprWithCategory exprNode declarationName category state =
             , newState
             )
 
+        -- For pipe operators, don't track the whole expression - let subexprs decide
+        Elm.Syntax.Expression.OperatorApplication op dir left right ->
+            if op == "<|" || op == "|>" then
+                let
+                    ( instLeft, state1 ) =
+                        instrumentExprWithCategory left declarationName category state
+
+                    ( instRight, state2 ) =
+                        instrumentExprWithCategory right declarationName category state1
+                in
+                ( Node exprRange (Elm.Syntax.Expression.OperatorApplication op dir instLeft instRight)
+                , state2
+                )
+            else
+                let
+                    ( instrumentedInnerExpr, stateAfterRecurse ) =
+                        instrumentExprRecurse exprNode declarationName state
+
+                    ( pointId, newSeed ) =
+                        Random.step PointId.generator stateAfterRecurse.seed
+
+                    moduleFilePath : String
+                    moduleFilePath =
+                        (state.moduleName
+                            |> String.split "."
+                            |> String.join "/"
+                        )
+                            ++ ".elm"
+
+                    metadata : PointMetadata
+                    metadata =
+                        { moduleName = state.moduleName
+                        , moduleFilePath = moduleFilePath
+                        , declarationName = declarationName
+                        , range = exprRange
+                        , category = category
+                        }
+
+                    newState : InstrumentState
+                    newState =
+                        { stateAfterRecurse
+                            | seed = newSeed
+                            , metadata = Dict.insert pointId metadata stateAfterRecurse.metadata
+                        }
+
+                    wrappedExpr : Node Elm.Syntax.Expression.Expression
+                    wrappedExpr =
+                        instrumentedInnerExpr
+                            |> wrapWithTracking pointId exprRange
+                in
+                ( wrappedExpr, newState )
+
         -- For all other expressions, create metadata with the given category
         _ ->
             let

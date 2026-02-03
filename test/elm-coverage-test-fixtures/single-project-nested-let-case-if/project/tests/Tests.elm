@@ -103,5 +103,17 @@ suite =
             \_ ->
                 NestedLetCaseIf.parenthesizedCase Nothing
                     |> Expect.equal 0
+        , test "caseCasePipe" <|
+            \_ ->
+                NestedLetCaseIf.caseCasePipe True (Just 1) (Just 2) False
+                    |> Expect.equal ( 1, 2 )
+        , test "ifIfPipe" <|
+            \_ ->
+                NestedLetCaseIf.ifIfPipe True False True False
+                    |> Expect.equal ( 1, 3 )
+        , test "letLetPipe" <|
+            \_ ->
+                NestedLetCaseIf.letLetPipe
+                    |> Expect.equal ( 1, 2 )
         -- Note: Not testing all branches to create partial coverage
         ]

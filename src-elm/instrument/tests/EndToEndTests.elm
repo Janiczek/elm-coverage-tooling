@@ -2667,6 +2667,708 @@ parenthesizedCase maybe =
                     , contentHash = 3396872701
                     }
            }
+         , { name = "pipeCaseBack"
+           , input = """
+module PipeCaseBack exposing (caseBack)
+
+caseBack : Bool -> Maybe Int -> Int
+caseBack b maybe =
+    (case b of
+        True ->
+            identity
+        False ->
+            identity
+    )
+        <|
+    (case maybe of
+        Just v ->
+            v
+        Nothing ->
+            0
+    )
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module PipeCaseBack exposing (caseBack)
+
+import Test.Coverage
+
+
+caseBack : Bool -> Maybe Int -> Int
+caseBack b maybe =
+    (case
+        let
+            _ =
+                Test.Coverage.track 2045197287
+        in
+        b
+     of
+        True ->
+            let
+                _ =
+                    Test.Coverage.track 739936688
+            in
+            identity
+
+        False ->
+            let
+                _ =
+                    Test.Coverage.track 1276886640
+            in
+            identity
+    )
+    <|
+        case
+            let
+                _ =
+                    Test.Coverage.track 922233771
+            in
+            maybe
+        of
+            Just v ->
+                let
+                    _ =
+                        Test.Coverage.track 1241319463
+                in
+                v
+
+            Nothing ->
+                let
+                    _ =
+                        Test.Coverage.track 551250307
+                in
+                0
+
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 551250307
+                              , { moduleName = "PipeCaseBack"
+                                , moduleFilePath = "PipeCaseBack.elm"
+                                , declarationName = "caseBack"
+                                , range = { start = { row = 16, column = 13 }, end = { row = 16, column = 14 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 739936688
+                              , { moduleName = "PipeCaseBack"
+                                , moduleFilePath = "PipeCaseBack.elm"
+                                , declarationName = "caseBack"
+                                , range = { start = { row = 7, column = 13 }, end = { row = 7, column = 21 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 922233771
+                              , { moduleName = "PipeCaseBack"
+                                , moduleFilePath = "PipeCaseBack.elm"
+                                , declarationName = "caseBack"
+                                , range = { start = { row = 12, column = 11 }, end = { row = 12, column = 16 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1241319463
+                              , { moduleName = "PipeCaseBack"
+                                , moduleFilePath = "PipeCaseBack.elm"
+                                , declarationName = "caseBack"
+                                , range = { start = { row = 14, column = 13 }, end = { row = 14, column = 14 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 1276886640
+                              , { moduleName = "PipeCaseBack"
+                                , moduleFilePath = "PipeCaseBack.elm"
+                                , declarationName = "caseBack"
+                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 21 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 2045197287
+                              , { moduleName = "PipeCaseBack"
+                                , moduleFilePath = "PipeCaseBack.elm"
+                                , declarationName = "caseBack"
+                                , range = { start = { row = 5, column = 11 }, end = { row = 5, column = 12 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            ]
+                    , contentHash = 1874857240
+                    }
+           }
+
+         , { name = "pipeCaseForward"
+           , input = """
+module PipeCaseForward exposing (caseForward)
+
+caseForward : Maybe Int -> Bool -> Int
+caseForward maybe b =
+    (case maybe of
+        Just v ->
+            v
+        Nothing ->
+            0
+    )
+        |>
+    (case b of
+        True ->
+            identity
+        False ->
+            identity
+    )
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module PipeCaseForward exposing (caseForward)
+
+import Test.Coverage
+
+
+caseForward : Maybe Int -> Bool -> Int
+caseForward maybe b =
+    (case
+        let
+            _ =
+                Test.Coverage.track 245550410
+        in
+        maybe
+     of
+        Just v ->
+            let
+                _ =
+                    Test.Coverage.track 1699498773
+            in
+            v
+
+        Nothing ->
+            let
+                _ =
+                    Test.Coverage.track 475321681
+            in
+            0
+    )
+        |> (case
+                let
+                    _ =
+                        Test.Coverage.track 1162223125
+                in
+                b
+            of
+                True ->
+                    let
+                        _ =
+                            Test.Coverage.track 137389808
+                    in
+                    identity
+
+                False ->
+                    let
+                        _ =
+                            Test.Coverage.track 802548351
+                    in
+                    identity
+           )
+
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 137389808
+                              , { moduleName = "PipeCaseForward"
+                                , moduleFilePath = "PipeCaseForward.elm"
+                                , declarationName = "caseForward"
+                                , range = { start = { row = 14, column = 13 }, end = { row = 14, column = 21 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 245550410
+                              , { moduleName = "PipeCaseForward"
+                                , moduleFilePath = "PipeCaseForward.elm"
+                                , declarationName = "caseForward"
+                                , range = { start = { row = 5, column = 11 }, end = { row = 5, column = 16 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 475321681
+                              , { moduleName = "PipeCaseForward"
+                                , moduleFilePath = "PipeCaseForward.elm"
+                                , declarationName = "caseForward"
+                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 14 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 802548351
+                              , { moduleName = "PipeCaseForward"
+                                , moduleFilePath = "PipeCaseForward.elm"
+                                , declarationName = "caseForward"
+                                , range = { start = { row = 16, column = 13 }, end = { row = 16, column = 21 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 1162223125
+                              , { moduleName = "PipeCaseForward"
+                                , moduleFilePath = "PipeCaseForward.elm"
+                                , declarationName = "caseForward"
+                                , range = { start = { row = 12, column = 11 }, end = { row = 12, column = 12 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1699498773
+                              , { moduleName = "PipeCaseForward"
+                                , moduleFilePath = "PipeCaseForward.elm"
+                                , declarationName = "caseForward"
+                                , range = { start = { row = 7, column = 13 }, end = { row = 7, column = 14 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            ]
+                    , contentHash = 2575270262
+                    }
+           }
+
+         , { name = "pipeIfBack"
+           , input = """
+module PipeIfBack exposing (ifBack)
+
+ifBack : Bool -> Bool -> Int
+ifBack b1 b2 =
+    (if b1 then
+        identity
+     else
+        identity
+    )
+        <|
+    (if b2 then
+        1
+     else
+        2
+    )
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module PipeIfBack exposing (ifBack)
+
+import Test.Coverage
+
+
+ifBack : Bool -> Bool -> Int
+ifBack b1 b2 =
+    (if
+        let
+            _ =
+                Test.Coverage.track 262901614
+        in
+        b1
+     then
+        let
+            _ =
+                Test.Coverage.track 1854181018
+        in
+        identity
+
+     else
+        let
+            _ =
+                Test.Coverage.track 982570730
+        in
+        identity
+    )
+    <|
+        if
+            let
+                _ =
+                    Test.Coverage.track 394066845
+            in
+            b2
+        then
+            let
+                _ =
+                    Test.Coverage.track 667013035
+            in
+            1
+
+        else
+            let
+                _ =
+                    Test.Coverage.track 1036825911
+            in
+            2
+
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 262901614
+                              , { moduleName = "PipeIfBack"
+                                , moduleFilePath = "PipeIfBack.elm"
+                                , declarationName = "ifBack"
+                                , range = { start = { row = 5, column = 9 }, end = { row = 5, column = 11 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 394066845
+                              , { moduleName = "PipeIfBack"
+                                , moduleFilePath = "PipeIfBack.elm"
+                                , declarationName = "ifBack"
+                                , range = { start = { row = 11, column = 9 }, end = { row = 11, column = 11 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 667013035
+                              , { moduleName = "PipeIfBack"
+                                , moduleFilePath = "PipeIfBack.elm"
+                                , declarationName = "ifBack"
+                                , range = { start = { row = 12, column = 9 }, end = { row = 12, column = 10 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 982570730
+                              , { moduleName = "PipeIfBack"
+                                , moduleFilePath = "PipeIfBack.elm"
+                                , declarationName = "ifBack"
+                                , range = { start = { row = 8, column = 9 }, end = { row = 8, column = 17 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1036825911
+                              , { moduleName = "PipeIfBack"
+                                , moduleFilePath = "PipeIfBack.elm"
+                                , declarationName = "ifBack"
+                                , range = { start = { row = 14, column = 9 }, end = { row = 14, column = 10 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1854181018
+                              , { moduleName = "PipeIfBack"
+                                , moduleFilePath = "PipeIfBack.elm"
+                                , declarationName = "ifBack"
+                                , range = { start = { row = 6, column = 9 }, end = { row = 6, column = 17 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            ]
+                    , contentHash = 282854936
+                    }
+           }
+
+         , { name = "pipeIfForward"
+           , input = """
+module PipeIfForward exposing (ifForward)
+
+ifForward : Bool -> Bool -> Int
+ifForward b1 b2 =
+    (if b1 then
+        1
+     else
+        2
+    )
+        |>
+    (if b2 then
+        identity
+     else
+        identity
+    )
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module PipeIfForward exposing (ifForward)
+
+import Test.Coverage
+
+
+ifForward : Bool -> Bool -> Int
+ifForward b1 b2 =
+    (if
+        let
+            _ =
+                Test.Coverage.track 938233759
+        in
+        b1
+     then
+        let
+            _ =
+                Test.Coverage.track 129963358
+        in
+        1
+
+     else
+        let
+            _ =
+                Test.Coverage.track 132570911
+        in
+        2
+    )
+        |> (if
+                let
+                    _ =
+                        Test.Coverage.track 1479741856
+                in
+                b2
+            then
+                let
+                    _ =
+                        Test.Coverage.track 706474280
+                in
+                identity
+
+            else
+                let
+                    _ =
+                        Test.Coverage.track 1906405830
+                in
+                identity
+           )
+
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 129963358
+                              , { moduleName = "PipeIfForward"
+                                , moduleFilePath = "PipeIfForward.elm"
+                                , declarationName = "ifForward"
+                                , range = { start = { row = 6, column = 9 }, end = { row = 6, column = 10 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 132570911
+                              , { moduleName = "PipeIfForward"
+                                , moduleFilePath = "PipeIfForward.elm"
+                                , declarationName = "ifForward"
+                                , range = { start = { row = 8, column = 9 }, end = { row = 8, column = 10 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 706474280
+                              , { moduleName = "PipeIfForward"
+                                , moduleFilePath = "PipeIfForward.elm"
+                                , declarationName = "ifForward"
+                                , range = { start = { row = 12, column = 9 }, end = { row = 12, column = 17 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 938233759
+                              , { moduleName = "PipeIfForward"
+                                , moduleFilePath = "PipeIfForward.elm"
+                                , declarationName = "ifForward"
+                                , range = { start = { row = 5, column = 9 }, end = { row = 5, column = 11 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1479741856
+                              , { moduleName = "PipeIfForward"
+                                , moduleFilePath = "PipeIfForward.elm"
+                                , declarationName = "ifForward"
+                                , range = { start = { row = 11, column = 9 }, end = { row = 11, column = 11 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1906405830
+                              , { moduleName = "PipeIfForward"
+                                , moduleFilePath = "PipeIfForward.elm"
+                                , declarationName = "ifForward"
+                                , range = { start = { row = 14, column = 9 }, end = { row = 14, column = 17 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            ]
+                    , contentHash = 699154076
+                    }
+           }
+
+         , { name = "pipeLetBack"
+           , input = """
+module PipeLetBack exposing (letBack)
+
+letBack : Int
+letBack =
+    (let
+        f = identity
+     in
+        f
+    )
+        <|
+    (let
+        x = 0
+     in
+        x
+    )
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module PipeLetBack exposing (letBack)
+
+import Test.Coverage
+
+
+letBack : Int
+letBack =
+    (let
+        f =
+            let
+                _ =
+                    Test.Coverage.track 1428706580
+            in
+            identity
+     in
+     let
+        _ =
+            Test.Coverage.track 75018641
+     in
+     f
+    )
+    <|
+        let
+            x =
+                let
+                    _ =
+                        Test.Coverage.track 628164565
+                in
+                0
+        in
+        let
+            _ =
+                Test.Coverage.track 1563554100
+        in
+        x
+
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 75018641
+                              , { moduleName = "PipeLetBack"
+                                , moduleFilePath = "PipeLetBack.elm"
+                                , declarationName = "letBack"
+                                , range = { start = { row = 8, column = 9 }, end = { row = 8, column = 10 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 628164565
+                              , { moduleName = "PipeLetBack"
+                                , moduleFilePath = "PipeLetBack.elm"
+                                , declarationName = "letBack"
+                                , range = { start = { row = 12, column = 13 }, end = { row = 12, column = 14 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 1428706580
+                              , { moduleName = "PipeLetBack"
+                                , moduleFilePath = "PipeLetBack.elm"
+                                , declarationName = "letBack"
+                                , range = { start = { row = 6, column = 13 }, end = { row = 6, column = 21 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 1563554100
+                              , { moduleName = "PipeLetBack"
+                                , moduleFilePath = "PipeLetBack.elm"
+                                , declarationName = "letBack"
+                                , range = { start = { row = 14, column = 9 }, end = { row = 14, column = 10 } }
+                                , category = "declaration"
+                                }
+                              )
+                            ]
+                    , contentHash = 3319814615
+                    }
+           }
+
+         , { name = "pipeLetForward"
+           , input = """
+module PipeLetForward exposing (letForward)
+
+letForward : Int
+letForward =
+    (let
+        x = 0
+     in
+        x
+    )
+        |>
+    (let
+        f = identity
+     in
+        f
+    )
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module PipeLetForward exposing (letForward)
+
+import Test.Coverage
+
+
+letForward : Int
+letForward =
+    (let
+        x =
+            let
+                _ =
+                    Test.Coverage.track 1890667586
+            in
+            0
+     in
+     let
+        _ =
+            Test.Coverage.track 1647562504
+     in
+     x
+    )
+        |> (let
+                f =
+                    let
+                        _ =
+                            Test.Coverage.track 1396064972
+                    in
+                    identity
+            in
+            let
+                _ =
+                    Test.Coverage.track 708398536
+            in
+            f
+           )
+
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 708398536
+                              , { moduleName = "PipeLetForward"
+                                , moduleFilePath = "PipeLetForward.elm"
+                                , declarationName = "letForward"
+                                , range = { start = { row = 14, column = 9 }, end = { row = 14, column = 10 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 1396064972
+                              , { moduleName = "PipeLetForward"
+                                , moduleFilePath = "PipeLetForward.elm"
+                                , declarationName = "letForward"
+                                , range = { start = { row = 12, column = 13 }, end = { row = 12, column = 21 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 1647562504
+                              , { moduleName = "PipeLetForward"
+                                , moduleFilePath = "PipeLetForward.elm"
+                                , declarationName = "letForward"
+                                , range = { start = { row = 8, column = 9 }, end = { row = 8, column = 10 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 1890667586
+                              , { moduleName = "PipeLetForward"
+                                , moduleFilePath = "PipeLetForward.elm"
+                                , declarationName = "letForward"
+                                , range = { start = { row = 6, column = 13 }, end = { row = 6, column = 14 } }
+                                , category = "declaration"
+                                }
+                              )
+                            ]
+                    , contentHash = 561091049
+                    }
+           }
+
          ]
             |> List.map testCase
         )

@@ -1,4 +1,4 @@
-module NestedLetCaseIf exposing (nestedCaseOf, caseInLet, ifInLet, complexNested, ifInIf, caseInIf, letInIf, ifInCase, letInCase, letInLet, listWithCaseIfLet, tuple3WithCaseIfLet, recordWithCaseIfLet, recordUpdateWithCaseIfLet, parenthesizedCase)
+module NestedLetCaseIf exposing (nestedCaseOf, caseInLet, ifInLet, complexNested, ifInIf, caseInIf, letInIf, ifInCase, letInCase, letInLet, listWithCaseIfLet, tuple3WithCaseIfLet, recordWithCaseIfLet, recordUpdateWithCaseIfLet, parenthesizedCase, caseCasePipe, ifIfPipe, letLetPipe)
 
 -- Nested case..of expressions
 nestedCaseOf : Maybe (Result String Int) -> String
@@ -254,4 +254,92 @@ parenthesizedCase maybe =
             v
         Nothing ->
             0
+    )
+
+
+-- Pipe case <| case and case |> case
+caseCasePipe : Bool -> Maybe Int -> Maybe Int -> Bool -> ( Int, Int )
+caseCasePipe b maybeX maybeY b2 =
+    ( (case b of
+        True ->
+            identity
+        False ->
+            identity
+      )
+        <|
+        (case maybeX of
+            Just v ->
+                v
+            Nothing ->
+                0
+        )
+    , (case maybeY of
+        Just w ->
+            w
+        Nothing ->
+            0
+      )
+        |>
+        (case b2 of
+            True ->
+                identity
+            False ->
+                identity
+        )
+    )
+
+
+-- Pipe if <| if and if |> if
+ifIfPipe : Bool -> Bool -> Bool -> Bool -> ( Int, Int )
+ifIfPipe b1 b2 b3 b4 =
+    ( (if b1 then
+        identity
+      else
+        identity
+      )
+        <|
+        (if b2 then
+            1
+         else
+            2
+        )
+    , (if b3 then
+        3
+      else
+        4
+      )
+        |>
+        (if b4 then
+            identity
+         else
+            identity
+        )
+    )
+
+
+-- Pipe let <| let and let |> let
+letLetPipe : ( Int, Int )
+letLetPipe =
+    ( (let
+        f = identity
+      in
+        f
+      )
+        <|
+        (let
+            x = 1
+          in
+            x
+        )
+    , (let
+        y = 2
+      in
+        y
+      )
+        |>
+        (let
+            g = identity
+          in
+            g
+        )
     )
