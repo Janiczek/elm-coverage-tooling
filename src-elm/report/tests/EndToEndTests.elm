@@ -198,7 +198,7 @@ a = 1""" )
             border-radius: 6px; 
             position: relative;
         }
-        .covered:hover { background-color: rgba(212, 237, 218, 0.25); outline: 2px solid #d4edda; }
+        .covered:hover { outline: 2px solid #d4edda; box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 0.75); }
         .uncovered { 
             background-color: #f8d7da; 
             border-radius: 6px; 
@@ -322,7 +322,7 @@ b = 2""" )
             border-radius: 6px; 
             position: relative;
         }
-        .covered:hover { background-color: rgba(212, 237, 218, 0.25); outline: 2px solid #d4edda; }
+        .covered:hover { outline: 2px solid #d4edda; box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 0.75); }
         .uncovered { 
             background-color: #f8d7da; 
             border-radius: 6px; 
@@ -480,7 +480,7 @@ a =
             border-radius: 6px; 
             position: relative;
         }
-        .covered:hover { background-color: rgba(212, 237, 218, 0.25); outline: 2px solid #d4edda; }
+        .covered:hover { outline: 2px solid #d4edda; box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 0.75); }
         .uncovered { 
             background-color: #f8d7da; 
             border-radius: 6px; 
