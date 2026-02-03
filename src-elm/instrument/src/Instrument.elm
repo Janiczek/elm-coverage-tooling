@@ -245,10 +245,11 @@ instrumentExprWithCategory exprNode declarationName category state =
             )
 
         -- For list/tuple expressions, don't track the whole expression - only their elements
+        -- Use instrumentExprListWithCategory so bare variables (e.g. cmd in ( model, cmd )) get tracked
         Elm.Syntax.Expression.ListExpr exprs ->
             let
                 ( instrumentedExprs, newState ) =
-                    instrumentExprList exprs declarationName state
+                    instrumentExprListWithCategory exprs declarationName "subexpression" state
             in
             ( Node exprRange (Elm.Syntax.Expression.ListExpr (List.reverse instrumentedExprs))
             , newState
@@ -257,7 +258,7 @@ instrumentExprWithCategory exprNode declarationName category state =
         Elm.Syntax.Expression.TupledExpression exprs ->
             let
                 ( instrumentedExprs, newState ) =
-                    instrumentExprList exprs declarationName state
+                    instrumentExprListWithCategory exprs declarationName "subexpression" state
             in
             ( Node exprRange (Elm.Syntax.Expression.TupledExpression (List.reverse instrumentedExprs))
             , newState
@@ -529,7 +530,7 @@ instrumentExprRecurse exprNode declarationName state =
         Elm.Syntax.Expression.TupledExpression exprs ->
             let
                 ( instrumentedExprs, newState ) =
-                    instrumentExprList exprs declarationName state
+                    instrumentExprListWithCategory exprs declarationName "subexpression" state
             in
             ( Node exprRange (Elm.Syntax.Expression.TupledExpression (List.reverse instrumentedExprs))
             , newState
@@ -685,7 +686,7 @@ instrumentExprRecurse exprNode declarationName state =
         Elm.Syntax.Expression.ListExpr exprs ->
             let
                 ( instrumentedExprs, newState ) =
-                    instrumentExprList exprs declarationName state
+                    instrumentExprListWithCategory exprs declarationName "subexpression" state
             in
             ( Node exprRange (Elm.Syntax.Expression.ListExpr (List.reverse instrumentedExprs))
             , newState
@@ -770,6 +771,20 @@ instrumentExprList exprs declarationName state =
             let
                 ( instExpr, newState_ ) =
                     instrumentExpr exprNode_ declarationName state_
+            in
+            ( instExpr :: acc, newState_ )
+        )
+        ( [], state )
+        exprs
+
+
+instrumentExprListWithCategory : List (Node Elm.Syntax.Expression.Expression) -> String -> String -> InstrumentState -> ( List (Node Elm.Syntax.Expression.Expression), InstrumentState )
+instrumentExprListWithCategory exprs declarationName category state =
+    List.foldl
+        (\exprNode_ ( acc, state_ ) ->
+            let
+                ( instExpr, newState_ ) =
+                    instrumentExprWithCategory exprNode_ declarationName category state_
             in
             ( instExpr :: acc, newState_ )
         )

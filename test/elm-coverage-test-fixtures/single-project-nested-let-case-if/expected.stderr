@@ -2,63 +2,63 @@
 
 Something is off with the body of the `recordUpdateWithCaseIfLet` definition:
 
-306|>    { r
-307|>        | a =
-308|>            case
-309|>                let
-310|>                    _ =
-311|>                        Test.Coverage.track 1362411012
-312|>                in
-313|>                maybe
-314|>            of
-315|>                Just v ->
-316|>                    let
-317|>                        _ =
-318|>                            Test.Coverage.track 1178306008
-319|>                    in
-320|>                    v
-321|>
-322|>                Nothing ->
-323|>                    let
-324|>                        _ =
-325|>                            Test.Coverage.track 185749172
-326|>                    in
-327|>                    0
-328|>        , b =
-329|>            if
-330|>                let
-331|>                    _ =
-332|>                        Test.Coverage.track 1433299157
-333|>                in
-334|>                b
-335|>            then
-336|>                let
-337|>                    _ =
-338|>                        Test.Coverage.track 460526569
-339|>                in
-340|>                1
-341|>
-342|>            else
-343|>                let
-344|>                    _ =
-345|>                        Test.Coverage.track 1701771717
-346|>                in
-347|>                2
-348|>        , c =
-349|>            let
-350|>                z =
-351|>                    let
-352|>                        _ =
-353|>                            Test.Coverage.track 85493716
-354|>                    in
-355|>                    1
-356|>            in
-357|>            let
-358|>                _ =
-359|>                    Test.Coverage.track 1780436968
-360|>            in
-361|>            z
-362|>    }
+322|>    { r
+323|>        | a =
+324|>            case
+325|>                let
+326|>                    _ =
+327|>                        Test.Coverage.track 1362411012
+328|>                in
+329|>                maybe
+330|>            of
+331|>                Just v ->
+332|>                    let
+333|>                        _ =
+334|>                            Test.Coverage.track 1178306008
+335|>                    in
+336|>                    v
+337|>
+338|>                Nothing ->
+339|>                    let
+340|>                        _ =
+341|>                            Test.Coverage.track 185749172
+342|>                    in
+343|>                    0
+344|>        , b =
+345|>            if
+346|>                let
+347|>                    _ =
+348|>                        Test.Coverage.track 1433299157
+349|>                in
+350|>                b
+351|>            then
+352|>                let
+353|>                    _ =
+354|>                        Test.Coverage.track 460526569
+355|>                in
+356|>                1
+357|>
+358|>            else
+359|>                let
+360|>                    _ =
+361|>                        Test.Coverage.track 1701771717
+362|>                in
+363|>                2
+364|>        , c =
+365|>            let
+366|>                z =
+367|>                    let
+368|>                        _ =
+369|>                            Test.Coverage.track 85493716
+370|>                    in
+371|>                    1
+372|>            in
+373|>            let
+374|>                _ =
+375|>                    Test.Coverage.track 1780436968
+376|>            in
+377|>            z
+378|>    }
 
 The body is a record of type:
 

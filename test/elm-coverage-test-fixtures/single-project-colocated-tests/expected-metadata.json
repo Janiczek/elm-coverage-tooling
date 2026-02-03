@@ -1,5 +1,53 @@
 {
+  "977344": {
+    "moduleName": "Tests",
+    "moduleFilePath": "src/Tests.elm",
+    "declarationName": "suite",
+    "range": [
+      [
+        11,
+        11
+      ],
+      [
+        11,
+        22
+      ]
+    ],
+    "category": "subexpression"
+  },
   "27547078": {
+    "moduleName": "Tests",
+    "moduleFilePath": "src/Tests.elm",
+    "declarationName": "suite",
+    "range": [
+      [
+        10,
+        11
+      ],
+      [
+        10,
+        22
+      ]
+    ],
+    "category": "subexpression"
+  },
+  "72245905": {
+    "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        26,
+        13
+      ],
+      [
+        28,
+        38
+      ]
+    ],
+    "category": "lambda"
+  },
+  "200966175": {
     "moduleName": "Tests",
     "moduleFilePath": "src/Tests.elm",
     "declarationName": "suite",
@@ -15,17 +63,33 @@
     ],
     "category": "declaration"
   },
+  "253452108": {
+    "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        25,
+        11
+      ],
+      [
+        25,
+        32
+      ]
+    ],
+    "category": "subexpression"
+  },
   "472339208": {
     "moduleName": "Foo",
     "moduleFilePath": "src/Foo.elm",
     "declarationName": "fooTest",
     "range": [
       [
-        26,
+        22,
         13
       ],
       [
-        28,
+        24,
         38
       ]
     ],
@@ -47,7 +111,39 @@
     ],
     "category": "declaration"
   },
+  "943683072": {
+    "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        26,
+        13
+      ],
+      [
+        28,
+        38
+      ]
+    ],
+    "category": "subexpression"
+  },
   "1054626379": {
+    "moduleName": "Bar",
+    "moduleFilePath": "src/Bar.elm",
+    "declarationName": "barTest",
+    "range": [
+      [
+        17,
+        11
+      ],
+      [
+        17,
+        29
+      ]
+    ],
+    "category": "subexpression"
+  },
+  "1252470794": {
     "moduleName": "Bar",
     "moduleFilePath": "src/Bar.elm",
     "declarationName": "barTest",
@@ -63,7 +159,7 @@
     ],
     "category": "lambda"
   },
-  "1252470794": {
+  "1273732911": {
     "moduleName": "Bar",
     "moduleFilePath": "src/Bar.elm",
     "declarationName": "barTest",
@@ -95,23 +191,7 @@
     ],
     "category": "declaration"
   },
-  "1529274156": {
-    "moduleName": "Foo",
-    "moduleFilePath": "src/Foo.elm",
-    "declarationName": "fooTest",
-    "range": [
-      [
-        22,
-        13
-      ],
-      [
-        24,
-        38
-      ]
-    ],
-    "category": "lambda"
-  },
-  "1543203695": {
+  "1326150844": {
     "moduleName": "Foo",
     "moduleFilePath": "src/Foo.elm",
     "declarationName": "fooTest",
@@ -126,6 +206,38 @@
       ]
     ],
     "category": "declaration"
+  },
+  "1529274156": {
+    "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        21,
+        11
+      ],
+      [
+        21,
+        27
+      ]
+    ],
+    "category": "subexpression"
+  },
+  "1543203695": {
+    "moduleName": "Foo",
+    "moduleFilePath": "src/Foo.elm",
+    "declarationName": "fooTest",
+    "range": [
+      [
+        22,
+        13
+      ],
+      [
+        24,
+        38
+      ]
+    ],
+    "category": "subexpression"
   },
   "1568525173": {
     "moduleName": "Foo",
@@ -158,6 +270,22 @@
       ]
     ],
     "category": "declaration"
+  },
+  "1871036766": {
+    "moduleName": "Bar",
+    "moduleFilePath": "src/Bar.elm",
+    "declarationName": "barTest",
+    "range": [
+      [
+        18,
+        13
+      ],
+      [
+        20,
+        52
+      ]
+    ],
+    "category": "subexpression"
   },
   "2010455107": {
     "moduleName": "Foo",

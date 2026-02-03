@@ -11,15 +11,26 @@ suite =
     let
         _ =
             Test.Coverage.track
-                200864303
+                500012567
     in
     Test.describe "Foo unit tests"
-        [ test "add works" <|
+        [ (let
+            _ =
+                Test.Coverage.track 64100879
+           in
+           test "add works"
+          )
+          <|
+            let
+                _ =
+                    Test.Coverage.track
+                        90767125
+            in
             \_ ->
                 let
                     _ =
                         Test.Coverage.track
-                            64100879
+                            200864303
                 in
                 Foo.add 2 3
                     |> Expect.equal 5

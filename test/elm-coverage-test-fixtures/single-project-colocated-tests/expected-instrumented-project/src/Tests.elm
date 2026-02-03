@@ -11,9 +11,17 @@ suite =
     let
         _ =
             Test.Coverage.track
-                27547078
+                200966175
     in
     describe "All tests"
-        [ Foo.fooTest
-        , Bar.barTest
+        [ let
+            _ =
+                Test.Coverage.track 27547078
+          in
+          Foo.fooTest
+        , let
+            _ =
+                Test.Coverage.track 977344
+          in
+          Bar.barTest
         ]

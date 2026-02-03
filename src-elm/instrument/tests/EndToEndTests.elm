@@ -3424,6 +3424,58 @@ letForward =
                     , contentHash = 561091049
                     }
            }
+         , { name = "tuple with bare variable element"
+           , input = """
+module A exposing (f)
+
+f : Int -> ( Int, Int )
+f x =
+    ( 42, x )
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module A exposing (f)
+
+import Test.Coverage
+
+
+f : Int -> ( Int, Int )
+f x =
+    ( let
+        _ =
+            Test.Coverage.track 154242004
+      in
+      42
+    , let
+        _ =
+            Test.Coverage.track 1751612961
+      in
+      x
+    )
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 154242004
+                              , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
+                                , declarationName = "f"
+                                , range = { start = { row = 5, column = 7 }, end = { row = 5, column = 9 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1751612961
+                              , { moduleName = "A"
+                                , moduleFilePath = "A.elm"
+                                , declarationName = "f"
+                                , range = { start = { row = 5, column = 11 }, end = { row = 5, column = 12 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            ]
+                    , contentHash = 609533605
+                    }
+           }
 
          ]
             |> List.map testCase

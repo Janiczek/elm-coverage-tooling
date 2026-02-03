@@ -10,24 +10,46 @@ fooTest =
     let
         _ =
             Test.Coverage.track
-                1543203695
+                1326150844
     in
     Test.describe "Foo"
-        [ test "add works" <|
-            \_ ->
-                let
-                    _ =
-                        Test.Coverage.track
-                            1529274156
-                in
-                add 2 3
-                    |> Expect.equal 5
-        , test "multiply works" <|
+        [ (let
+            _ =
+                Test.Coverage.track 1529274156
+           in
+           test "add works"
+          )
+          <|
+            let
+                _ =
+                    Test.Coverage.track
+                        1543203695
+            in
             \_ ->
                 let
                     _ =
                         Test.Coverage.track
                             472339208
+                in
+                add 2 3
+                    |> Expect.equal 5
+        , (let
+            _ =
+                Test.Coverage.track 253452108
+           in
+           test "multiply works"
+          )
+          <|
+            let
+                _ =
+                    Test.Coverage.track
+                        943683072
+            in
+            \_ ->
+                let
+                    _ =
+                        Test.Coverage.track
+                            72245905
                 in
                 multiply 2 3
                     |> Expect.equal 6

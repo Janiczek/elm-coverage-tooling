@@ -1,4 +1,4 @@
-module NestedLetCaseIf exposing (nestedCaseOf, caseInLet, ifInLet, complexNested, ifInIf, caseInIf, letInIf, ifInCase, letInCase, letInLet, listWithCaseIfLet, tuple3WithCaseIfLet, recordWithCaseIfLet, recordUpdateWithCaseIfLet, recordWithPlainFields, parenthesizedCase, caseCasePipe, ifIfPipe, letLetPipe)
+module NestedLetCaseIf exposing (nestedCaseOf, caseInLet, ifInLet, complexNested, ifInIf, caseInIf, letInIf, ifInCase, letInCase, letInLet, listWithCaseIfLet, tuple3WithCaseIfLet, tupleWithBareVar, recordWithCaseIfLet, recordUpdateWithCaseIfLet, recordWithPlainFields, parenthesizedCase, caseCasePipe, ifIfPipe, letLetPipe)
 
 -- Nested case..of expressions
 nestedCaseOf : Maybe (Result String Int) -> String
@@ -252,6 +252,11 @@ recordWithPlainFields x =
     { a = identity x
     , b = x + 1
     }
+
+-- tuple with bare variable element (regression: second element cmd/variable must be tracked)
+tupleWithBareVar : Int -> ( Int, Int )
+tupleWithBareVar x =
+    ( 42, x )
 
 -- declaration body is parenthesized case (only inner case tracked, not the parens)
 parenthesizedCase : Maybe Int -> Int

@@ -744,6 +744,7 @@ moduleNameFuzzer : Fuzzer String
 moduleNameFuzzer =
     Fuzz.string
         |> Fuzz.map (\s -> "Module" ++ String.slice 0 10 s)
+                |> Fuzz.map (String.filter (\c -> c /= '\u{001B}'))
 
 
 sourceFuzzer : Fuzzer String

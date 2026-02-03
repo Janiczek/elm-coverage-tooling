@@ -79,6 +79,10 @@ suite =
             \_ ->
                 NestedLetCaseIf.tuple3WithCaseIfLet Nothing False
                     |> Expect.equal ( 0, 2, 1 )
+        , test "tupleWithBareVar" <|
+            \_ ->
+                NestedLetCaseIf.tupleWithBareVar 7
+                    |> Expect.equal ( 42, 7 )
         , test "recordWithCaseIfLet Just True" <|
             \_ ->
                 NestedLetCaseIf.recordWithCaseIfLet (Just 5) True
