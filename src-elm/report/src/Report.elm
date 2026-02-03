@@ -1,4 +1,4 @@
-module Report exposing (Input, ModuleStats, CategoryStats, ReportFile, calculateModuleStats)
+module Report exposing (CategoryStats, Input, ModuleStats, ReportFile, calculateModuleStats)
 
 import Dict exposing (Dict)
 import PointId exposing (PointId)
@@ -25,7 +25,6 @@ type alias ContentHash =
 type alias Filepath =
     String
 
-    
 
 type alias Input =
     { coverageMetadata : Dict PointId PointMetadata
@@ -90,78 +89,117 @@ calculateModuleStats input =
                 |> List.map
                     (\( filepath, pointIds ) ->
                         let
+                            acc0 :
+                                { total : Int
+                                , covered : Int
+                                , declarationTotal : Int
+                                , declarationCovered : Int
+                                , subexpressionTotal : Int
+                                , subexpressionCovered : Int
+                                , lambdaTotal : Int
+                                , lambdaCovered : Int
+                                , ifBranchTotal : Int
+                                , ifBranchCovered : Int
+                                , caseBranchTotal : Int
+                                , caseBranchCovered : Int
+                                }
+                            acc0 =
+                                { total = 0
+                                , covered = 0
+                                , declarationTotal = 0
+                                , declarationCovered = 0
+                                , subexpressionTotal = 0
+                                , subexpressionCovered = 0
+                                , lambdaTotal = 0
+                                , lambdaCovered = 0
+                                , ifBranchTotal = 0
+                                , ifBranchCovered = 0
+                                , caseBranchTotal = 0
+                                , caseBranchCovered = 0
+                                }
+
+                            boolToInt : Bool -> Int
+                            boolToInt bool =
+                                if bool then
+                                    1
+
+                                else
+                                    0
+
+                            acc : { total : Int, covered : Int, declarationTotal : Int, declarationCovered : Int, subexpressionTotal : Int, subexpressionCovered : Int, lambdaTotal : Int, lambdaCovered : Int, ifBranchTotal : Int, ifBranchCovered : Int, caseBranchTotal : Int, caseBranchCovered : Int }
+                            acc =
+                                List.foldl
+                                    (\pointId a ->
+                                        let
+                                            meta : Maybe PointMetadata
+                                            meta =
+                                                Dict.get pointId input.coverageMetadata
+
+                                            isCovered : Bool
+                                            isCovered =
+                                                Dict.get pointId input.coverageData
+                                                    |> Maybe.map (\count -> count > 0)
+                                                    |> Maybe.withDefault False
+
+                                            category : String
+                                            category =
+                                                Maybe.map .category meta
+                                                    |> Maybe.withDefault ""
+                                        in
+                                        { total = a.total + 1
+                                        , covered = a.covered + boolToInt isCovered
+                                        , declarationTotal = a.declarationTotal + boolToInt (category == "declaration")
+                                        , declarationCovered = a.declarationCovered + boolToInt (category == "declaration" && isCovered)
+                                        , subexpressionTotal = a.subexpressionTotal + boolToInt (category == "subexpression")
+                                        , subexpressionCovered = a.subexpressionCovered + boolToInt (category == "subexpression" && isCovered)
+                                        , lambdaTotal = a.lambdaTotal + boolToInt (category == "lambda")
+                                        , lambdaCovered = a.lambdaCovered + boolToInt (category == "lambda" && isCovered)
+                                        , ifBranchTotal = a.ifBranchTotal + boolToInt (category == "if-branch")
+                                        , ifBranchCovered = a.ifBranchCovered + boolToInt (category == "if-branch" && isCovered)
+                                        , caseBranchTotal = a.caseBranchTotal + boolToInt (category == "case-branch")
+                                        , caseBranchCovered = a.caseBranchCovered + boolToInt (category == "case-branch" && isCovered)
+                                        }
+                                    )
+                                    acc0
+                                    pointIds
+
                             totalPoints : Int
                             totalPoints =
-                                List.length pointIds
+                                acc.total
 
                             coveredPoints : Int
                             coveredPoints =
-                                List.filter
-                                    (\pointId ->
-                                        Dict.get pointId input.coverageData
-                                            |> Maybe.map (\count -> count > 0)
-                                            |> Maybe.withDefault False
-                                    )
-                                    pointIds
-                                    |> List.length
+                                acc.covered
 
                             coveragePercentage : Float
                             coveragePercentage =
                                 if totalPoints > 0 then
                                     (toFloat coveredPoints / toFloat totalPoints) * 100
+
                                 else
                                     0
 
-                            -- Calculate per-category stats
-                            calculateCategoryStats : String -> CategoryStats
-                            calculateCategoryStats category =
-                                let
-                                    categoryPoints : List PointId
-                                    categoryPoints =
-                                        List.filter
-                                            (\pointId ->
-                                                Dict.get pointId input.coverageMetadata
-                                                    |> Maybe.map (\meta -> meta.category == category)
-                                                    |> Maybe.withDefault False
-                                            )
-                                            pointIds
+                            toCategoryStats : Int -> Int -> CategoryStats
+                            toCategoryStats total covered =
+                                { total = total
+                                , covered = covered
+                                , percentage =
+                                    if total > 0 then
+                                        (toFloat covered / toFloat total) * 100
 
-                                    categoryTotal : Int
-                                    categoryTotal =
-                                        List.length categoryPoints
-
-                                    categoryCovered : Int
-                                    categoryCovered =
-                                        List.filter
-                                            (\pointId ->
-                                                Dict.get pointId input.coverageData
-                                                    |> Maybe.map (\count -> count > 0)
-                                                    |> Maybe.withDefault False
-                                            )
-                                            categoryPoints
-                                            |> List.length
-
-                                    categoryPercentage : Float
-                                    categoryPercentage =
-                                        if categoryTotal > 0 then
-                                            (toFloat categoryCovered / toFloat categoryTotal) * 100
-                                        else
-                                            0
-                                in
-                                { total = categoryTotal
-                                , covered = categoryCovered
-                                , percentage = categoryPercentage
+                                    else
+                                        0
                                 }
                         in
                         { moduleFilePath = filepath
                         , totalPoints = totalPoints
                         , coveredPoints = coveredPoints
                         , coveragePercentage = coveragePercentage
-                        , declaration = calculateCategoryStats "declaration"
-                        , subexpression = calculateCategoryStats "subexpression"
-                        , lambda = calculateCategoryStats "lambda"
-                        , ifBranch = calculateCategoryStats "if-branch"
-                        , caseBranch = calculateCategoryStats "case-branch"
+                        , declaration = toCategoryStats acc.declarationTotal acc.declarationCovered
+                        , subexpression = toCategoryStats acc.subexpressionTotal acc.subexpressionCovered
+                        , lambda = toCategoryStats acc.lambdaTotal acc.lambdaCovered
+                        , ifBranch = toCategoryStats acc.ifBranchTotal acc.ifBranchCovered
+                        , caseBranch = toCategoryStats acc.caseBranchTotal acc.caseBranchCovered
                         }
                     )
                 |> List.sortBy .moduleFilePath

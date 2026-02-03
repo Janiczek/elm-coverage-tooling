@@ -10,6 +10,18 @@ type alias Region =
     }
 
 
+type alias RegionKey =
+    ( ( Int, Int ), ( Int, Int ), Int )
+
+
+regionKey : Region -> RegionKey
+regionKey region =
+    ( ( region.range.start.row, region.range.start.column )
+    , ( region.range.end.row, region.range.end.column )
+    , region.count
+    )
+
+
 type alias Annotation =
     { line : Int
     , column : Int
@@ -343,20 +355,20 @@ annotateLine line lineContent regions =
             List.foldl
                 (\( col, event ) ( activeRegions, acc ) ->
                     let
-                        newActiveRegions : List Region
+                        newActiveRegions : Dict RegionKey Region
                         newActiveRegions =
                             case event of
                                 Start region ->
-                                    region :: activeRegions
+                                    Dict.insert (regionKey region) region activeRegions
 
                                 End region ->
-                                    List.filter (\r -> r /= region) activeRegions
+                                    Dict.remove (regionKey region) activeRegions
 
                         -- Find the most specific (smallest) region
                         -- Use the minimum count (most specific = innermost)
                         count : Int
                         count =
-                            case newActiveRegions of
+                            case Dict.values newActiveRegions of
                                 [] ->
                                     -1
                                     -- -1 means no coverage info
@@ -387,7 +399,7 @@ annotateLine line lineContent regions =
                                 -- Different count: add
                                 ( newActiveRegions, newAnnotation :: acc )
                 )
-                ( [], [] )
+                ( Dict.empty, [] )
                 adjustedEvents
     in
     List.reverse annotations
