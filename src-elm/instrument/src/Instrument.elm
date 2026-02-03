@@ -244,6 +244,95 @@ instrumentExprWithCategory exprNode declarationName category state =
             , state2
             )
 
+        -- For list/tuple expressions, don't track the whole expression - only their elements
+        Elm.Syntax.Expression.ListExpr exprs ->
+            let
+                ( instrumentedExprs, newState ) =
+                    instrumentExprList exprs declarationName state
+            in
+            ( Node exprRange (Elm.Syntax.Expression.ListExpr (List.reverse instrumentedExprs))
+            , newState
+            )
+
+        Elm.Syntax.Expression.TupledExpression exprs ->
+            let
+                ( instrumentedExprs, newState ) =
+                    instrumentExprList exprs declarationName state
+            in
+            ( Node exprRange (Elm.Syntax.Expression.TupledExpression (List.reverse instrumentedExprs))
+            , newState
+            )
+
+        -- For record expressions, don't track the whole expression - only field values
+        Elm.Syntax.Expression.RecordExpr setters ->
+            let
+                ( instrumentedSetters, newState ) =
+                    List.foldl
+                        (\setterNode ( acc, state_ ) ->
+                            let
+                                ( fieldNameNode, fieldExprNode ) =
+                                    Elm.Syntax.Node.value setterNode
+
+                                ( instExpr, newState_ ) =
+                                    instrumentExpr fieldExprNode declarationName state_
+
+                                newSetter : Elm.Syntax.Expression.RecordSetter
+                                newSetter =
+                                    ( fieldNameNode, instExpr )
+
+                                newSetterNode : Node Elm.Syntax.Expression.RecordSetter
+                                newSetterNode =
+                                    Node (Elm.Syntax.Node.range setterNode) newSetter
+                            in
+                            ( newSetterNode :: acc, newState_ )
+                        )
+                        ( [], state )
+                        setters
+            in
+            ( Node exprRange (Elm.Syntax.Expression.RecordExpr (List.reverse instrumentedSetters))
+            , newState
+            )
+
+        -- For record update expressions, don't track the whole expression - only field values
+        Elm.Syntax.Expression.RecordUpdateExpression name setters ->
+            let
+                ( instrumentedSetters, newState ) =
+                    List.foldl
+                        (\setterNode ( acc, state_ ) ->
+                            let
+                                ( fieldNameNode, fieldExprNode ) =
+                                    Elm.Syntax.Node.value setterNode
+
+                                ( instExpr, newState_ ) =
+                                    instrumentExpr fieldExprNode declarationName state_
+
+                                newSetter : Elm.Syntax.Expression.RecordSetter
+                                newSetter =
+                                    ( fieldNameNode, instExpr )
+
+                                newSetterNode : Node Elm.Syntax.Expression.RecordSetter
+                                newSetterNode =
+                                    Node (Elm.Syntax.Node.range setterNode) newSetter
+                            in
+                            ( newSetterNode :: acc, newState_ )
+                        )
+                        ( [], state )
+                        setters
+            in
+            ( Node exprRange (Elm.Syntax.Expression.RecordUpdateExpression name (List.reverse instrumentedSetters))
+            , newState
+            )
+
+        -- For parenthesized expressions, don't track the parens - pass through to inner
+        Elm.Syntax.Expression.ParenthesizedExpression inner ->
+            let
+                ( instInner, newState ) =
+                    instrumentExprWithCategory inner declarationName category state
+            in
+            ( Node exprRange (Elm.Syntax.Expression.ParenthesizedExpression instInner)
+            , newState
+            )
+
         -- For all other expressions, create metadata with the given category
         _ ->
             let

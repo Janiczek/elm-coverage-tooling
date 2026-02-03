@@ -1,0 +1,72 @@
+-- TYPE MISMATCH - /Users/martin.janiczek/Localhost/cloned/elm-coverage-tooling/test/elm-coverage-test-fixtures/single-project-nested-let-case-if/project/elm-stuff/instrumented-project/src/NestedLetCaseIf.elm
+
+Something is off with the body of the `recordUpdateWithCaseIfLet` definition:
+
+ 50|>    { r
+ 51|>        | a =
+ 52|>            case
+ 53|>                let
+ 54|>                    _ =
+ 55|>                        Test.Coverage.track 1362411012
+ 56|>                in
+ 57|>                maybe
+ 58|>            of
+ 59|>                Just v ->
+ 60|>                    let
+ 61|>                        _ =
+ 62|>                            Test.Coverage.track 1178306008
+ 63|>                    in
+ 64|>                    v
+ 65|>
+ 66|>                Nothing ->
+ 67|>                    let
+ 68|>                        _ =
+ 69|>                            Test.Coverage.track 185749172
+ 70|>                    in
+ 71|>                    0
+ 72|>        , b =
+ 73|>            if
+ 74|>                let
+ 75|>                    _ =
+ 76|>                        Test.Coverage.track 1433299157
+ 77|>                in
+ 78|>                b
+ 79|>            then
+ 80|>                let
+ 81|>                    _ =
+ 82|>                        Test.Coverage.track 460526569
+ 83|>                in
+ 84|>                1
+ 85|>
+ 86|>            else
+ 87|>                let
+ 88|>                    _ =
+ 89|>                        Test.Coverage.track 1701771717
+ 90|>                in
+ 91|>                2
+ 92|>        , c =
+ 93|>            let
+ 94|>                z =
+ 95|>                    let
+ 96|>                        _ =
+ 97|>                            Test.Coverage.track 85493716
+ 98|>                    in
+ 99|>                    1
+100|>            in
+101|>            let
+102|>                _ =
+103|>                    Test.Coverage.track 1780436968
+104|>            in
+105|>            z
+106|>    }
+
+The body is a record of type:
+
+    { r | a : Int, b : Int, c : Int }
+
+But the type annotation on `recordUpdateWithCaseIfLet` says it should be:
+
+    { a : Int, b : Int, c : Int }
+
+`elm make` failed with exit code 1.
+

@@ -1,4 +1,4 @@
-module NestedLetCaseIf exposing (nestedCaseOf, caseInLet, ifInLet, complexNested, ifInIf, caseInIf, letInIf, ifInCase, letInCase, letInLet)
+module NestedLetCaseIf exposing (nestedCaseOf, caseInLet, ifInLet, complexNested, ifInIf, caseInIf, letInIf, ifInCase, letInCase, letInLet, listWithCaseIfLet, tuple3WithCaseIfLet, recordWithCaseIfLet, recordUpdateWithCaseIfLet, parenthesizedCase)
 
 -- Nested case..of expressions
 nestedCaseOf : Maybe (Result String Int) -> String
@@ -166,3 +166,92 @@ letInLet x y =
             tripled
     in
     a + b
+
+-- list with case-of, if-expr, let-in as elements (only items tracked, not the list)
+listWithCaseIfLet : Maybe Int -> Bool -> List Int
+listWithCaseIfLet maybe b =
+    [ case maybe of
+        Just v ->
+            v
+        Nothing ->
+            0
+    , if b then
+        1
+      else
+        2
+    , let
+        z = 1
+      in
+        z
+    ]
+
+-- tuple3 with case-of, if-expr, let-in as elements (only items tracked, not the tuple)
+tuple3WithCaseIfLet : Maybe Int -> Bool -> ( Int, Int, Int )
+tuple3WithCaseIfLet maybe b =
+    ( case maybe of
+        Just v ->
+            v
+        Nothing ->
+            0
+    , if b then
+        1
+      else
+        2
+    , let
+        z = 1
+      in
+        z
+    )
+
+-- record with case-of, if-expr, let-in as field values (only fields tracked, not the record)
+recordWithCaseIfLet : Maybe Int -> Bool -> { a : Int, b : Int, c : Int }
+recordWithCaseIfLet maybe b =
+    { a =
+        case maybe of
+            Just v ->
+                v
+            Nothing ->
+                0
+    , b =
+        if b then
+            1
+        else
+            2
+    , c =
+        let
+            z = 1
+        in
+            z
+    }
+
+-- record update with case-of, if-expr, let-in as field values (only fields tracked, not the update)
+recordUpdateWithCaseIfLet : { r | a : Int, b : Int, c : Int } -> Maybe Int -> Bool -> { a : Int, b : Int, c : Int }
+recordUpdateWithCaseIfLet r maybe b =
+    { r
+        | a =
+            case maybe of
+                Just v ->
+                    v
+                Nothing ->
+                    0
+        , b =
+            if b then
+                1
+            else
+                2
+        , c =
+            let
+                z = 1
+            in
+                z
+    }
+
+-- declaration body is parenthesized case (only inner case tracked, not the parens)
+parenthesizedCase : Maybe Int -> Int
+parenthesizedCase maybe =
+    ( case maybe of
+        Just v ->
+            v
+        Nothing ->
+            0
+    )

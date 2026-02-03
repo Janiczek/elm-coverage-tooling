@@ -1959,6 +1959,714 @@ letInLet x y =
                     , contentHash = 1293654449
                     }
            }
+         , { name = "listWithCaseIfLet"
+           , input = """
+module NestedLetCaseIf exposing (listWithCaseIfLet)
+
+listWithCaseIfLet : Maybe Int -> Bool -> List Int
+listWithCaseIfLet maybe b =
+    [ case maybe of
+        Just v ->
+            v
+        Nothing ->
+            0
+    , if b then
+        1
+      else
+        2
+    , let
+        z = 1
+      in
+        z
+    ]
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module NestedLetCaseIf exposing (listWithCaseIfLet)
+
+import Test.Coverage
+
+
+listWithCaseIfLet : Maybe Int -> Bool -> List Int
+listWithCaseIfLet maybe b =
+    [ case
+        let
+            _ =
+                Test.Coverage.track 357133973
+        in
+        maybe
+      of
+        Just v ->
+            let
+                _ =
+                    Test.Coverage.track 1615377089
+            in
+            v
+
+        Nothing ->
+            let
+                _ =
+                    Test.Coverage.track 353199476
+            in
+            0
+    , if
+        let
+            _ =
+                Test.Coverage.track 2069063037
+        in
+        b
+      then
+        let
+            _ =
+                Test.Coverage.track 1161055252
+        in
+        1
+
+      else
+        let
+            _ =
+                Test.Coverage.track 1337164990
+        in
+        2
+    , let
+        z =
+            let
+                _ =
+                    Test.Coverage.track 2130358651
+            in
+            1
+      in
+      let
+        _ =
+            Test.Coverage.track 960691989
+      in
+      z
+    ]
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 353199476
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "listWithCaseIfLet"
+                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 14 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 357133973
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "listWithCaseIfLet"
+                                , range = { start = { row = 5, column = 12 }, end = { row = 5, column = 17 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 960691989
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "listWithCaseIfLet"
+                                , range = { start = { row = 17, column = 9 }, end = { row = 17, column = 10 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 1161055252
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "listWithCaseIfLet"
+                                , range = { start = { row = 11, column = 9 }, end = { row = 11, column = 10 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1337164990
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "listWithCaseIfLet"
+                                , range = { start = { row = 13, column = 9 }, end = { row = 13, column = 10 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1615377089
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "listWithCaseIfLet"
+                                , range = { start = { row = 7, column = 13 }, end = { row = 7, column = 14 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 2069063037
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "listWithCaseIfLet"
+                                , range = { start = { row = 10, column = 10 }, end = { row = 10, column = 11 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 2130358651
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "listWithCaseIfLet"
+                                , range = { start = { row = 15, column = 13 }, end = { row = 15, column = 14 } }
+                                , category = "declaration"
+                                }
+                              )
+                            ]
+                    , contentHash = 18538211
+                    }
+           }
+         , { name = "tuple3WithCaseIfLet"
+           , input = """
+module NestedLetCaseIf exposing (tuple3WithCaseIfLet)
+
+tuple3WithCaseIfLet : Maybe Int -> Bool -> ( Int, Int, Int )
+tuple3WithCaseIfLet maybe b =
+    ( case maybe of
+        Just v ->
+            v
+        Nothing ->
+            0
+    , if b then
+        1
+      else
+        2
+    , let
+        z = 1
+      in
+        z
+    )
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module NestedLetCaseIf exposing (tuple3WithCaseIfLet)
+
+import Test.Coverage
+
+
+tuple3WithCaseIfLet : Maybe Int -> Bool -> ( Int, Int, Int )
+tuple3WithCaseIfLet maybe b =
+    ( case
+        let
+            _ =
+                Test.Coverage.track 357133973
+        in
+        maybe
+      of
+        Just v ->
+            let
+                _ =
+                    Test.Coverage.track 1615377089
+            in
+            v
+
+        Nothing ->
+            let
+                _ =
+                    Test.Coverage.track 353199476
+            in
+            0
+    , if
+        let
+            _ =
+                Test.Coverage.track 2069063037
+        in
+        b
+      then
+        let
+            _ =
+                Test.Coverage.track 1161055252
+        in
+        1
+
+      else
+        let
+            _ =
+                Test.Coverage.track 1337164990
+        in
+        2
+    , let
+        z =
+            let
+                _ =
+                    Test.Coverage.track 2130358651
+            in
+            1
+      in
+      let
+        _ =
+            Test.Coverage.track 960691989
+      in
+      z
+    )
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 353199476
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "tuple3WithCaseIfLet"
+                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 14 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 357133973
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "tuple3WithCaseIfLet"
+                                , range = { start = { row = 5, column = 12 }, end = { row = 5, column = 17 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 960691989
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "tuple3WithCaseIfLet"
+                                , range = { start = { row = 17, column = 9 }, end = { row = 17, column = 10 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 1161055252
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "tuple3WithCaseIfLet"
+                                , range = { start = { row = 11, column = 9 }, end = { row = 11, column = 10 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1337164990
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "tuple3WithCaseIfLet"
+                                , range = { start = { row = 13, column = 9 }, end = { row = 13, column = 10 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1615377089
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "tuple3WithCaseIfLet"
+                                , range = { start = { row = 7, column = 13 }, end = { row = 7, column = 14 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 2069063037
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "tuple3WithCaseIfLet"
+                                , range = { start = { row = 10, column = 10 }, end = { row = 10, column = 11 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 2130358651
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "tuple3WithCaseIfLet"
+                                , range = { start = { row = 15, column = 13 }, end = { row = 15, column = 14 } }
+                                , category = "declaration"
+                                }
+                              )
+                            ]
+                    , contentHash = 1238790634
+                    }
+           }
+         , { name = "recordWithCaseIfLet"
+           , input = """
+module NestedLetCaseIf exposing (recordWithCaseIfLet)
+
+recordWithCaseIfLet : Maybe Int -> Bool -> { a : Int, b : Int, c : Int }
+recordWithCaseIfLet maybe b =
+    { a =
+        case maybe of
+            Just v ->
+                v
+            Nothing ->
+                0
+    , b =
+        if b then
+            1
+        else
+            2
+    , c =
+        let
+            z = 1
+        in
+            z
+    }
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module NestedLetCaseIf exposing (recordWithCaseIfLet)
+
+import Test.Coverage
+
+
+recordWithCaseIfLet : Maybe Int -> Bool -> { a : Int, b : Int, c : Int }
+recordWithCaseIfLet maybe b =
+    { a =
+        case
+            let
+                _ =
+                    Test.Coverage.track 357133973
+            in
+            maybe
+        of
+            Just v ->
+                let
+                    _ =
+                        Test.Coverage.track 1615377089
+                in
+                v
+
+            Nothing ->
+                let
+                    _ =
+                        Test.Coverage.track 353199476
+                in
+                0
+    , b =
+        if
+            let
+                _ =
+                    Test.Coverage.track 2069063037
+            in
+            b
+        then
+            let
+                _ =
+                    Test.Coverage.track 1161055252
+            in
+            1
+
+        else
+            let
+                _ =
+                    Test.Coverage.track 1337164990
+            in
+            2
+    , c =
+        let
+            z =
+                let
+                    _ =
+                        Test.Coverage.track 2130358651
+                in
+                1
+        in
+        let
+            _ =
+                Test.Coverage.track 960691989
+        in
+        z
+    }
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 353199476
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordWithCaseIfLet"
+                                , range = { start = { row = 10, column = 17 }, end = { row = 10, column = 18 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 357133973
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordWithCaseIfLet"
+                                , range = { start = { row = 6, column = 14 }, end = { row = 6, column = 19 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 960691989
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordWithCaseIfLet"
+                                , range = { start = { row = 20, column = 13 }, end = { row = 20, column = 14 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 1161055252
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordWithCaseIfLet"
+                                , range = { start = { row = 13, column = 13 }, end = { row = 13, column = 14 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1337164990
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordWithCaseIfLet"
+                                , range = { start = { row = 15, column = 13 }, end = { row = 15, column = 14 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1615377089
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordWithCaseIfLet"
+                                , range = { start = { row = 8, column = 17 }, end = { row = 8, column = 18 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 2069063037
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordWithCaseIfLet"
+                                , range = { start = { row = 12, column = 12 }, end = { row = 12, column = 13 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 2130358651
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordWithCaseIfLet"
+                                , range = { start = { row = 18, column = 17 }, end = { row = 18, column = 18 } }
+                                , category = "declaration"
+                                }
+                              )
+                            ]
+                    , contentHash = 1663106059
+                    }
+           }
+         , { name = "recordUpdateWithCaseIfLet"
+           , input = """
+module NestedLetCaseIf exposing (recordUpdateWithCaseIfLet)
+
+recordUpdateWithCaseIfLet : { r | a : Int, b : Int, c : Int } -> Maybe Int -> Bool -> { a : Int, b : Int, c : Int }
+recordUpdateWithCaseIfLet r maybe b =
+    { r
+        | a =
+            case maybe of
+                Just v ->
+                    v
+                Nothing ->
+                    0
+        , b =
+            if b then
+                1
+            else
+                2
+        , c =
+            let
+                z = 1
+            in
+                z
+    }
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module NestedLetCaseIf exposing (recordUpdateWithCaseIfLet)
+
+import Test.Coverage
+
+
+recordUpdateWithCaseIfLet : { r | a : Int, b : Int, c : Int } -> Maybe Int -> Bool -> { a : Int, b : Int, c : Int }
+recordUpdateWithCaseIfLet r maybe b =
+    { r
+        | a =
+            case
+                let
+                    _ =
+                        Test.Coverage.track 357133973
+                in
+                maybe
+            of
+                Just v ->
+                    let
+                        _ =
+                            Test.Coverage.track 1615377089
+                    in
+                    v
+
+                Nothing ->
+                    let
+                        _ =
+                            Test.Coverage.track 353199476
+                    in
+                    0
+        , b =
+            if
+                let
+                    _ =
+                        Test.Coverage.track 2069063037
+                in
+                b
+            then
+                let
+                    _ =
+                        Test.Coverage.track 1161055252
+                in
+                1
+
+            else
+                let
+                    _ =
+                        Test.Coverage.track 1337164990
+                in
+                2
+        , c =
+            let
+                z =
+                    let
+                        _ =
+                            Test.Coverage.track 2130358651
+                    in
+                    1
+            in
+            let
+                _ =
+                    Test.Coverage.track 960691989
+            in
+            z
+    }
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 353199476
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordUpdateWithCaseIfLet"
+                                , range = { start = { row = 11, column = 21 }, end = { row = 11, column = 22 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 357133973
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordUpdateWithCaseIfLet"
+                                , range = { start = { row = 7, column = 18 }, end = { row = 7, column = 23 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 960691989
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordUpdateWithCaseIfLet"
+                                , range = { start = { row = 21, column = 17 }, end = { row = 21, column = 18 } }
+                                , category = "declaration"
+                                }
+                              )
+                            , ( 1161055252
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordUpdateWithCaseIfLet"
+                                , range = { start = { row = 14, column = 17 }, end = { row = 14, column = 18 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1337164990
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordUpdateWithCaseIfLet"
+                                , range = { start = { row = 16, column = 17 }, end = { row = 16, column = 18 } }
+                                , category = "if-branch"
+                                }
+                              )
+                            , ( 1615377089
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordUpdateWithCaseIfLet"
+                                , range = { start = { row = 9, column = 21 }, end = { row = 9, column = 22 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 2069063037
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordUpdateWithCaseIfLet"
+                                , range = { start = { row = 13, column = 16 }, end = { row = 13, column = 17 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 2130358651
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "recordUpdateWithCaseIfLet"
+                                , range = { start = { row = 19, column = 21 }, end = { row = 19, column = 22 } }
+                                , category = "declaration"
+                                }
+                              )
+                            ]
+                    , contentHash = 2442142228
+                    }
+           }
+         , { name = "parenthesizedCase"
+           , input = """
+module NestedLetCaseIf exposing (parenthesizedCase)
+
+parenthesizedCase : Maybe Int -> Int
+parenthesizedCase maybe =
+    ( case maybe of
+        Just v ->
+            v
+        Nothing ->
+            0
+    )
+"""
+           , output =
+                Ok
+                    { instrumentedElmSourceCode = """
+module NestedLetCaseIf exposing (parenthesizedCase)
+
+import Test.Coverage
+
+
+parenthesizedCase : Maybe Int -> Int
+parenthesizedCase maybe =
+    case
+        let
+            _ =
+                Test.Coverage.track 357133973
+        in
+        maybe
+    of
+        Just v ->
+            let
+                _ =
+                    Test.Coverage.track 1615377089
+            in
+            v
+
+        Nothing ->
+            let
+                _ =
+                    Test.Coverage.track 353199476
+            in
+            0
+"""
+                    , coverageMetadata =
+                        Dict.fromList
+                            [ ( 353199476
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "parenthesizedCase"
+                                , range = { start = { row = 9, column = 13 }, end = { row = 9, column = 14 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            , ( 357133973
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "parenthesizedCase"
+                                , range = { start = { row = 5, column = 12 }, end = { row = 5, column = 17 } }
+                                , category = "subexpression"
+                                }
+                              )
+                            , ( 1615377089
+                              , { moduleName = "NestedLetCaseIf"
+                                , moduleFilePath = "NestedLetCaseIf.elm"
+                                , declarationName = "parenthesizedCase"
+                                , range = { start = { row = 7, column = 13 }, end = { row = 7, column = 14 } }
+                                , category = "case-branch"
+                                }
+                              )
+                            ]
+                    , contentHash = 3396872701
+                    }
+           }
          ]
             |> List.map testCase
         )

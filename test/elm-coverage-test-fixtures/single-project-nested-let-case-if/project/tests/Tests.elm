@@ -63,5 +63,45 @@ suite =
             \_ ->
                 NestedLetCaseIf.complexNested Nothing True
                     |> Expect.equal "zero with flag"
+        , test "listWithCaseIfLet Just True" <|
+            \_ ->
+                NestedLetCaseIf.listWithCaseIfLet (Just 5) True
+                    |> Expect.equal [ 5, 1, 1 ]
+        , test "listWithCaseIfLet Nothing False" <|
+            \_ ->
+                NestedLetCaseIf.listWithCaseIfLet Nothing False
+                    |> Expect.equal [ 0, 2, 1 ]
+        , test "tuple3WithCaseIfLet Just True" <|
+            \_ ->
+                NestedLetCaseIf.tuple3WithCaseIfLet (Just 5) True
+                    |> Expect.equal ( 5, 1, 1 )
+        , test "tuple3WithCaseIfLet Nothing False" <|
+            \_ ->
+                NestedLetCaseIf.tuple3WithCaseIfLet Nothing False
+                    |> Expect.equal ( 0, 2, 1 )
+        , test "recordWithCaseIfLet Just True" <|
+            \_ ->
+                NestedLetCaseIf.recordWithCaseIfLet (Just 5) True
+                    |> Expect.equal { a = 5, b = 1, c = 1 }
+        , test "recordWithCaseIfLet Nothing False" <|
+            \_ ->
+                NestedLetCaseIf.recordWithCaseIfLet Nothing False
+                    |> Expect.equal { a = 0, b = 2, c = 1 }
+        , test "recordUpdateWithCaseIfLet Just True" <|
+            \_ ->
+                NestedLetCaseIf.recordUpdateWithCaseIfLet { a = 0, b = 0, c = 0 } (Just 5) True
+                    |> Expect.equal { a = 5, b = 1, c = 1 }
+        , test "recordUpdateWithCaseIfLet Nothing False" <|
+            \_ ->
+                NestedLetCaseIf.recordUpdateWithCaseIfLet { a = 0, b = 0, c = 0 } Nothing False
+                    |> Expect.equal { a = 0, b = 2, c = 1 }
+        , test "parenthesizedCase Just" <|
+            \_ ->
+                NestedLetCaseIf.parenthesizedCase (Just 42)
+                    |> Expect.equal 42
+        , test "parenthesizedCase Nothing" <|
+            \_ ->
+                NestedLetCaseIf.parenthesizedCase Nothing
+                    |> Expect.equal 0
         -- Note: Not testing all branches to create partial coverage
         ]
