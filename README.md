@@ -1,3 +1,6 @@
+> [!WARNING]
+> WIP, don't use yet! `elm-coverage-test` is borderline usable but depends on un-released parts of elm-explorations/test. The other binaries are not implemented at all yet.
+
 # elm-coverage-tooling
 
 ## CLI
